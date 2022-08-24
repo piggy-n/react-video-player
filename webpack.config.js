@@ -5,7 +5,7 @@ module.exports = {
         index: './src/index.tsx',
     },
     resolve: {
-        extensions: ['.ts', '.tsx', '.js', '.jsx'],
+        extensions: ['.ts', '.tsx', '.js', '.jsx', '.css', '.scss'],
         alias: { "@": path.resolve(__dirname, "./src") },
     },
     output: {
@@ -34,6 +34,10 @@ module.exports = {
             {
                 test: /\.scss$/,
                 use: ['style-loader', 'css-loader', 'sass-loader'],
+            },
+            {
+                test: /\.(ttf|eot|svg|woff|woff2)$/,
+                use: 'file-loader'
             },
         ],
     },

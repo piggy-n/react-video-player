@@ -18,11 +18,11 @@ const Player: FC<PlayerProps> = (
 
     return (
         <ResizableBox
+            lockAspectRatio
             width={size.width}
             height={size.height}
-            minConstraints={[482, 312]}
+            minConstraints={[size.width, size.height]}
             resizeHandles={['se', 'e', 's']}
-            lockAspectRatio={true}
             onResize={(event, { size }) => setSize(size)}
         >
             <div className={classes(cn, 'container')}>
