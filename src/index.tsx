@@ -7,7 +7,7 @@ import type { CSSProperties } from 'react';
 const styles: CSSProperties = {
     position: 'relative',
     width: '100%',
-    height: '100%',
+    height: '100vh',
 };
 
 ReactDOM.render(

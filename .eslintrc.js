@@ -30,6 +30,6 @@ module.exports = {
         '@typescript-eslint/no-var-requires': ['off'], // 不检查require
         '@typescript-eslint/consistent-type-imports': 'error', // 导入类型的规范
         '@typescript-eslint/no-unused-vars': 'error', // 不检查未使用的变量
-        '@typescript-eslint/ban-ts-comment': ['off'],
+        '@typescript-eslint/ban-ts-comment': ['off'], // 禁止使用ts注释
     },
 };

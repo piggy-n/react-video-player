@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { ResizableBox } from 'react-resizable';
-import { FC, useState } from 'react';
-import { DefaultSize, PlayerProps } from '@/core/Player/type';
+import { useState } from 'react';
 import { classes } from '@/utils/methods/classes';
+import type { FC } from 'react';
+import type { DefaultSize, PlayerProps } from '@/core/Player/type';
 import 'react-resizable/css/styles.css';
 import './styles/index.scss';
 
@@ -15,6 +16,7 @@ const Player: FC<PlayerProps> = (
         minWidth = 482,
         minHeight = 312,
         resize = true,
+        onMouseOver,
     }
 ) => {
     const [size, setSize] = useState<DefaultSize>({ width, height });
@@ -28,7 +30,10 @@ const Player: FC<PlayerProps> = (
             // lockAspectRatio
             onResize={resize ? (event, { size }) => setSize(size) : undefined}
         >
-            <div className={classes(cn, 'container')}>
+            <div
+                className={classes(cn, 'container')}
+                onMouseOver={() => onMouseOver(true)}
+            >
                 <video/>
             </div>
         </ResizableBox>
