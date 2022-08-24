@@ -11,15 +11,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lzn01/PiggyUI-test-1.git"
+    "url": "git+https://github.com/lzn01/react-video-player.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/lzn01/PiggyUI-test-1/issues"
+    "url": "https://github.com/lzn01/react-video-player/issues"
   },
-  "homepage": "https://github.com/lzn01/PiggyUI-test-1#readme",
+  "homepage": "https://github.com/lzn01/react-video-player#readme",
   "devDependencies": {
     "@babel/preset-env": "^7.3.4",
     "@babel/preset-react": "^7.0.0",
