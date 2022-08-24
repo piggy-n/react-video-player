@@ -2,7 +2,7 @@ import { isArray, isObject, isString } from './is';
 
 type boolObj = Record<string, boolean>
 
-const prefixClassName = 'lzz';
+const prefixClassName = 'eb';
 
 export const classes = (componentName: string, ...args: any): string => {
     const className = new Array<string>();
