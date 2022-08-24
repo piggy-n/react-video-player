@@ -5,7 +5,6 @@
   "main": "dist/src/index.js",
   "types": "dist/src/index",
   "scripts": {
-    "test": "cross-env NODE_ENV=test jest --config=jest.config.js --runInBand",
     "start": "cross-env NODE_ENV=development webpack-dev-server --config webpack.config.dev.js",
     "build": "cross-env NODE_ENV=production webpack --config webpack.config.prod.js"
   },
@@ -26,6 +25,7 @@
     "@types/lodash": "^4.14.181",
     "@types/react": "^17.0.2",
     "@types/react-dom": "^17.0.2",
+    "@types/react-resizable": "^3.0.2",
     "@types/react-router-dom": "^5.3.3",
     "@types/react-test-renderer": "^16.8.1",
     "@typescript-eslint/eslint-plugin": "^5.17.0",
@@ -43,6 +43,7 @@
     "lodash": "^4.17.21",
     "prism-react-renderer": "^0.1.6",
     "raw-loader": "^2.0.0",
+    "react-resizable": "^3.0.4",
     "react-test-renderer": "^16.8.4",
     "sass": "~1.32.6",
     "sass-loader": "^7.1.0",
