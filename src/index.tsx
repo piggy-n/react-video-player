@@ -4,8 +4,6 @@ import '@/global.scss';
 import VideoPlayer from '@/core/VideoPlayer';
 
 ReactDOM.render(
-    <div className={'eb-container'}>
-        <VideoPlayer/>
-    </div>,
+    <VideoPlayer/>,
     document.querySelector('#root'),
 );

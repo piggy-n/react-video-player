@@ -9,7 +9,6 @@ const cn = 'Video-Player';
 const VideoPlayer = () => {
     return (
         <div className={classes(cn, 'container')}>
-            大三角世界第哦啊是Jodi典型的侵权
             <Header/>
             <Player/>
         </div>

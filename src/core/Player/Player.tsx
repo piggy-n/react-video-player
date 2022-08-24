@@ -12,18 +12,21 @@ const Player: FC<PlayerProps> = (
     {
         width = 482,
         height = 312,
+        minWidth = 482,
+        minHeight = 312,
+        resize = true,
     }
 ) => {
     const [size, setSize] = useState<DefaultSize>({ width, height });
 
     return (
         <ResizableBox
-            lockAspectRatio
             width={size.width}
             height={size.height}
-            minConstraints={[size.width, size.height]}
-            resizeHandles={['se', 'e', 's']}
-            onResize={(event, { size }) => setSize(size)}
+            minConstraints={[minWidth, minHeight]}
+            resizeHandles={resize ? ['se', 'e', 's'] : []}
+            // lockAspectRatio
+            onResize={resize ? (event, { size }) => setSize(size) : undefined}
         >
             <div className={classes(cn, 'container')}>
                 <video/>
