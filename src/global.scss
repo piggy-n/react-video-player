@@ -1,0 +1,10 @@
+[class^=lzz-] {
+  box-sizing: border-box;
+
+  &::after,
+  &::before {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+  }
+}
