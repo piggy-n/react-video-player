@@ -1,0 +1,66 @@
+@mixin wh($w, $h) {
+  width: $w;
+  height: $h;
+}
+
+@mixin ps($type, $t: auto, $r: auto, $b: auto, $l: auto) {
+  position: $type;
+  top: $t;
+  right: $r;
+  bottom: $b;
+  left: $l;
+}
+
+@mixin fr($jc, $ai: center) {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: $jc;
+  align-items: $ai;
+}
+
+@mixin fd($jc, $ai: center) {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: $jc;
+  align-items: $ai;
+}
+
+@mixin style($size, $color, $bold: normal) {
+  font-size: $size;
+  color: $color;
+  font-weight: $bold;
+}
+
+.eb-video-player-container {
+  @keyframes show {
+    0% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 0.5;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes scaleAnimate {
+    50% {
+      transform: scale(1.2);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  @keyframes rotateAnimate {
+    0% {
+      transform: rotate(270deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+}

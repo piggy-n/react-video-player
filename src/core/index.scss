@@ -1,9 +1,8 @@
+@import 'src/assets/styles/mixin.scss';
+
 .eb-video-player-container {
-  position: absolute;
-  top: 5%;
-  left: 5%;
+  @include ps(absolute);
   color: #fff;
-  font-family: 'Alibaba-PuHuiTi-Regular';
   background: rgba(7, 30, 39, 0.75);
   border: 2px solid rgba(30, 96, 121, 1);
   z-index: 1;
