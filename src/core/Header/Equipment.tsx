@@ -3,6 +3,7 @@ import type { FC } from 'react';
 import type { EquipmentProps } from '@/core/Header/type';
 import { classes } from '@/utils/methods/classes';
 import './styles/equipment.scss';
+import { useSize } from 'ahooks';
 
 const cn = 'Equipment';
 
@@ -13,8 +14,13 @@ const Equipment: FC<EquipmentProps> = (
         showStatus = true,
     }
 ) => {
+    const playerWidth = useSize(document.querySelector('.react-resizable'))?.width ?? 480;
+
     return (
-        <div className={classes(cn, '')}>
+        <div
+            className={classes(cn, '')}
+            style={{ maxWidth: `${playerWidth * .4}px` }}
+        >
             {
                 showStatus &&
                 <div className={classes(cn, 'status', { online })}/>

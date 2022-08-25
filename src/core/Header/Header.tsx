@@ -1,6 +1,5 @@
 import * as React from 'react';
 import './styles/header.scss';
-import { debounce } from 'lodash';
 import { classes } from '@/utils/methods/classes';
 import type { MouseEventHandler } from 'react';
 import type { HeaderInterface, HeaderProps } from '@/core/Header/type';
@@ -19,15 +18,10 @@ const Header: HeaderInterface = (
         onMouseOver(targetEleName !== 'DIV');
     };
 
-    const debounceMouseOverHandler = debounce(
-        mouseOverHandler,
-        300
-    );
-
     return (
         <div
-            className={classes(cn, 'container')}
-            onMouseOver={debounceMouseOverHandler}
+            className={classes(cn, '')}
+            onMouseOver={mouseOverHandler}
         >
             <Header.Equipment name={'设备1'}/>
             <Header.PlayerController/>

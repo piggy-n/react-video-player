@@ -2,15 +2,14 @@
 
 .eb-equipment {
   @include fr(flex-start, center);
-  max-width: 40%;
-  border: 1px solid red;
-  padding-left: 11px;
+  padding-left: 8px;
 
   &-status {
     @include wh(9px, 9px);
     border-radius: 50%;
     background: rgba(128, 128, 128, 1);
-    margin-right: 6px;
+    margin-right: 8px;
+    cursor: default;
   }
 
   &-name {
@@ -19,6 +18,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    cursor: default;
   }
 
   .online {

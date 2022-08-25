@@ -27,11 +27,11 @@ const Player: FC<PlayerProps> = (
             height={size.height}
             minConstraints={[minWidth, minHeight]}
             resizeHandles={resize ? ['se', 'e', 's'] : []}
-            // lockAspectRatio
+            lockAspectRatio
             onResize={resize ? (event, { size }) => setSize(size) : undefined}
         >
             <div
-                className={classes(cn, 'container')}
+                className={classes(cn, '')}
                 onMouseOver={() => onMouseOver(true)}
             >
                 <video/>
