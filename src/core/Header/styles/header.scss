@@ -1,0 +1,13 @@
+@import 'src/assets/styles/mixin.scss';
+
+.eb-header-container {
+  @include fr(space-between, center);
+  @include wh(100%, 40px);
+  background: rgba(7, 30, 39, 0.75);
+  cursor: move;
+
+  svg,
+  use {
+    cursor: pointer;
+  }
+}

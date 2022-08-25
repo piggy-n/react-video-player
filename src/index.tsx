@@ -6,6 +6,7 @@ import type { CSSProperties } from 'react';
 
 const styles: CSSProperties = {
     position: 'relative',
+    overflow: 'hidden',
     width: '100%',
     height: '100vh',
 };
