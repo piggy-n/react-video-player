@@ -2,6 +2,7 @@
 
 .ws-equipment {
   @include fr(flex-start, center);
+  line-height: 16px;
   padding-left: 8px;
 
   &-status {

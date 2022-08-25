@@ -22,12 +22,17 @@ const Selector: FC<SelectorProps> = (
             <Select
                 value={value}
                 style={{
-                    width: 80
+                    width: '80px'
                 }}
                 size={'small'}
                 placeholder={'请选择'}
                 onChange={onChange}
-                // getPopupContainer={() => document.getElementById('ws-selector') as HTMLElement}
+                suffixIcon={
+                    <div className={classes(cn, 'big-circular')}>
+                        <div className={classes(cn, 'small-circular')}/>
+                    </div>
+                }
+                getPopupContainer={() => document.getElementById('ws-selector') as HTMLElement}
             >
                 {options?.map(item =>
                     <Select.Option

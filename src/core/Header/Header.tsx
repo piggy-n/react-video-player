@@ -23,7 +23,7 @@ const Header: HeaderInterface = (
             className={classes(cn, '')}
             onMouseOver={mouseOverHandler}
         >
-            <Header.Equipment name={'监控设备监控设备监控设备监控设备监控设备监控设备监控设备监控设备监控设备监控设备监控设备监控设备监控设备'}/>
+            <Header.Equipment name={'监控设备'}/>
             <Header.ControllerToolbar/>
         </div>
     );

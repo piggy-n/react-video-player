@@ -50,15 +50,15 @@ const ControllerToolbar: FC<ControllerToolbarProps> = () => {
         <div className={classes(cn, '')}>
             <Selector value={'singleGrid'} options={[
                 {
-                    label: '单网格',
+                    label: '可见光',
                     value: 'singleGrid',
                     url: 'https://gw.alipayobjects.com/zos/rmsportal/wZcnGqRDyhPOEYFcZDnb.svg',
                 },
-                // {
-                //     label: '双网格',
-                //     value: 'doubleGrid',
-                //     url: 'https://gw.alipayobjects.com/zos/rmsportal/wZcnGqRDyhPOEYFcZDnb.svg',
-                // }
+                {
+                    label: '热像',
+                    value: 'doubleGrid',
+                    url: 'https://gw.alipayobjects.com/zos/rmsportal/wZcnGqRDyhPOEYFcZDnb.svg',
+                }
             ]}/>
             <Icon
                 name={gridStatus['singleGrid'] ? 'single-grid-active' : 'single-grid'}

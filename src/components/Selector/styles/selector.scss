@@ -1,4 +1,5 @@
 @import '~antd/dist/antd.min.css';
+@import 'src/assets/styles/mixin.scss';
 
 .ws-selector {
   margin-right: 4px;
@@ -6,7 +7,6 @@
   .ant-select {
     color: #EAEAEA;
     font-size: 12px;
-    font-family: 'Alibaba-PuHuiTi-Regular', sans-serif;
     border-radius: 12px;
     background: rgba(255, 255, 255, 0.2);
   }
@@ -22,8 +22,8 @@
   .ant-select-dropdown {
     background-color: rgba(6, 23, 30, 0.5);
     padding: 6px;
-    font-family: 'Alibaba-PuHuiTi-Regular', sans-serif;
     font-size: 12px;
+    border-radius: 4px;
   }
 
   .ant-select-item {
@@ -44,7 +44,7 @@
     &::before {
       position: absolute;
       display: table;
-      border: 3px solid rgba(255, 255, 255, 0.9);
+      border: 2px solid rgba(255, 255, 255, 0.9);
       border-top: 0;
       border-left: 0;
       transform: rotate(45deg) scale(1);
@@ -56,7 +56,10 @@
     }
   }
 
-  .ant-select-single.ant-select-sm:not(.ant-select-customize-input).ant-select-show-arrow .ant-select-selection-item, .ant-select-single.ant-select-sm:not(.ant-select-customize-input).ant-select-show-arrow .ant-select-selection-placeholder {
+  .ant-select-single.ant-select-sm:not(.ant-select-customize-input).ant-select-show-arrow .ant-select-selection-item,
+  .ant-select-single.ant-select-sm:not(.ant-select-customize-input).ant-select-show-arrow .ant-select-selection-placeholder {
+    display: flex;
+    align-items: center;
     padding-right: 0;
   }
 
@@ -87,5 +90,18 @@
 
   .ant-select-item-option-content {
     font-size: 12px;
+  }
+
+  &-big-circular {
+    @include fr(center, center);
+    @include wh(12px, 12px);
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+  }
+
+  &-small-circular {
+    @include wh(8px, 8px);
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
   }
 }
