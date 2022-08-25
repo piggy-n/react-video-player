@@ -5,7 +5,7 @@ import { classes } from '@/utils/methods/classes';
 import type { FC } from 'react';
 import type { DefaultSize, PlayerProps } from '@/core/Player/type';
 import 'react-resizable/css/styles.css';
-import './styles/index.scss';
+import './styles/player.scss';
 
 const cn = 'Player';
 

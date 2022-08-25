@@ -1,20 +1,17 @@
 import * as React from 'react';
 import Header from '@/core/Header';
 import Player from '@/core/Player';
-import { classes } from '@/utils/methods/classes';
-import './index.scss';
 import { useState } from 'react';
+import './wsVideoPlayer.scss';
 
 const Draggable = require('react-draggable');
 
-const cn = 'Video-Player';
-
-const VideoPlayer = () => {
+const WsVideoPlayer = () => {
     const [disabled, setDisabled] = useState(false);
 
     return (
         <Draggable bounds={'parent'} disabled={disabled}>
-            <div className={classes(cn, 'container')}>
+            <div className={"ws-video-player-container"}>
                 <Header onMouseOver={arg => setDisabled(arg)}/>
                 <Player onMouseOver={arg => setDisabled(arg)}/>
             </div>
@@ -22,4 +19,4 @@ const VideoPlayer = () => {
     );
 };
 
-export default VideoPlayer;
+export default WsVideoPlayer;

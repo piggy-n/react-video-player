@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import '@/global.scss';
-import VideoPlayer from '@/core/VideoPlayer';
+import VideoPlayer from '@/core/WsVideoPlayer';
 import type { CSSProperties } from 'react';
 
 const styles: CSSProperties = {
