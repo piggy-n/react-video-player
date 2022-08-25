@@ -1,14 +1,9 @@
 import * as React from 'react';
-import type { FC, SVGAttributes } from 'react';
+import type { FC } from 'react';
 import { classes } from '@/utils/methods/classes';
 import './styles/icon.scss';
 import '../../utils/methods/importAll';
-
-interface IconProps extends SVGAttributes<SVGElement> {
-    name: string;
-    size?: number;
-    title?: string;
-}
+import type { IconProps } from '@/components/Icon/type';
 
 const cn = 'Icon';
 
@@ -32,7 +27,10 @@ const Icon: FC<IconProps> = (
             }}
             {...rest}
         >
-            {title && <title>{title}</title>}
+            {
+                title &&
+                <title>{title}</title>
+            }
             <use xlinkHref={`#${name}`}/>
         </svg>
     );

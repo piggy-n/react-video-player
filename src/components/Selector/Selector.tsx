@@ -34,14 +34,16 @@ const Selector: FC<SelectorProps> = (
                 }
                 getPopupContainer={() => document.getElementById('ws-selector') as HTMLElement}
             >
-                {options?.map(item =>
-                    <Select.Option
-                        key={item.url}
-                        value={item.value}
-                    >
-                        {item.label}
-                    </Select.Option>
-                )}
+                {
+                    options?.map(item =>
+                        <Select.Option
+                            key={item.url}
+                            value={item.value}
+                        >
+                            {item.label}
+                        </Select.Option>
+                    )
+                }
             </Select>
         </div>
     );
