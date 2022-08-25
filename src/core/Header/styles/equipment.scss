@@ -1,0 +1,27 @@
+@import 'src/assets/styles/mixin.scss';
+
+.eb-equipment {
+  @include fr(flex-start, center);
+  max-width: 40%;
+  border: 1px solid red;
+  padding-left: 11px;
+
+  &-status {
+    @include wh(9px, 9px);
+    border-radius: 50%;
+    background: rgba(128, 128, 128, 1);
+    margin-right: 6px;
+  }
+
+  &-name {
+    @include style(16px, rgba(234, 234, 234, 1), 400);
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .online {
+    background: rgba(31, 226, 138, 1)
+  }
+}

@@ -11,10 +11,10 @@ const cn = 'Player';
 
 const Player: FC<PlayerProps> = (
     {
-        width = 482,
-        height = 312,
-        minWidth = 482,
-        minHeight = 312,
+        width = 480,
+        height = 270,
+        minWidth = 480,
+        minHeight = 270,
         resize = true,
         onMouseOver,
     }
