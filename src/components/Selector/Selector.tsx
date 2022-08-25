@@ -21,11 +21,10 @@ const Selector: FC<SelectorProps> = (
         >
             <Select
                 value={value}
-                style={{
-                    width: '80px'
-                }}
                 size={'small'}
                 placeholder={'请选择'}
+                mode={'multiple'}
+                allowClear={false}
                 onChange={onChange}
                 suffixIcon={
                     <div className={classes(cn, 'big-circular')}>

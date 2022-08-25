@@ -3,12 +3,16 @@
 
 .ws-selector {
   margin-right: 4px;
+  line-height: 0;
 
   .ant-select {
     color: #EAEAEA;
     font-size: 12px;
     border-radius: 12px;
     background: rgba(255, 255, 255, 0.2);
+    min-width: 80px;
+    height: 24px;
+    line-height: 24px;
   }
 
   .ant-select-arrow {
@@ -19,11 +23,29 @@
     color: #EAEAEA;
   }
 
+  .ant-select-item-option-selected:not(.ant-select-item-option-disabled) .ant-select-item-option-state {
+    display: none;
+  }
+
+  .ant-select-selection-overflow {
+    justify-content: center;
+    cursor: pointer;
+  }
+
   .ant-select-dropdown {
     background-color: rgba(6, 23, 30, 0.5);
     padding: 6px;
     font-size: 12px;
     border-radius: 4px;
+  }
+
+  .ant-select-selection-placeholder {
+    display: flex;
+    justify-content: center;
+  }
+
+  .ant-select-multiple.ant-select-sm .ant-select-selection-placeholder {
+    left: 10px;
   }
 
   .ant-select-item {
@@ -56,6 +78,38 @@
     }
   }
 
+  .ant-select-multiple .ant-select-selector {
+    height: 24px;
+    line-height: 24px;
+    padding: 0;
+    cursor: pointer !important;
+  }
+
+  .ant-select-multiple .ant-select-selection-item {
+    background: transparent;
+    border: 0;
+    margin: 0;
+    padding-left: 4px;
+  }
+
+  .ant-select-selection-search{
+    display: none;
+  }
+
+  .ant-select-multiple .ant-select-selection-item-content {
+    margin: 0;
+  }
+
+  .ant-select-multiple.ant-select-sm .ant-select-selection-item {
+    height: 24px;
+    line-height: 24px;
+    cursor: pointer !important;
+  }
+
+  .ant-select-multiple .ant-select-selection-item-remove {
+    display: none;
+  }
+
   .ant-select-single.ant-select-sm:not(.ant-select-customize-input).ant-select-show-arrow .ant-select-selection-item,
   .ant-select-single.ant-select-sm:not(.ant-select-customize-input).ant-select-show-arrow .ant-select-selection-placeholder {
     display: flex;
@@ -71,6 +125,7 @@
   .ant-select:not(.ant-select-customize-input) .ant-select-selector {
     background: transparent;
     border: 0;
+    cursor: pointer !important;
   }
 
   .ant-select-focused:not(.ant-select-disabled).ant-select:not(.ant-select-customize-input) .ant-select-selector {

@@ -48,7 +48,7 @@ const ControllerToolbar: FC<ControllerToolbarProps> = () => {
 
     return (
         <div className={classes(cn, '')}>
-            <Selector value={'singleGrid'} options={[
+            <Selector  options={[
                 {
                     label: '可见光',
                     value: 'singleGrid',
