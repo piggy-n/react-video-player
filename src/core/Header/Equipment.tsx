@@ -23,14 +23,14 @@ const Equipment: FC<EquipmentProps> = (
         >
             {
                 showStatus &&
-                <div className={classes(cn, 'status', { online })}/>
+                <span className={classes(cn, 'status', { online })}/>
             }
-            <div
+            <span
                 className={classes(cn, 'name')}
                 title={name}
             >
                 {name}
-            </div>
+            </span>
         </div>
     );
 };

@@ -1,6 +1,6 @@
 @import 'src/assets/styles/mixin.scss';
 
-.eb-header {
+.ws-header {
   @include fr(space-between, center);
   @include wh(100%, 40px);
   background: rgba(7, 30, 39, 0.75);
