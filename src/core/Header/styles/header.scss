@@ -1,7 +1,7 @@
 @import 'src/assets/styles/mixin.scss';
 
 .ws-header {
-  @include fr(space-between, center);
+  @include fr(flex-start, center);
   @include wh(100%, 40px);
   background: rgba(7, 30, 39, 0.75);
   cursor: move;

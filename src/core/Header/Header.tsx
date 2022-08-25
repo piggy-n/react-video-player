@@ -23,13 +23,13 @@ const Header: HeaderInterface = (
             className={classes(cn, '')}
             onMouseOver={mouseOverHandler}
         >
-            <Header.Equipment name={'监控设备'}/>
-            <Header.PlayerController/>
+            <Header.Equipment name={'监控设备监控设备监控设备监控设备监控设备监控设备监控设备监控设备监控设备监控设备监控设备监控设备监控设备'}/>
+            <Header.ControllerToolbar/>
         </div>
     );
 };
 
 Header.Equipment = require('./Equipment').default;
-Header.PlayerController = require('./PlayerController').default;
+Header.ControllerToolbar = require('./ControllerToolbar').default;
 
 export default Header;

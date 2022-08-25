@@ -1,6 +1,6 @@
 import Header from './Header';
 import Equipment from './Equipment';
-import PlayerController from './PlayerController';
+import ControllerToolbar from './ControllerToolbar';
 
-export { Equipment, PlayerController };
+export { Equipment, ControllerToolbar };
 export default Header;

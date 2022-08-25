@@ -6,7 +6,7 @@ export interface HeaderProps {
 
 export interface HeaderInterface extends FC<HeaderProps> {
     Equipment: FC<EquipmentProps>;
-    PlayerController: FC<PlayerControllerProps>;
+    ControllerToolbar: FC<ControllerToolbarProps>;
 }
 
 export interface EquipmentProps {
@@ -15,6 +15,6 @@ export interface EquipmentProps {
     showStatus?: boolean;
 }
 
-export interface PlayerControllerProps {
+export interface ControllerToolbarProps {
 
 }
