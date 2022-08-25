@@ -1,7 +1,7 @@
 import * as React from 'react';
 import type { FC, SVGAttributes } from 'react';
 import { classes } from '@/utils/methods/classes';
-import './styles/index.scss';
+import './styles/icon.scss';
 import '../../utils/methods/importAll';
 
 interface IconProps extends SVGAttributes<SVGElement> {

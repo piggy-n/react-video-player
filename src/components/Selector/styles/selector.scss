@@ -1,0 +1,91 @@
+@import '~antd/dist/antd.min.css';
+
+.ws-selector {
+  margin-right: 4px;
+
+  .ant-select {
+    color: #EAEAEA;
+    font-size: 12px;
+    font-family: 'Alibaba-PuHuiTi-Regular', sans-serif;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  .ant-select-arrow {
+    color: #EAEAEA;
+  }
+
+  .ant-select-single.ant-select-open .ant-select-selection-item {
+    color: #EAEAEA;
+  }
+
+  .ant-select-dropdown {
+    background-color: rgba(6, 23, 30, 0.5);
+    padding: 6px;
+    font-family: 'Alibaba-PuHuiTi-Regular', sans-serif;
+    font-size: 12px;
+  }
+
+  .ant-select-item {
+    color: #EAEAEA;
+    padding: 6px 6px 6px 26px;
+    min-height: unset;
+    line-height: 12px;
+    margin: 4px 0;
+    border-radius: 12px;
+  }
+
+  .ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
+    position: relative;
+    color: #EAEAEA;
+    background-color: rgba(255, 255, 255, 0.2);
+    font-weight: unset;
+
+    &::before {
+      position: absolute;
+      display: table;
+      border: 3px solid rgba(255, 255, 255, 0.9);
+      border-top: 0;
+      border-left: 0;
+      transform: rotate(45deg) scale(1);
+      content: " ";
+      width: 6px;
+      height: 11px;
+      top: 4px;
+      left: 10px;
+    }
+  }
+
+  .ant-select-single.ant-select-sm:not(.ant-select-customize-input).ant-select-show-arrow .ant-select-selection-item, .ant-select-single.ant-select-sm:not(.ant-select-customize-input).ant-select-show-arrow .ant-select-selection-placeholder {
+    padding-right: 0;
+  }
+
+  .ant-select-item-option-active:not(.ant-select-item-option-disabled) {
+    color: #EAEAEA;
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+
+  .ant-select:not(.ant-select-customize-input) .ant-select-selector {
+    background: transparent;
+    border: 0;
+  }
+
+  .ant-select-focused:not(.ant-select-disabled).ant-select:not(.ant-select-customize-input) .ant-select-selector {
+    border: none;
+    outline: 0;
+    box-shadow: unset;
+  }
+
+  .ant-select-single.ant-select-sm:not(.ant-select-customize-input) .ant-select-selector {
+    padding: 0 7px 0 30px;
+  }
+
+  .ant-select-arrow {
+    left: 10px;
+    right: unset;
+  }
+
+  .ant-select-item-option-content {
+    font-size: 12px;
+  }
+}

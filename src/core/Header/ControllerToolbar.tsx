@@ -5,6 +5,7 @@ import { classes } from '@/utils/methods/classes';
 import './styles/controllerToolbar.scss';
 import Icon from '@/components/Icon';
 import { useState } from 'react';
+import Selector from '@/components/Selector/Selector';
 
 const cn = 'Controller-Toolbar';
 
@@ -35,8 +36,6 @@ const ControllerToolbar: FC<ControllerToolbarProps> = () => {
     };
 
     const panelStatusHandler = (key: string) => {
-        if (panelStatus[key]) return;
-
         const newPanelStatus = {
             screenshot: false,
             control: false,
@@ -49,6 +48,18 @@ const ControllerToolbar: FC<ControllerToolbarProps> = () => {
 
     return (
         <div className={classes(cn, '')}>
+            <Selector value={'singleGrid'} options={[
+                {
+                    label: '单网格',
+                    value: 'singleGrid',
+                    url: 'https://gw.alipayobjects.com/zos/rmsportal/wZcnGqRDyhPOEYFcZDnb.svg',
+                },
+                // {
+                //     label: '双网格',
+                //     value: 'doubleGrid',
+                //     url: 'https://gw.alipayobjects.com/zos/rmsportal/wZcnGqRDyhPOEYFcZDnb.svg',
+                // }
+            ]}/>
             <Icon
                 name={gridStatus['singleGrid'] ? 'single-grid-active' : 'single-grid'}
                 title={'单宫'}
@@ -71,7 +82,7 @@ const ControllerToolbar: FC<ControllerToolbarProps> = () => {
             />
             <Icon
                 name={panelStatus['control'] ? 'control-active' : 'control'}
-                title={'控制'}
+                title={'控制面板'}
                 onClick={() => panelStatusHandler('control')}
             />
             <Icon
