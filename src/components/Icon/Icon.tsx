@@ -7,6 +7,7 @@ import '../../utils/methods/importAll';
 interface IconProps extends SVGAttributes<SVGElement> {
     name: string;
     size?: number;
+    title?: string;
 }
 
 const cn = 'Icon';
@@ -17,6 +18,7 @@ const Icon: FC<IconProps> = (
         name,
         size,
         style,
+        title,
         ...rest
     },
 ) => {
@@ -30,6 +32,7 @@ const Icon: FC<IconProps> = (
             }}
             {...rest}
         >
+            {title && <title>{title}</title>}
             <use xlinkHref={`#${name}`}/>
         </svg>
     );
