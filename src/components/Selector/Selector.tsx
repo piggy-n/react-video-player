@@ -22,6 +22,7 @@ const Selector: FC<SelectorProps> = (
         >
             <Select
                 value={value}
+                defaultValue={['singleGrid']}
                 size={'small'}
                 placeholder={'请选择'}
                 mode={'multiple'}

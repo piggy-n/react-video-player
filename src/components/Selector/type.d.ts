@@ -1,13 +1,11 @@
-type Value = string | number | null;
-
 type Option = {
     label: string;
-    value: Value;
+    value: string;
     url?: string;
 }
 
 export interface SelectorProps {
-    value?: Value;
-    onChange?: (value: Value) => void;
+    value?: string[];
+    onChange?: (value: string[]) => void;
     options?: Option[];
 }

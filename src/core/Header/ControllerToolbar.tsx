@@ -48,28 +48,20 @@ const ControllerToolbar: FC<ControllerToolbarProps> = () => {
 
     return (
         <div className={classes(cn, '')}>
-            <Selector options={[
-                {
-                    label: '可见光',
-                    value: 'singleGrid',
-                    url: 'https://gw.alipayobjects.com/zos/rmsportal/wZcnGqRDyhPOEYFcZDnb.svg',
-                },
-                {
-                    label: '热像',
-                    value: 'doubleGrid',
-                    url: 'https://gw.alipayobjects.com/zos/rmsportal/wZcnGqRDyhPOEYFcZDnb.svg',
-                },
-                {
-                    label: '视频',
-                    value: 'pip',
-                    url: 'https://gw.alipayobjects.com/zos/rmsportal/wZcnGqRDyhPOEYFcZDnb.svg',
-                },
-                {
-                    label: '拍照',
-                    value: 'screenshot',
-                    url: 'https://gw.alipayobjects.com/zos/rmsportal/wZcnGqRDyhPOEYFcZDnb.svg',
-                }
-            ]}/>
+            <Selector
+                onChange={(v) => console.log(v)}
+                options={[
+                    {
+                        label: '可见光',
+                        value: 'singleGrid',
+                        url: 'https://gw.alipayobjects.com/zos/rmsportal/wZcnGqRDyhPOEYFcZDnb.svg',
+                    },
+                    {
+                        label: '热像',
+                        value: 'doubleGrid',
+                        url: 'https://gw.alipayobjects.com/zos/rmsportal/wZcnGqRDyhPOEYFcZDnc.svg',
+                    },
+                ]}/>
             <Icon
                 name={gridStatus['singleGrid'] ? 'single-grid-active' : 'single-grid'}
                 title={'单宫'}
