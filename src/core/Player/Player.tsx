@@ -33,6 +33,7 @@ const Player: PlayerInterface = (
     }, [videoModel, dispatch]);
 
     const [size, setSize] = useState<DefaultSize>({ width, height });
+    const [resizing, setResizing] = useState(false);
 
     return (
         <ResizableBox
@@ -41,6 +42,8 @@ const Player: PlayerInterface = (
             minConstraints={[minWidth, minHeight]}
             resizeHandles={resize ? ['se', 'e', 's'] : []}
             lockAspectRatio
+            onResizeStart={() => setResizing(true)}
+            onResizeStop={() => setResizing(false)}
             onResize={resize ? (event, { size }) => setSize(size) : undefined}
         >
             <div
@@ -49,7 +52,7 @@ const Player: PlayerInterface = (
             >
                 <video/>
                 <VideoContext.Provider value={videoContextValue}>
-                    <Player.Controller/>
+                    <Player.Controller resizing={resizing}/>
                 </VideoContext.Provider>
             </div>
         </ResizableBox>

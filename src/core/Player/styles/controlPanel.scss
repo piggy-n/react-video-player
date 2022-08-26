@@ -1,0 +1,24 @@
+@import 'src/assets/styles/mixin.scss';
+
+.ws-control-panel {
+  @include ps(relative);
+  @include wh(100%, 42px);
+  @include fr(flex-start);
+  padding: 0 5px;
+  border: 1px solid red;
+  transition: all 0.5s;
+  color: rgba(238, 238, 238, 1);
+
+  &:hover {
+    cursor: default;
+  }
+
+  &:after {
+    @include wh(100%, 100%);
+    @include ps(absolute, auto, auto, 0, 50%);
+    content: '';
+    z-index: -1;
+    transform: translateX(-50%);
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.5), transparent);
+  }
+}

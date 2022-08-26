@@ -4,6 +4,10 @@ export interface VideoModelState {
     controlled: boolean;
 }
 
+export const initialState: VideoModelState = {
+    controlled: false,
+};
+
 export interface ControlledActionType {
     type: 'controlled';
     payload: VideoModelState['controlled'];
@@ -11,10 +15,6 @@ export interface ControlledActionType {
 
 export type MergeActionType =
     | ControlledActionType
-
-export const initialState: VideoModelState = {
-    controlled: false,
-};
 
 export const useVideoModel = () => {
     const reducer = (state: VideoModelState, action: MergeActionType) => {

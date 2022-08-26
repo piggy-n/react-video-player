@@ -3,16 +3,22 @@ import { classes } from '@/utils/methods/classes';
 import './styles/playerController.scss';
 import { useContext } from 'react';
 import { VideoContext } from '@/utils/hooks/useVideoContext';
+import ControlPanel from '@/core/Player/ControlPanel';
+import type { PlayerControllerInterface, PlayerControllerProps } from '@/core/Player/type';
 
 const cn = 'Player-Controller';
 
-const PlayerController = () => {
-    const { videoModel, dispatch } = useContext(VideoContext);
+const PlayerController: PlayerControllerInterface = (
+    {
+        resizing
+    }: PlayerControllerProps
+) => {
+    const { dispatch } = useContext(VideoContext);
 
     const controlPanelVisibleHandler = (status: 'enter' | 'leave') => {
         dispatch({
             type: 'controlled',
-            payload: status === 'enter',
+            payload: status === 'enter' && !resizing,
         });
     };
 
@@ -22,9 +28,13 @@ const PlayerController = () => {
             onMouseEnter={() => controlPanelVisibleHandler('enter')}
             onMouseLeave={() => controlPanelVisibleHandler('leave')}
         >
-
+            <div className={classes(cn, 'bottom-wrapper')}>
+                <PlayerController.Panel/>
+            </div>
         </div>
     );
 };
+
+PlayerController.Panel = ControlPanel;
 
 export default PlayerController;
