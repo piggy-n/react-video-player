@@ -2,10 +2,10 @@
 
 .ws-control-panel {
   @include ps(relative);
-  @include wh(100%, 42px);
+  @include wh(100%, 40px);
   @include fr(flex-start);
   padding: 0 5px;
-  border: 1px solid red;
+  //border: 1px solid red;
   transition: all 0.5s;
   color: rgba(238, 238, 238, 1);
 
