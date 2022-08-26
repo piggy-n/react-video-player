@@ -2,14 +2,13 @@ import * as React from 'react';
 import { ResizableBox } from 'react-resizable';
 import { useState } from 'react';
 import { classes } from '@/utils/methods/classes';
-import type { FC } from 'react';
-import type { DefaultSize, PlayerProps } from '@/core/Player/type';
+import type { DefaultSize, PlayerInterface, PlayerProps } from '@/core/Player/type';
 import 'react-resizable/css/styles.css';
 import './styles/player.scss';
 
 const cn = 'Player';
 
-const Player: FC<PlayerProps> = (
+const Player: PlayerInterface = (
     {
         width = 480,
         height = 270,
@@ -17,7 +16,7 @@ const Player: FC<PlayerProps> = (
         minHeight = 270,
         resize = true,
         onMouseOver,
-    }
+    }: PlayerProps
 ) => {
     const [size, setSize] = useState<DefaultSize>({ width, height });
 
@@ -35,9 +34,12 @@ const Player: FC<PlayerProps> = (
                 onMouseOver={() => onMouseOver(true)}
             >
                 <video/>
+                <Player.Controller/>
             </div>
         </ResizableBox>
     );
 };
+
+Player.Controller = require('./PlayerController').default;
 
 export default Player;
