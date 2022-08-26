@@ -1,2 +1,9 @@
 @import 'src/assets/styles/mixin.scss';
 
+.ws-player-controller {
+  @include wh(100%, 100%);
+  @include ps(absolute, auto, auto, 0, 50%);
+  transform: translateX(-50%);
+  z-index: 2;
+  cursor: pointer;
+}

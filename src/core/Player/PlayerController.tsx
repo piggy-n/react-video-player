@@ -9,9 +9,18 @@ const cn = 'Player-Controller';
 const PlayerController = () => {
     const { videoModel, dispatch } = useContext(VideoContext);
 
+    const controlPanelVisibleHandler = (status: 'enter' | 'leave') => {
+        dispatch({
+            type: 'controlled',
+            payload: status === 'enter',
+        });
+    };
+
     return (
         <div
             className={classes(cn, '')}
+            onMouseEnter={() => controlPanelVisibleHandler('enter')}
+            onMouseLeave={() => controlPanelVisibleHandler('leave')}
         >
 
         </div>
