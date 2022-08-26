@@ -4,8 +4,8 @@ import type { ControllerToolbarProps } from '@/core/Header/type';
 import { classes } from '@/utils/methods/classes';
 import './styles/controllerToolbar.scss';
 import Icon from '@/components/Icon';
+import Selector from '@/components/Selector';
 import { useState } from 'react';
-import Selector from '@/components/Selector/Selector';
 
 const cn = 'Controller-Toolbar';
 
