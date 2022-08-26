@@ -48,7 +48,7 @@ const ControllerToolbar: FC<ControllerToolbarProps> = () => {
 
     return (
         <div className={classes(cn, '')}>
-            <Selector  options={[
+            <Selector options={[
                 {
                     label: '可见光',
                     value: 'singleGrid',
@@ -57,6 +57,16 @@ const ControllerToolbar: FC<ControllerToolbarProps> = () => {
                 {
                     label: '热像',
                     value: 'doubleGrid',
+                    url: 'https://gw.alipayobjects.com/zos/rmsportal/wZcnGqRDyhPOEYFcZDnb.svg',
+                },
+                {
+                    label: '视频',
+                    value: 'pip',
+                    url: 'https://gw.alipayobjects.com/zos/rmsportal/wZcnGqRDyhPOEYFcZDnb.svg',
+                },
+                {
+                    label: '拍照',
+                    value: 'screenshot',
                     url: 'https://gw.alipayobjects.com/zos/rmsportal/wZcnGqRDyhPOEYFcZDnb.svg',
                 }
             ]}/>

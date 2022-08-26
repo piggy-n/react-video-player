@@ -10,7 +10,7 @@ const cn = 'Equipment';
 const Equipment: FC<EquipmentProps> = (
     {
         name = '',
-        online = true,
+        online = false,
         showStatus = true,
     }
 ) => {

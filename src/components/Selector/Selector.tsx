@@ -4,6 +4,7 @@ import { Select } from 'antd';
 import type { FC } from 'react';
 import type { SelectorProps } from '@/components/Selector/type';
 import './styles/selector.scss';
+import Icon from '@/components/Icon';
 
 const cn = 'Selector';
 
@@ -24,13 +25,9 @@ const Selector: FC<SelectorProps> = (
                 size={'small'}
                 placeholder={'请选择'}
                 mode={'multiple'}
-                allowClear={false}
+                showArrow
                 onChange={onChange}
-                suffixIcon={
-                    <div className={classes(cn, 'big-circular')}>
-                        <div className={classes(cn, 'small-circular')}/>
-                    </div>
-                }
+                suffixIcon={<Icon name={'point'} size={12}/>}
                 getPopupContainer={() => document.getElementById('ws-selector') as HTMLElement}
             >
                 {
