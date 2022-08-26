@@ -7,11 +7,14 @@ import './wsVideoPlayer.scss';
 const Draggable = require('react-draggable');
 
 const WsVideoPlayer = () => {
-    const [disabled, setDisabled] = useState(false);
+    const [disabled, setDisabled] = useState(true);
 
     return (
         <Draggable bounds={'parent'} disabled={disabled}>
-            <div className={"ws-video-player-container"}>
+            <div
+                className={'ws-video-player-container'}
+                onMouseLeave={() => setDisabled(true)}
+            >
                 <Header onMouseOver={arg => setDisabled(arg)}/>
                 <Player onMouseOver={arg => setDisabled(arg)}/>
             </div>
