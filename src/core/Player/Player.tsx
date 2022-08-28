@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { ResizableBox } from 'react-resizable';
-import { useMemo, useState } from 'react';
+import {useMemo, useRef, useState} from 'react';
 import { classes } from '@/utils/methods/classes';
 import type { DefaultSize, PlayerInterface, PlayerProps } from '@/core/Player/type';
 import 'react-resizable/css/styles.css';
@@ -20,6 +20,9 @@ const Player: PlayerInterface = (
         onMouseOver,
     }: PlayerProps
 ) => {
+    const videoContainerRef = useRef<HTMLDivElement>(null);
+    const videoRef = useRef<HTMLVideoElement>(null);
+
     const { videoModel, dispatch } = useVideoModel();
 
     const videoContextValue = useMemo(() => {
@@ -47,10 +50,13 @@ const Player: PlayerInterface = (
             onResize={resize ? (event, { size }) => setSize(size) : undefined}
         >
             <div
+                ref={videoContainerRef}
                 className={classes(cn, '')}
                 onMouseOver={() => onMouseOver(true)}
             >
-                <video/>
+                <video
+                    ref={videoRef}
+                />
                 <VideoContext.Provider value={videoContextValue}>
                     <Player.Controller resizing={resizing}/>
                 </VideoContext.Provider>

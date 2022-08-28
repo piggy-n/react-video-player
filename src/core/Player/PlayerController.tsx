@@ -3,7 +3,6 @@ import { classes } from '@/utils/methods/classes';
 import './styles/playerController.scss';
 import { useContext } from 'react';
 import { VideoContext } from '@/utils/hooks/useVideoContext';
-import ControlPanel from '@/core/Player/ControlPanel';
 import type { PlayerControllerInterface, PlayerControllerProps } from '@/core/Player/type';
 
 const cn = 'Player-Controller';
@@ -35,6 +34,6 @@ const PlayerController: PlayerControllerInterface = (
     );
 };
 
-PlayerController.Panel = ControlPanel;
+PlayerController.Panel = require('./ControlPanel').default;
 
 export default PlayerController;
