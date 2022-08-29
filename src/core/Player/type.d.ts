@@ -33,6 +33,7 @@ export interface ControlPanelProps {
 export interface ControlPanelInterface extends FC<ControlPanelProps> {
     PlayControl: FC<PlayControlProps>;
     ReloadControl: FC<ReloadControlProps>;
+    TimeControl: FC<TimeControlProps>;
 }
 
 export interface PlayControlProps {
@@ -43,5 +44,11 @@ export interface PlayControlProps {
 
 export interface ReloadControlProps {
     onClick: MouseEventHandler<HTMLDivElement>;
+}
+
+export interface TimeControlProps {
+    living: boolean;
+    currentTime: number;
+    totalTime: number;
 }
 

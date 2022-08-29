@@ -26,11 +26,11 @@ const PlayControl: FC<PlayControlProps> = (
                     ? <>
                         {
                             living
-                                ? <Icon name={'stop'} size={18}/>
-                                : <Icon name={'pause'} size={18}/>
+                                ? <Icon name={'stop'} size={18} title={'停止'}/>
+                                : <Icon name={'pause'} size={18} title={'暂停'}/>
                         }
                     </>
-                    : <Icon name={'play'} size={18}/>
+                    : <Icon name={'play'} size={18} title={'播放'}/>
             }
         </div>
     );

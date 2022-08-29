@@ -19,7 +19,7 @@ const ReloadControl: FC<ReloadControlProps> = (
             className={classes(cn, '')}
             onClick={onClick}
         >
-            <Icon name={'reload'} size={18}/>
+            <Icon name={'reload'} size={18} title={'重新加载'}/>
         </div>
     );
 };

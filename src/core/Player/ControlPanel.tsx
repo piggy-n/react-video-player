@@ -41,5 +41,6 @@ const ControlPanel: ControlPanelInterface = () => {
 
 ControlPanel.PlayControl = require('./PlayControl').default;
 ControlPanel.ReloadControl = require('./ReloadControl').default;
+ControlPanel.TimeControl = require('./TimeControl').default;
 
 export default ControlPanel;
