@@ -5,7 +5,7 @@
   @include wh(100%, 40px);
   @include fr(flex-start);
   padding: 0 12px;
-  border: 1px solid red;
+  //border: 1px solid red;
   transition: all 0.5s;
   color: rgba(238, 238, 238, 1);
 
@@ -29,6 +29,6 @@
   &-right-warp {
     @include fr(flex-end);
     flex: 1;
-    border: 1px solid green;
+    //border: 1px solid green;
   }
 }

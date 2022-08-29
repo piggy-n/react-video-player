@@ -37,7 +37,7 @@ const ControlPanel: ControlPanelInterface = () => {
                     onClick={playStatusHandler}
                 />
                 <ControlPanel.ReloadControl onClick={reloadHandler}/>
-                <ControlPanel.TimeControl
+                <ControlPanel.TimeViewer
                     living={false}
                     currentTime={toMinutesAndSeconds(123)}
                     totalTime={toMinutesAndSeconds(232)}
@@ -56,7 +56,7 @@ const ControlPanel: ControlPanelInterface = () => {
 
 ControlPanel.PlayControl = require('./PlayControl').default;
 ControlPanel.ReloadControl = require('./ReloadControl').default;
-ControlPanel.TimeControl = require('./TimeControl').default;
+ControlPanel.TimeViewer = require('./TimeViewer').default;
 ControlPanel.VideoFormatViewer = require('./VideoFormatViewer').default;
 ControlPanel.QualityControl = require('./QualityControl').default;
 ControlPanel.TransmissionRateViewer = require('./TransmissionRateViewer').default;

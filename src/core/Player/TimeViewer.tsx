@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { classes } from '@/utils/methods/classes';
 import type { FC } from 'react';
-import type { TimeControlProps } from '@/core/Player/type';
-import './styles/timeControl.scss';
+import './styles/timeViewer.scss';
+import type { TimeViewerProps } from '@/core/Player/type';
 
-const cn = 'Time-Control';
+const cn = 'Time-Viewer';
 
-const TimeControl: FC<TimeControlProps> = (
+const TimeViewer: FC<TimeViewerProps> = (
     {
         living = false,
         currentTime = '--',
@@ -26,4 +26,4 @@ const TimeControl: FC<TimeControlProps> = (
     );
 };
 
-export default TimeControl;
+export default TimeViewer;
