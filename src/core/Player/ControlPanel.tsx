@@ -4,6 +4,7 @@ import { useContext } from 'react';
 import { VideoContext } from '@/utils/hooks/useVideoContext';
 import './styles/controlPanel.scss';
 import type { ControlPanelInterface } from '@/core/Player/type';
+import { toMinutesAndSeconds } from '@/utils/methods/time';
 
 const cn = 'Control-Panel';
 
@@ -35,6 +36,11 @@ const ControlPanel: ControlPanelInterface = () => {
                 onClick={playStatusHandler}
             />
             <ControlPanel.ReloadControl onClick={reloadHandler}/>
+            <ControlPanel.TimeControl
+                living={false}
+                currentTime={toMinutesAndSeconds(123)}
+                totalTime={toMinutesAndSeconds(232)}
+            />
         </div>
     );
 };

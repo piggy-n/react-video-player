@@ -1,0 +1,11 @@
+@import 'src/assets/styles/mixin.scss';
+
+.ws-time-control {
+  @include style(12px, rgba(255, 255, 255, 0.6));
+  padding-left: 10px;
+  line-height: 12px;
+
+  &-time {
+    @include fr(flex-start);
+  }
+}

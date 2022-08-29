@@ -48,7 +48,7 @@ export interface ReloadControlProps {
 
 export interface TimeControlProps {
     living: boolean;
-    currentTime: number;
-    totalTime: number;
+    currentTime: string;
+    totalTime: string;
 }
 
