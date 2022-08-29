@@ -19,9 +19,7 @@ const TimeControl: FC<TimeControlProps> = (
                 living
                     ? <div>实时</div>
                     : <div className={classes(cn, 'time')}>
-                        <div>{currentTime}</div>
-                        <div>&nbsp;/&nbsp;</div>
-                        <div>{totalTime}</div>
+                        {currentTime}&nbsp;/&nbsp;{totalTime}
                     </div>
             }
         </div>

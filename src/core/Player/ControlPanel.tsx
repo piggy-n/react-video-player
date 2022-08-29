@@ -30,17 +30,24 @@ const ControlPanel: ControlPanelInterface = () => {
             className={classes(cn, '')}
             style={{ opacity: controlled ? 1 : 1 }}
         >
-            <ControlPanel.PlayControl
-                playing={true}
-                living={false}
-                onClick={playStatusHandler}
-            />
-            <ControlPanel.ReloadControl onClick={reloadHandler}/>
-            <ControlPanel.TimeControl
-                living={false}
-                currentTime={toMinutesAndSeconds(123)}
-                totalTime={toMinutesAndSeconds(232)}
-            />
+            <div className={classes(cn, 'left-warp')}>
+                <ControlPanel.PlayControl
+                    playing={true}
+                    living={false}
+                    onClick={playStatusHandler}
+                />
+                <ControlPanel.ReloadControl onClick={reloadHandler}/>
+                <ControlPanel.TimeControl
+                    living={false}
+                    currentTime={toMinutesAndSeconds(123)}
+                    totalTime={toMinutesAndSeconds(232)}
+                />
+            </div>
+            <div className={classes(cn, 'right-warp')}>
+                <ControlPanel.VideoFormatViewer/>
+                <ControlPanel.QualityControl/>
+                <ControlPanel.TransmissionRateViewer/>
+            </div>
         </div>
     );
 };
@@ -48,5 +55,8 @@ const ControlPanel: ControlPanelInterface = () => {
 ControlPanel.PlayControl = require('./PlayControl').default;
 ControlPanel.ReloadControl = require('./ReloadControl').default;
 ControlPanel.TimeControl = require('./TimeControl').default;
+ControlPanel.VideoFormatViewer = require('./VideoFormatViewer').default;
+ControlPanel.QualityControl = require('./QualityControl').default;
+ControlPanel.TransmissionRateViewer = require('./TransmissionRateViewer').default;
 
 export default ControlPanel;

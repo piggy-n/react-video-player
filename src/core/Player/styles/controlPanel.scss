@@ -21,4 +21,14 @@
     transform: translateX(-50%);
     background: linear-gradient(to top, rgba(0, 0, 0, 0.5), transparent);
   }
+
+  &-left-warp {
+    @include fr(flex-start);
+  }
+
+  &-right-warp {
+    @include fr(flex-end);
+    flex: 1;
+    border: 1px solid green;
+  }
 }

@@ -34,6 +34,9 @@ export interface ControlPanelInterface extends FC<ControlPanelProps> {
     PlayControl: FC<PlayControlProps>;
     ReloadControl: FC<ReloadControlProps>;
     TimeControl: FC<TimeControlProps>;
+    TransmissionRateViewer: FC<TransmissionRateViewerProps>;
+    QualityControl: FC<QualityControlProps>;
+    VideoFormatViewer: FC<VideoFormatViewerProps>;
 }
 
 export interface PlayControlProps {
@@ -50,5 +53,17 @@ export interface TimeControlProps {
     living: boolean;
     currentTime: string;
     totalTime: string;
+}
+
+export interface TransmissionRateViewerProps {
+    rate?: number;
+}
+
+export interface QualityControlProps {
+    quality?: any;
+}
+
+export interface VideoFormatViewerProps {
+    format?: string;
 }
 
