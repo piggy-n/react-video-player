@@ -9,9 +9,7 @@
     cursor: pointer;
   }
 
-  &:hover {
-    .ws-reload-control-icon {
-      animation: rotateAnimate .7s ease;
-    }
+  svg:hover {
+    animation: rotateAnimate .7s ease;
   }
 }
