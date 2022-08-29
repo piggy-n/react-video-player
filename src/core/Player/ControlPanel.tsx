@@ -45,7 +45,7 @@ const ControlPanel: ControlPanelInterface = () => {
             </div>
             <div className={classes(cn, 'right-warp')}>
                 <ControlPanel.VideoFormatViewer format={'H.265'}/>
-                <ControlPanel.QualityControl/>
+                <ControlPanel.QualityControl quality={'UHD'}/>
                 <ControlPanel.TransmissionRateViewer rate={'1.28Mbps'}/>
                 <ControlPanel.SettingControl/>
                 <ControlPanel.WebFullScreenControl/>

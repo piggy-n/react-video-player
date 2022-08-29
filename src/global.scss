@@ -2,6 +2,10 @@
   font-family: 'Alibaba-PuHuiTi-Regular', serif;
   box-sizing: border-box;
 
+  p {
+    margin: 0;
+  }
+
   &::after,
   &::before {
     box-sizing: border-box;
