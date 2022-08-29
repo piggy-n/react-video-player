@@ -12,16 +12,27 @@ const SettingControl: FC<SettingControlProps> = () => {
     const [visible, setVisible] = useState<boolean>(false);
 
     return (
-        <div
-            className={classes(cn, '')}
-            onMouseEnter={() => setVisible(true)}
-            onMouseLeave={() => setVisible(false)}
-        >
-            <Icon name={'setting'} size={18}/>
+        <div className={classes(cn, '')}>
+            <Icon
+                name={'setting'}
+                size={18}
+                onClick={() => setVisible(!visible)}
+            />
             {
                 visible &&
-                <div >
+                <div
+                    className={classes(cn, 'wrapper')}
+                    onMouseLeave={() => setVisible(false)}
+                >
+                    <div className={classes(cn, 'item')}>
+                        <Icon name={'screenshot-start'}/>
+                        <p>截图</p>
+                    </div>
 
+                    <div className={classes(cn, 'item')}>
+                        <Icon name={'recording-start'}/>
+                        <p>录像</p>
+                    </div>
                 </div>
             }
         </div>
