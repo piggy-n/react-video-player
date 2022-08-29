@@ -1,3 +1,5 @@
+@import 'src/assets/styles/mixin.scss';
+
 .ws-reload-control {
   padding-left: 8px;
   line-height: 1;
@@ -5,5 +7,11 @@
   svg,
   use {
     cursor: pointer;
+  }
+
+  &:hover {
+    .ws-reload-control-icon {
+      animation: rotateAnimate .7s ease;
+    }
   }
 }
