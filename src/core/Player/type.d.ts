@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import type { FC, MouseEventHandler } from 'react';
 
 export type DefaultSize = {
     width: number;
@@ -28,5 +28,15 @@ export interface PlayerControllerInterface extends FC<PlayerControllerProps> {
 
 export interface ControlPanelProps {
 
+}
+
+export interface ControlPanelInterface extends FC<ControlPanelProps> {
+    PlayControl: FC<PlayControlProps>;
+}
+
+export interface PlayControlProps {
+    playing: boolean;
+    living: boolean;
+    onClick: MouseEventHandler<HTMLDivElement>;
 }
 
