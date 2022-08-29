@@ -32,11 +32,16 @@ export interface ControlPanelProps {
 
 export interface ControlPanelInterface extends FC<ControlPanelProps> {
     PlayControl: FC<PlayControlProps>;
+    ReloadControl: FC<ReloadControlProps>;
 }
 
 export interface PlayControlProps {
     playing: boolean;
     living: boolean;
+    onClick: MouseEventHandler<HTMLDivElement>;
+}
+
+export interface ReloadControlProps {
     onClick: MouseEventHandler<HTMLDivElement>;
 }
 

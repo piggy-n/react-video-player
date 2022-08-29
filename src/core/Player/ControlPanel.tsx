@@ -19,6 +19,11 @@ const ControlPanel: ControlPanelInterface = () => {
         console.log('playStatusHandler');
     };
 
+    const reloadHandler = () => {
+        // todo
+        console.log('reloadHandler');
+    };
+
     return (
         <div
             className={classes(cn, '')}
@@ -29,10 +34,12 @@ const ControlPanel: ControlPanelInterface = () => {
                 living={false}
                 onClick={playStatusHandler}
             />
+            <ControlPanel.ReloadControl onClick={reloadHandler}/>
         </div>
     );
 };
 
 ControlPanel.PlayControl = require('./PlayControl').default;
+ControlPanel.ReloadControl = require('./ReloadControl').default;
 
 export default ControlPanel;
