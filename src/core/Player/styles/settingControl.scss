@@ -1,0 +1,11 @@
+@import 'src/assets/styles/mixin.scss';
+
+.ws-setting-control {
+  padding-right: 8px;
+  line-height: 1;
+
+  svg,
+  use {
+    cursor: pointer;
+  }
+}

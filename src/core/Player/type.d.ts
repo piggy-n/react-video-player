@@ -37,6 +37,8 @@ export interface ControlPanelInterface extends FC<ControlPanelProps> {
     TransmissionRateViewer: FC<TransmissionRateViewerProps>;
     QualityControl: FC<QualityControlProps>;
     VideoFormatViewer: FC<VideoFormatViewerProps>;
+    SettingControl: FC<SettingControlProps>;
+    WebFullScreenControl: FC<WebFullScreenControlProps>;
 }
 
 export interface PlayControlProps {
@@ -56,7 +58,7 @@ export interface TimeControlProps {
 }
 
 export interface TransmissionRateViewerProps {
-    rate?: number;
+    rate?: string;
 }
 
 export interface QualityControlProps {
@@ -65,5 +67,13 @@ export interface QualityControlProps {
 
 export interface VideoFormatViewerProps {
     format?: string;
+}
+
+export interface SettingControlProps {
+
+}
+
+export interface WebFullScreenControlProps {
+
 }
 

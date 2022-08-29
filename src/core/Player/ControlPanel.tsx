@@ -44,9 +44,11 @@ const ControlPanel: ControlPanelInterface = () => {
                 />
             </div>
             <div className={classes(cn, 'right-warp')}>
-                <ControlPanel.VideoFormatViewer/>
+                <ControlPanel.VideoFormatViewer format={'H.265'}/>
                 <ControlPanel.QualityControl/>
-                <ControlPanel.TransmissionRateViewer/>
+                <ControlPanel.TransmissionRateViewer rate={'1.28Mbps'}/>
+                <ControlPanel.SettingControl/>
+                <ControlPanel.WebFullScreenControl/>
             </div>
         </div>
     );
@@ -58,5 +60,7 @@ ControlPanel.TimeControl = require('./TimeControl').default;
 ControlPanel.VideoFormatViewer = require('./VideoFormatViewer').default;
 ControlPanel.QualityControl = require('./QualityControl').default;
 ControlPanel.TransmissionRateViewer = require('./TransmissionRateViewer').default;
+ControlPanel.SettingControl = require('./SettingControl').default;
+ControlPanel.WebFullScreenControl = require('./WebFullScreenControl').default;
 
 export default ControlPanel;
