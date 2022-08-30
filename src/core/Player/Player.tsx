@@ -1,12 +1,13 @@
 import * as React from 'react';
 import { ResizableBox } from 'react-resizable';
-import {useMemo, useRef, useState} from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { classes } from '@/utils/methods/classes';
 import type { DefaultSize, PlayerInterface, PlayerProps } from '@/core/Player/type';
 import '@/assets/styles/resizableBox.css';
 import './styles/player.scss';
 import { useVideoModel } from '@/utils/hooks/useVideoModel';
 import { VideoContext } from '@/utils/hooks/useVideoContext';
+import { useVideo } from '@/utils/hooks/useVideo';
 
 const cn = 'Player';
 
@@ -22,6 +23,12 @@ const Player: PlayerInterface = (
 ) => {
     const videoContainerRef = useRef<HTMLDivElement>(null);
     const videoRef = useRef<HTMLVideoElement>(null);
+
+    useVideo(
+        videoRef.current as HTMLVideoElement,
+        [videoRef.current],
+    );
+
 
     const { videoModel, dispatch } = useVideoModel();
 
