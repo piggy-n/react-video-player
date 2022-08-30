@@ -4,11 +4,19 @@
   @include wh(100%, 100%);
   @include ps(absolute, auto, auto, 0, 50%);
   transform: translateX(-50%);
-  cursor: pointer;
+  //cursor: pointer;
+
+  &-play-or-pause-wrapper {
+    @include wh(100%, calc(100% - 40px));
+    @include ps(absolute, 0, auto, auto, 0);
+    outline: none;
+    z-index: 2;
+  }
 
   &-bottom-wrapper {
     @include ps(absolute, auto, auto, 0, 50%);
     width: 100%;
     transform: translateX(-50%);
+    z-index: 1;
   }
 }
