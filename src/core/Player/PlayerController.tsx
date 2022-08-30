@@ -22,6 +22,7 @@ const PlayerController: PlayerControllerInterface = (
     const mouseState = useReactive({
         mouseIsMoving: false,
         mouseIsOnController: false,
+        mouseCursor: 'pointer',
     });
 
     const playerControllerVisibleHandler = (status: 'enter' | 'leave') => {
@@ -39,7 +40,7 @@ const PlayerController: PlayerControllerInterface = (
 
         if (status === 'leave') {
             mouseState.mouseIsMoving = false;
-            (playerControllerRef.current as HTMLDivElement).style.cursor = 'pointer';
+            mouseState.mouseCursor = 'pointer';
         }
     };
 
@@ -63,8 +64,7 @@ const PlayerController: PlayerControllerInterface = (
                         !mouseState.mouseIsMoving &&
                         !mouseState.mouseIsOnController
                     ) {
-                        console.log(999);
-                        (playerControllerRef.current as HTMLDivElement).style.cursor = 'none';
+                        mouseState.mouseCursor = 'none';
 
                         dispatch({
                             type: 'controlled',
@@ -89,6 +89,7 @@ const PlayerController: PlayerControllerInterface = (
         <div
             ref={playerControllerRef}
             className={classes(cn, '')}
+            style={{ cursor: mouseState.mouseCursor }}
             onMouseEnter={() => playerControllerVisibleHandler('enter')}
             onMouseLeave={() => playerControllerVisibleHandler('leave')}
         >

@@ -4,7 +4,7 @@
   @include wh(100%, 100%);
   @include ps(absolute, auto, auto, 0, 50%);
   transform: translateX(-50%);
-  //cursor: pointer;
+  z-index: 1;
 
   &-play-or-pause-wrapper {
     @include wh(100%, calc(100% - 40px));
@@ -17,6 +17,6 @@
     @include ps(absolute, auto, auto, 0, 50%);
     width: 100%;
     transform: translateX(-50%);
-    z-index: 1;
+    z-index: 3;
   }
 }
