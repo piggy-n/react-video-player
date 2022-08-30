@@ -52,7 +52,7 @@ const PlayerController: PlayerControllerInterface = (
 
             dispatch({
                 type: 'controlled',
-                payload: true,
+                payload: !resizing,
             });
 
             inactivityTimeoutRef.current && clearTimeout(inactivityTimeoutRef.current);

@@ -4,12 +4,25 @@ import type { FC } from 'react';
 import Icon from '@/components/Icon';
 import type { SettingControlProps } from '@/core/Player/type';
 import './styles/settingControl.scss';
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { VideoContext } from '@/utils/hooks/useVideoContext';
 
 const cn = 'Setting-Control';
 
 const SettingControl: FC<SettingControlProps> = () => {
+    const {
+        videoModel: {
+            controlled
+        }
+    } = useContext(VideoContext);
+
     const [visible, setVisible] = useState<boolean>(false);
+
+    useEffect(() => {
+        if (visible && !controlled) {
+            setVisible(false);
+        }
+    }, [controlled]);
 
     return (
         <div className={classes(cn, '')}>
@@ -20,10 +33,7 @@ const SettingControl: FC<SettingControlProps> = () => {
             />
             {
                 visible &&
-                <div
-                    className={classes(cn, 'wrapper')}
-                    onMouseLeave={() => setVisible(false)}
-                >
+                <div className={classes(cn, 'wrapper')}>
                     <div className={classes(cn, 'item')}>
                         <Icon name={'screenshot-start'}/>
                         <p>截图</p>

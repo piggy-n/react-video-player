@@ -1,10 +1,21 @@
 @import 'src/assets/styles/mixin.scss';
 
 .ws-progress-bar {
+  @include ps(relative);
   transition: all 0.5s;
   width: 100%;
 
-  &-bg {
+  &-mask {
+    @include wh(100%, calc(100% + 6px));
+    @include ps(absolute, -3px, auto, auto, 0);
+    z-index: 3;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  &-wrapper {
     @include wh(100%, 4px);
     @include ps(relative);
     transition: all 0.3s;
