@@ -22,6 +22,7 @@ const ControlPanel: ControlPanelInterface = () => {
 
     const reloadHandler = () => {
         // todo
+        //
         console.log('reloadHandler');
     };
 
