@@ -94,16 +94,18 @@ const PlayerController: PlayerControllerInterface = (
                 onMouseLeave={() => playerControllerMouseStatusHandler('leave')}
             />
             <div
-                className={classes(cn, 'bottom-wrapper')}
+                className={classes(cn, 'controller-and-progress-wrapper')}
                 onMouseEnter={() => controllerPanelMouseStatusHandler('enter')}
                 onMouseLeave={() => controllerPanelMouseStatusHandler('leave')}
             >
+                <PlayerController.ProgressBar/>
                 <PlayerController.Panel/>
             </div>
         </div>
     );
 };
 
+PlayerController.ProgressBar = require('./ProgressBar').default;
 PlayerController.Panel = require('./ControlPanel').default;
 
 export default PlayerController;

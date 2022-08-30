@@ -1,0 +1,9 @@
+@import 'src/assets/styles/mixin.scss';
+
+.ws-progress-bar {
+  @include wh(100%, 5px);
+  transition: all 0.3s;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+  position: relative;
+}

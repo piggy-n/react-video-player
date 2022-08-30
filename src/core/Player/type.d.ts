@@ -23,12 +23,13 @@ export interface PlayerControllerProps {
 }
 
 export interface PlayerControllerInterface extends FC<PlayerControllerProps> {
-    Panel: FC<ControlPanelProps>;
+    Panel: FC;
+    ProgressBar: FC;
 }
 
-export interface ControlPanelProps {
-
-}
+// export interface ControlPanelProps {
+//
+// }
 
 export interface ControlPanelInterface extends FC<ControlPanelProps> {
     PlayControl: FC<PlayControlProps>;
