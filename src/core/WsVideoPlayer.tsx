@@ -2,6 +2,7 @@ import * as React from 'react';
 import Header from '@/core/Header';
 import Player from '@/core/Player';
 import { useState } from 'react';
+import '@/global.scss';
 import './wsVideoPlayer.scss';
 
 const Draggable = require('react-draggable');

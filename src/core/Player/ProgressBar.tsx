@@ -3,7 +3,7 @@ import { classes } from '@/utils/methods/classes';
 import './styles/progressBar.scss';
 import { useContext, useRef } from 'react';
 import { VideoContext } from '@/utils/hooks/useVideoContext';
-import { useProgressBarModel } from '@/utils/hooks/useProgressBarModel';
+// import { useProgressBarModel } from '@/utils/hooks/useProgressBarModel';
 
 const cn = 'Progress-Bar';
 
@@ -14,7 +14,7 @@ const ProgressBar = () => {
         }
     } = useContext(VideoContext);
 
-    const { progressBarModel, dispatch } = useProgressBarModel();
+    // const { progressBarModel, dispatch } = useProgressBarModel();
 
     const progressBgRef = useRef<HTMLDivElement>(null);
     const progressMaskRef = useRef<HTMLDivElement>(null);
