@@ -1,23 +1,36 @@
 import * as React from 'react';
-import { useRef } from 'react';
+import { forwardRef, useImperativeHandle, useRef } from 'react';
 import { classes } from '@/utils/methods/classes';
-import type { PlayerInterface, PlayerProps } from '@/core/Player/type';
+import { PlayerController } from '@/core/Player/index';
+import type { ForwardRefRenderFunction } from 'react';
+import type { PlayerProps, PlayerRef } from '@/core/Player/type';
 import './styles/player.scss';
+import { useVideo } from '@/utils/hooks/useVideo';
 
 const cn = 'Player';
 
-const Player: PlayerInterface = (
+const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
     {
         onMouseOver,
-    }: PlayerProps
+    },
+    ref
 ) => {
     const videoContainerRef = useRef<HTMLDivElement>(null);
     const videoRef = useRef<HTMLVideoElement>(null);
 
-    // const { videoAttributes, videoMethods } = useVideo(
-    //     videoRef.current as HTMLVideoElement,
-    //     [videoRef.current],
-    // );
+    const { videoAttributes, videoMethods } = useVideo(
+        videoRef.current as HTMLVideoElement,
+        [videoRef.current],
+    );
+
+    useImperativeHandle(
+        ref,
+        () => ({
+            video: videoRef.current as HTMLVideoElement,
+            ...videoAttributes,
+            ...videoMethods,
+        }),
+    );
 
     return (
         <div
@@ -26,11 +39,9 @@ const Player: PlayerInterface = (
             onMouseOver={() => onMouseOver(true)}
         >
             <video ref={videoRef}/>
-            <Player.Controller/>
+            <PlayerController/>
         </div>
     );
 };
 
-Player.Controller = require('./PlayerController').default;
-
-export default Player;
+export const Player = forwardRef<PlayerRef, PlayerProps>(InternalPlayer);

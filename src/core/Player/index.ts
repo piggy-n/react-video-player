@@ -1,4 +1,4 @@
-import Player from './Player';
+import { Player } from './Player';
 import PlayerController from './PlayerController';
 import ControlPanel from './ControlPanel';
 import PlayControl from './PlayControl';
@@ -22,4 +22,5 @@ export {
     VideoFormatViewer,
     WebFullScreenControl,
 };
+
 export default Player;

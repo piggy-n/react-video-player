@@ -61,7 +61,6 @@ const WsVideoPlayer = () => {
                     </div>
                 </div>
             </ResizableBox>
-
         </Draggable>
     );
 };

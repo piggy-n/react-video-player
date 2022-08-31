@@ -1,9 +1,7 @@
 import type { FC, MouseEventHandler } from 'react';
+import type { VideoAttributes, VideoMethods } from '@/types/video';
 
-export type DefaultSize = {
-    width: number;
-    height: number;
-}
+export type PlayerRef = VideoAttributes & VideoMethods & { video: HTMLVideoElement };
 
 export interface PlayerProps {
     width?: number;
@@ -12,14 +10,6 @@ export interface PlayerProps {
     minHeight?: number;
     resize?: boolean;
     onMouseOver: (arg: boolean) => void;
-}
-
-export interface PlayerInterface extends FC<PlayerProps> {
-    Controller: FC<PlayerControllerProps>;
-}
-
-export interface PlayerControllerProps {
-
 }
 
 export interface PlayerControllerInterface extends FC<PlayerControllerProps> {
