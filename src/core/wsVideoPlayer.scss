@@ -11,6 +11,7 @@
 
   .ws-player-wrapper {
     @include fr(flex-start);
+    width: 100%;
     flex: 1;
   }
 }

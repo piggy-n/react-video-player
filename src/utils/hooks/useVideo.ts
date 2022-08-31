@@ -60,9 +60,11 @@ export const useVideo = (ele: HTMLVideoElement, dep: DependencyList = []) => {
             });
 
             video.addEventListener('progress', () => {
-                setVideoArgsHandler({
-                    bufferedTime: video.buffered.end(0),
-                });
+                if (video.buffered.length >= 1) {
+                    setVideoArgsHandler({
+                        bufferedTime: video.buffered.end(0),
+                    });
+                }
             });
 
             video.addEventListener('enterpictureinpicture', () => {

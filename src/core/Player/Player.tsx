@@ -28,7 +28,11 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
 
     const forceUpdate = useMandatoryUpdate();
 
-    const { videoAttributes, videoMethods } = useVideo(
+    const {
+        videoAttributes,
+        videoMethods,
+        changePlayStatusHandler
+    } = useVideo(
         videoRef.current as HTMLVideoElement,
         [videoRef.current],
     );
@@ -42,6 +46,9 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
                 {
                     videoModel,
                     dispatch,
+                    videoRef: videoRef.current,
+                    videoContainerRef: videoContainerRef.current,
+                    changePlayStatusHandler
                 }
             );
         },
@@ -98,14 +105,17 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
             className={classes(cn, '')}
             onMouseOver={() => onMouseOver(true)}
         >
-            <video ref={videoRef}/>
+            <video
+                ref={videoRef}
+                // src={'https://gs-files.oss-cn-hongkong.aliyuncs.com/okr/test/file/2021/07/01/haiwang.mp4'}
+            />
             {
                 loading &&
-                <Icon
-                    name={'loading'}
-                    size={28}
-                    className={classes(cn, 'loading')}
-                />
+                <div className={classes(cn, 'loading')}>
+                    <Icon name={'loading'} size={24}/>
+                    <p>正在加载中...</p>
+                </div>
+
             }
             <VideoContext.Provider value={videoContextValue}>
                 <PlayerController/>

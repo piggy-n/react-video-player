@@ -11,7 +11,10 @@ const cn = 'Player-Controller';
 
 const PlayerController: PlayerControllerInterface = () => {
     const { resizing } = useContext(LayoutContext);
-    const { dispatch } = useContext(VideoContext);
+    const {
+        dispatch,
+        changePlayStatusHandler
+    } = useContext(VideoContext);
 
     const playerControllerRef = useRef<HTMLDivElement>(null);
     const inactivityTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -82,6 +85,7 @@ const PlayerController: PlayerControllerInterface = () => {
         <div
             ref={playerControllerRef}
             className={classes(cn, '')}
+            onClick={() => changePlayStatusHandler && changePlayStatusHandler()}
             onMouseEnter={() => playerControllerVisibleHandler('enter')}
             onMouseLeave={() => playerControllerVisibleHandler('leave')}
         >
