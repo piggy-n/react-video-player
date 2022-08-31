@@ -98,6 +98,7 @@ const PlayerController: PlayerControllerInterface = () => {
         <div
             ref={playerControllerRef}
             className={classes(cn, '')}
+            style={{ backgroundColor: ended ? 'rgba(0, 0, 0, 0.5)' : 'transparent' }}
             onMouseEnter={() => playerControllerVisibleHandler('enter')}
             onMouseLeave={() => playerControllerVisibleHandler('leave')}
         >
@@ -113,7 +114,7 @@ const PlayerController: PlayerControllerInterface = () => {
             >
                 {
                     !playing && !ended &&
-                    <Icon name={'player'} size={55}/>
+                    <Icon name={'player'} size={55} title={'播放'}/>
                 }
             </div>
             <div
@@ -122,7 +123,7 @@ const PlayerController: PlayerControllerInterface = () => {
             >
                 {
                     ended &&
-                    <Icon name={'replay'} size={55}/>
+                    <Icon name={'replay'} size={55} title={'重播'}/>
                 }
             </div>
             <div

@@ -83,19 +83,19 @@ export const useVideo = (ele: HTMLVideoElement, dep: DependencyList = []) => {
 
             video.addEventListener('play', () => {
                 setVideoArgsHandler({
-                    playing: video.paused,
+                    playing: !video.paused,
                 });
             });
 
             video.addEventListener('pause', () => {
                 setVideoArgsHandler({
-                    playing: video.paused,
+                    playing: !video.paused,
                 });
             });
 
             video.addEventListener('timeupdate', () => {
                 setVideoArgsHandler({
-                    playing: video.paused,
+                    playing: !video.paused,
                 });
             });
 
