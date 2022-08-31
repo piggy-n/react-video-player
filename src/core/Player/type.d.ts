@@ -19,7 +19,7 @@ export interface PlayerInterface extends FC<PlayerProps> {
 }
 
 export interface PlayerControllerProps {
-    resizing: boolean;
+
 }
 
 export interface PlayerControllerInterface extends FC<PlayerControllerProps> {

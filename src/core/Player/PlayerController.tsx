@@ -4,17 +4,18 @@ import './styles/playerController.scss';
 import { useContext, useRef } from 'react';
 import { useRafInterval, useReactive } from 'ahooks';
 import { VideoContext } from '@/utils/hooks/useVideoContext';
-import type { PlayerControllerInterface, PlayerControllerProps } from '@/core/Player/type';
+import type { PlayerControllerInterface } from '@/core/Player/type';
 import type { Timeout } from 'ahooks/es/useRequest/src/types';
 
 const cn = 'Player-Controller';
 
-const PlayerController: PlayerControllerInterface = (
-    {
-        resizing
-    }: PlayerControllerProps
-) => {
-    const { dispatch } = useContext(VideoContext);
+const PlayerController: PlayerControllerInterface = () => {
+    const {
+        videoModel: {
+            resizing
+        },
+        dispatch
+    } = useContext(VideoContext);
 
     const playerControllerRef = useRef<HTMLDivElement>(null);
     const inactivityTimeoutRef = useRef<Timeout | null>(null);

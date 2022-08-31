@@ -1,9 +1,17 @@
 @import 'src/assets/styles/mixin.scss';
 
 .ws-video-player-container {
+  @include wh(100%, 100%);
   @include ps(absolute);
+  @include fd(flex-start);
   border: 2px solid rgba(30, 96, 121, 1);
   user-select: none;
   margin: 0;
   z-index: 1;
+
+  .ws-player-wrapper {
+    @include fr(flex-start);
+    flex: 1;
+  }
 }
+
