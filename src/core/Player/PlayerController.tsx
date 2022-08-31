@@ -7,19 +7,13 @@ import { VideoContext } from '@/utils/hooks/useVideoContext';
 import { LayoutContext } from '@/utils/hooks/useLayoutContext';
 import type { PlayerControllerInterface } from '@/core/Player/type';
 import Icon from '@/components/Icon';
+import { useVideo } from '@/utils/hooks/useVideo';
 
 const cn = 'Player-Controller';
 
 const PlayerController: PlayerControllerInterface = () => {
     const { resizing } = useContext(LayoutContext);
-    const {
-        dispatch,
-        changePlayStatusHandler,
-        playing,
-        ended,
-        totalTime,
-        currentTime,
-    } = useContext(VideoContext);
+    const { dispatch, videoRef } = useContext(VideoContext);
 
     const playerControllerRef = useRef<HTMLDivElement>(null);
     const inactivityTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -28,6 +22,15 @@ const PlayerController: PlayerControllerInterface = () => {
         mouseIsMoving: false,
         mouseIsOnController: false,
     });
+
+    const {
+        changePlayStatusHandler,
+        playing,
+        ended,
+    } = useVideo(
+        videoRef as HTMLVideoElement,
+        [videoRef]
+    );
 
     const playerControllerVisibleHandler = (status: 'enter' | 'leave') => {
         dispatch({

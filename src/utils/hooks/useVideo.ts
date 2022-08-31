@@ -53,6 +53,8 @@ export const useVideo = (ele: HTMLVideoElement, dep: DependencyList = []) => {
         if (videoEle.current) {
             const video = videoEle.current;
 
+            video.volume = 0;
+
             video.addEventListener('canplay', () => {
                 setVideoArgsHandler({
                     totalTime: video.duration,
@@ -109,15 +111,18 @@ export const useVideo = (ele: HTMLVideoElement, dep: DependencyList = []) => {
                 });
             });
 
-            videoInterval.current = setInterval(() => {
-                forceUpdate();
+            videoInterval.current = setInterval(
+                () => {
+                    forceUpdate();
 
-                setVideoArgsHandler({
-                    currentTime: video.currentTime,
-                    playing: !video.paused,
-                    ended: video.ended,
-                });
-            });
+                    setVideoArgsHandler({
+                        currentTime: video.currentTime,
+                        playing: !video.paused,
+                        ended: video.ended,
+                    });
+                },
+                1
+            );
         }
 
         return () => {

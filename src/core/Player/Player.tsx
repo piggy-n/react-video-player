@@ -26,15 +26,10 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
     const videoRef = useRef<HTMLVideoElement>(null);
     const videoUsefulTimerRef = useRef<NodeJS.Timer | null>(null);
 
-    const {
-        videoAttributes,
-        videoMethods,
-        changePlayStatusHandler,
-        playing,
-        ended,
-        totalTime,
-        currentTime,
-    } = useVideo(videoRef.current as HTMLVideoElement, [videoRef.current]);
+    const { videoAttributes, videoMethods } = useVideo(
+        videoRef.current as HTMLVideoElement,
+        [videoRef.current]
+    );
 
     const { videoModel, dispatch } = useVideoModel();
 
@@ -47,11 +42,6 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
                     dispatch,
                     videoRef: videoRef.current,
                     videoContainerRef: videoContainerRef.current,
-                    changePlayStatusHandler,
-                    playing,
-                    ended,
-                    totalTime,
-                    currentTime,
                 }
             );
         },
@@ -103,7 +93,7 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
 
             videoUsefulTimerRef.current && clearTimeout(videoUsefulTimerRef.current as NodeJS.Timer);
         };
-    }, [videoRef.current, playing]);
+    }, [videoRef.current]);
 
     return (
         <div
