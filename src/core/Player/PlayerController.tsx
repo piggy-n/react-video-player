@@ -32,7 +32,7 @@ const PlayerController: PlayerControllerInterface = () => {
     const playerControllerVisibleHandler = (status: 'enter' | 'leave') => {
         dispatch({
             type: 'controlled',
-            payload: status === 'enter' && !resizing,
+            payload: status === 'enter' && !resizing && !ended,
         });
     };
 
@@ -57,7 +57,7 @@ const PlayerController: PlayerControllerInterface = () => {
 
             dispatch({
                 type: 'controlled',
-                payload: !resizing,
+                payload: !resizing && !ended,
             });
 
             inactivityTimeoutRef.current && clearTimeout(inactivityTimeoutRef.current);
@@ -76,6 +76,11 @@ const PlayerController: PlayerControllerInterface = () => {
                 2000
             );
         }
+    };
+
+    const endBtnClickHandler = () => {
+        changePlayStatusHandler && changePlayStatusHandler();
+        playerControllerVisibleHandler('enter');
     };
 
     useRafInterval(
@@ -100,12 +105,21 @@ const PlayerController: PlayerControllerInterface = () => {
                 onClick={() => changePlayStatusHandler && changePlayStatusHandler()}
             />
             <div
-                className={classes(cn, 'pause-btn')}
+                className={classes(cn, 'pause-or-replay-btn')}
                 onClick={() => changePlayStatusHandler && changePlayStatusHandler()}
             >
                 {
                     !playing && !ended &&
                     <Icon name={'player'} size={55}/>
+                }
+            </div>
+            <div
+                className={classes(cn, 'pause-or-replay-btn')}
+                onClick={endBtnClickHandler}
+            >
+                {
+                    ended &&
+                    <Icon name={'replay'} size={55}/>
                 }
             </div>
             <div

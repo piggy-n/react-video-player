@@ -86,6 +86,7 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
             () => {
                 if (videoEle.networkState === 0 || videoEle.networkState === 3) {
                     console.error('Video is not loaded');
+                    setLoading(false);
                 } else {
                     clearTimeout(videoUsefulTimerRef.current as NodeJS.Timer);
                 }
@@ -102,7 +103,7 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
 
             videoUsefulTimerRef.current && clearTimeout(videoUsefulTimerRef.current as NodeJS.Timer);
         };
-    }, [videoRef.current]);
+    }, [videoRef.current, playing]);
 
     return (
         <div
@@ -112,7 +113,7 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
         >
             <video
                 ref={videoRef}
-                src={'https://gs-files.oss-cn-hongkong.aliyuncs.com/okr/test/file/2021/07/01/haiwang.mp4'}
+                src={'https://qiniu.qyhever.com/162962488432086ba29652658echrome.mp4'}
             />
             {
                 loading &&
