@@ -2,15 +2,15 @@ import * as React from 'react';
 import './styles/header.scss';
 import { classes } from '@/utils/methods/classes';
 import type { MouseEventHandler } from 'react';
-import type { HeaderInterface, HeaderProps } from '@/core/Header/type';
+import type { HeaderInterface } from '@/core/Header/type';
+import { useContext } from 'react';
+import { LayoutContext } from '@/utils/hooks/useLayoutContext';
 
 const cn = 'Header';
 
-const Header: HeaderInterface = (
-    {
-        onMouseOver
-    }: HeaderProps
-) => {
+const Header: HeaderInterface = () => {
+    const { onMouseOver } = useContext(LayoutContext);
+
     const mouseOverHandler: MouseEventHandler = (e) => {
         const { target } = e;
         const targetEleName = (target as Record<string, any>)?.tagName;

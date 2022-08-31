@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 
 export interface HeaderProps {
-    onMouseOver: (arg: boolean) => void;
+    // onMouseOver: (arg: boolean) => void;
 }
 
 export interface HeaderInterface extends FC<HeaderProps> {

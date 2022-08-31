@@ -4,17 +4,14 @@ import './styles/playerController.scss';
 import { useContext, useRef } from 'react';
 import { useRafInterval, useReactive } from 'ahooks';
 import { VideoContext } from '@/utils/hooks/useVideoContext';
+import { LayoutContext } from '@/utils/hooks/useLayoutContext';
 import type { PlayerControllerInterface } from '@/core/Player/type';
 
 const cn = 'Player-Controller';
 
 const PlayerController: PlayerControllerInterface = () => {
-    const {
-        videoModel: {
-            resizing
-        },
-        dispatch
-    } = useContext(VideoContext);
+    const { resizing } = useContext(LayoutContext);
+    const { dispatch } = useContext(VideoContext);
 
     const playerControllerRef = useRef<HTMLDivElement>(null);
     const inactivityTimeoutRef = useRef<NodeJS.Timeout | null>(null);

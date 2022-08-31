@@ -9,7 +9,6 @@ export interface PlayerProps {
     minWidth?: number;
     minHeight?: number;
     resize?: boolean;
-    onMouseOver: (arg: boolean) => void;
 }
 
 export interface PlayerControllerInterface extends FC<PlayerControllerProps> {

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
+import { forwardRef, useContext, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import { classes } from '@/utils/methods/classes';
 import { PlayerController } from '@/core/Player/index';
 import type { ForwardRefRenderFunction } from 'react';
@@ -8,15 +8,18 @@ import './styles/player.scss';
 import { useVideo } from '@/utils/hooks/useVideo';
 import useMandatoryUpdate from '@/utils/hooks/useMandatoryUpdate';
 import Icon from '@/components/Icon';
+import { useVideoModel } from '@/utils/hooks/useVideoModel';
+import { LayoutContext } from '@/utils/hooks/useLayoutContext';
+import { VideoContext } from '@/utils/hooks/useVideoContext';
 
 const cn = 'Player';
 
 const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
-    {
-        onMouseOver,
-    },
+    props,
     ref
 ) => {
+    const { onMouseOver } = useContext(LayoutContext);
+
     const [loading, setLoading] = useState<boolean>(false);
 
     const videoContainerRef = useRef<HTMLDivElement>(null);
@@ -28,6 +31,21 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
     const { videoAttributes, videoMethods } = useVideo(
         videoRef.current as HTMLVideoElement,
         [videoRef.current],
+    );
+
+    const { videoModel, dispatch } = useVideoModel();
+
+    const videoContextValue = useMemo(
+        () => {
+            return Object.assign(
+                {},
+                {
+                    videoModel,
+                    dispatch,
+                }
+            );
+        },
+        [videoModel, dispatch]
     );
 
     const waitingListener = () => {
@@ -48,9 +66,9 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
     );
 
     useEffect(() => {
-        forceUpdate();
-
         const videoEle = videoRef.current as HTMLVideoElement;
+
+        forceUpdate();
 
         videoUsefulTimerRef.current = setTimeout(
             () => {
@@ -69,6 +87,7 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
         return () => {
             videoEle.removeEventListener('waiting', waitingListener);
             videoEle.removeEventListener('playing', playingListener);
+
             videoUsefulTimerRef.current && clearTimeout(videoUsefulTimerRef.current as NodeJS.Timer);
         };
     }, [videoRef.current]);
@@ -88,7 +107,9 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
                     className={classes(cn, 'loading')}
                 />
             }
-            <PlayerController/>
+            <VideoContext.Provider value={videoContextValue}>
+                <PlayerController/>
+            </VideoContext.Provider>
         </div>
     );
 };
