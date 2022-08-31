@@ -13,6 +13,13 @@
     z-index: 2;
   }
 
+  &-pause-btn {
+    @include ps(absolute, 50%, auto, auto, 50%);
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    z-index: 2;
+  }
+
   &-controller-and-progress-wrapper {
     @include ps(absolute, auto, auto, 0, 50%);
     width: 100%;

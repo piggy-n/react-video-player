@@ -26,16 +26,15 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
     const videoRef = useRef<HTMLVideoElement>(null);
     const videoUsefulTimerRef = useRef<NodeJS.Timer | null>(null);
 
-    const forceUpdate = useMandatoryUpdate();
-
     const {
         videoAttributes,
         videoMethods,
-        changePlayStatusHandler
-    } = useVideo(
-        videoRef.current as HTMLVideoElement,
-        [videoRef.current],
-    );
+        changePlayStatusHandler,
+        playing,
+        ended,
+        totalTime,
+        currentTime,
+    } = useVideo(videoRef.current as HTMLVideoElement, [videoRef.current]);
 
     const { videoModel, dispatch } = useVideoModel();
 
@@ -48,12 +47,18 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
                     dispatch,
                     videoRef: videoRef.current,
                     videoContainerRef: videoContainerRef.current,
-                    changePlayStatusHandler
+                    changePlayStatusHandler,
+                    playing,
+                    ended,
+                    totalTime,
+                    currentTime,
                 }
             );
         },
         [videoModel, dispatch]
     );
+
+    const forceUpdate = useMandatoryUpdate();
 
     const waitingListener = () => {
         setLoading(true);
@@ -107,7 +112,7 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
         >
             <video
                 ref={videoRef}
-                // src={'https://gs-files.oss-cn-hongkong.aliyuncs.com/okr/test/file/2021/07/01/haiwang.mp4'}
+                src={'https://gs-files.oss-cn-hongkong.aliyuncs.com/okr/test/file/2021/07/01/haiwang.mp4'}
             />
             {
                 loading &&
@@ -115,7 +120,6 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
                     <Icon name={'loading'} size={24}/>
                     <p>正在加载中...</p>
                 </div>
-
             }
             <VideoContext.Provider value={videoContextValue}>
                 <PlayerController/>

@@ -9,6 +9,10 @@ export interface VideoContextType {
     videoRef: HTMLVideoElement | null;
     videoContainerRef: HTMLElement | null;
     changePlayStatusHandler: () => void;
+    playing: boolean;
+    ended: boolean;
+    totalTime: number;
+    currentTime: number;
 }
 
 export const defaultValue: Partial<VideoContextType> = {

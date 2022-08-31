@@ -6,6 +6,7 @@ import { useRafInterval, useReactive } from 'ahooks';
 import { VideoContext } from '@/utils/hooks/useVideoContext';
 import { LayoutContext } from '@/utils/hooks/useLayoutContext';
 import type { PlayerControllerInterface } from '@/core/Player/type';
+import Icon from '@/components/Icon';
 
 const cn = 'Player-Controller';
 
@@ -13,7 +14,11 @@ const PlayerController: PlayerControllerInterface = () => {
     const { resizing } = useContext(LayoutContext);
     const {
         dispatch,
-        changePlayStatusHandler
+        changePlayStatusHandler,
+        playing,
+        ended,
+        totalTime,
+        currentTime,
     } = useContext(VideoContext);
 
     const playerControllerRef = useRef<HTMLDivElement>(null);
@@ -85,7 +90,6 @@ const PlayerController: PlayerControllerInterface = () => {
         <div
             ref={playerControllerRef}
             className={classes(cn, '')}
-            onClick={() => changePlayStatusHandler && changePlayStatusHandler()}
             onMouseEnter={() => playerControllerVisibleHandler('enter')}
             onMouseLeave={() => playerControllerVisibleHandler('leave')}
         >
@@ -93,7 +97,17 @@ const PlayerController: PlayerControllerInterface = () => {
                 className={classes(cn, 'play-or-pause-wrapper')}
                 onMouseMove={() => playerControllerMouseStatusHandler('move')}
                 onMouseLeave={() => playerControllerMouseStatusHandler('leave')}
+                onClick={() => changePlayStatusHandler && changePlayStatusHandler()}
             />
+            <div
+                className={classes(cn, 'pause-btn')}
+                onClick={() => changePlayStatusHandler && changePlayStatusHandler()}
+            >
+                {
+                    !playing && !ended &&
+                    <Icon name={'player'} size={55}/>
+                }
+            </div>
             <div
                 className={classes(cn, 'controller-and-progress-wrapper')}
                 onMouseEnter={() => controllerPanelMouseStatusHandler('enter')}
