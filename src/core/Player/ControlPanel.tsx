@@ -32,7 +32,7 @@ const ControlPanel: ControlPanelInterface = () => {
     return (
         <div
             className={classes(cn, '')}
-            style={{ opacity: controlled ? 1 : 1 }}
+            style={{ opacity: controlled ? 1 : 0 }}
         >
             <div className={classes(cn, 'left-warp')}>
                 <ControlPanel.PlayControl

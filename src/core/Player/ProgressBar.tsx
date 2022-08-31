@@ -7,7 +7,7 @@ import { useVideo } from '@/utils/hooks/useVideo';
 import useWindowClient from '@/utils/hooks/useWindowClient';
 import { useProgressBarModel } from '@/utils/hooks/useProgressBarModel';
 import { hoverStylesHandler } from '@/utils/methods/hoverStylesHandler';
-import { percentToSeconds } from '@/utils/methods/time';
+import { percentToSeconds, toMinutesAndSeconds } from '@/utils/methods/time';
 
 const cn = 'Progress-Bar';
 
@@ -30,7 +30,8 @@ const ProgressBar = () => {
         progressBarModel: {
             suspending,
             dragging,
-            percentage
+            percentage,
+            position
         },
         dispatch
     } = useProgressBarModel();
@@ -55,7 +56,7 @@ const ProgressBar = () => {
 
     const { clientX } = useWindowClient();
 
-    distanceOfClientXRef.current = clientX
+    distanceOfClientXRef.current = clientX;
 
     const mouseDownHandler = () => {
         const progressMaskEleOffsetWidth = progressMaskRef.current!.offsetWidth;
@@ -191,7 +192,7 @@ const ProgressBar = () => {
     return (
         <div
             className={classes(cn, '')}
-            style={{ opacity: controlled ? 1 : 1 }}
+            style={{ opacity: controlled ? 1 : 0 }}
         >
             <div
                 ref={progressMaskRef}
@@ -223,6 +224,20 @@ const ProgressBar = () => {
                         style={{ background: 'rgba(22, 174, 224, 1)' }}
                     />
                 </div>
+                {
+                    suspending &&
+                    <>
+                        <div
+                            className={classes(cn, 'pointer')}
+                            style={{ left: `${position}px`, }}
+                        >
+                            <i/>
+                            <span>
+                                {toMinutesAndSeconds(totalTime, percentage)}
+                            </span>
+                        </div>
+                    </>
+                }
             </div>
         </div>
     );

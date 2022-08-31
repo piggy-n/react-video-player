@@ -36,12 +36,32 @@
 
       .control-point {
         transition: all 0.3s;
-        @include wh(9px, 9px);
+        @include wh(10px, 10px);
         @include ps(absolute, -50%, -5px, auto, auto);
         border-radius: 50%;
+        margin-top: 2px;
+      }
+    }
+
+    .ws-progress-bar-pointer {
+      @include ps(absolute, 0, auto, auto, auto);
+
+      i {
+        @include wh(0, 0);
+        @include ps(absolute, -5px, auto, auto, -4px);
+        border-top: 4px solid rgba(22, 174, 224, 1);
+        border-right: 4px solid transparent;
+        border-bottom: 4px solid transparent;
+        border-left: 4px solid transparent;
+      }
+
+      span {
+        @include ps(absolute, -30px, auto, auto, 50%);
+        @include style(12px, rgba(239, 242, 246, 1));
+        transform: translateX(-50%);
+        background-color: rgba(0, 0, 0, 0.6);
+        padding: 1px 4px;
       }
     }
   }
-
-
 }

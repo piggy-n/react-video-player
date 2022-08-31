@@ -1,9 +1,9 @@
-export const percentToSeconds = (percent: number, timeSeconds: number) => {
-    return percent * timeSeconds;
+export const percentToSeconds = (percentage: number, timeSeconds: number) => {
+    return percentage * timeSeconds;
 };
 
-export const toMinutesAndSeconds = (timeSeconds: number, percent?: number) => {
-    const currentTime = percent ? percent * timeSeconds : timeSeconds;
+export const toMinutesAndSeconds = (timeSeconds: number, percentage?: number) => {
+    const currentTime = percentage ? percentage * timeSeconds : timeSeconds;
     const m = Math.floor(currentTime / 60);
     const s = Math.floor(currentTime % 60);
 
