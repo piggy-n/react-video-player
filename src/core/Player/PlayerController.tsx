@@ -15,7 +15,6 @@ const PlayerController: PlayerControllerInterface = () => {
     const { resizing } = useContext(LayoutContext);
     const { dispatch, videoRef } = useContext(VideoContext);
 
-    const playerControllerRef = useRef<HTMLDivElement>(null);
     const inactivityTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
     const mouseState = useReactive({
@@ -96,7 +95,6 @@ const PlayerController: PlayerControllerInterface = () => {
 
     return (
         <div
-            ref={playerControllerRef}
             className={classes(cn, '')}
             style={{ backgroundColor: ended ? 'rgba(0, 0, 0, 0.5)' : 'transparent' }}
             onMouseEnter={() => playerControllerVisibleHandler('enter')}
