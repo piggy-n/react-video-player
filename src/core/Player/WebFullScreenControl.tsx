@@ -10,7 +10,7 @@ const cn = 'Web-Full-Screen-Control';
 const WebFullScreenControl: FC<WebFullScreenControlProps> = () => {
     return (
         <div className={classes(cn, '')}>
-            <Icon name={'web-fullscreen'} title={'网页全屏'} size={18}/>
+            <Icon name={'web-fullscreen'} title={'网页全屏'}/>
         </div>
     );
 };
