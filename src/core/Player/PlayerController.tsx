@@ -5,7 +5,6 @@ import { useContext, useRef } from 'react';
 import { useRafInterval, useReactive } from 'ahooks';
 import { VideoContext } from '@/utils/hooks/useVideoContext';
 import type { PlayerControllerInterface } from '@/core/Player/type';
-import type { Timeout } from 'ahooks/es/useRequest/src/types';
 
 const cn = 'Player-Controller';
 
@@ -18,7 +17,7 @@ const PlayerController: PlayerControllerInterface = () => {
     } = useContext(VideoContext);
 
     const playerControllerRef = useRef<HTMLDivElement>(null);
-    const inactivityTimeoutRef = useRef<Timeout | null>(null);
+    const inactivityTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
     const mouseState = useReactive({
         mouseIsMoving: false,

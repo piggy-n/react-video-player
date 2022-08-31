@@ -1,6 +1,7 @@
-import { DependencyList, useEffect, useMemo, useRef } from 'react';
+import type { DependencyList } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import useMandatoryUpdate from '@/utils/hooks/useMandatoryUpdate';
-import { VideoAttributes, VideoMethods } from '@/types/video';
+import type { VideoAttributes, VideoMethods } from '@/types/video';
 import { useLatest } from 'ahooks';
 
 export interface UseVideo extends VideoAttributes {
