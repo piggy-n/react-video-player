@@ -10,5 +10,5 @@ export const toMinutesAndSeconds = (timeSeconds: number, percent?: number) => {
     const minutes = m.toString().length > 1 ? m.toString() : `0${m.toString()}`;
     const seconds = s.toString().length > 1 ? s.toString() : `0${s.toString()}`;
 
-    return `${minutes}:${seconds}`;
+    return `${minutes === 'NaN' ? '--' : minutes}:${seconds === 'NaN' ? '--' : seconds}`;
 };

@@ -53,8 +53,6 @@ export const useVideo = (ele: HTMLVideoElement, dep: DependencyList = []) => {
         if (videoEle.current) {
             const video = videoEle.current;
 
-            video.volume = 0;
-
             video.addEventListener('canplay', () => {
                 setVideoArgsHandler({
                     totalTime: video.duration,
@@ -117,6 +115,7 @@ export const useVideo = (ele: HTMLVideoElement, dep: DependencyList = []) => {
 
                     setVideoArgsHandler({
                         currentTime: video.currentTime,
+                        totalTime: video.duration,
                         playing: !video.paused,
                         ended: video.ended,
                     });

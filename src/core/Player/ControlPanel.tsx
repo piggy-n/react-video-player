@@ -5,6 +5,7 @@ import { VideoContext } from '@/utils/hooks/useVideoContext';
 import './styles/controlPanel.scss';
 import type { ControlPanelInterface } from '@/core/Player/type';
 import { toMinutesAndSeconds } from '@/utils/methods/time';
+import { useVideo } from '@/utils/hooks/useVideo';
 
 const cn = 'Control-Panel';
 
@@ -12,19 +13,21 @@ const ControlPanel: ControlPanelInterface = () => {
     const {
         videoModel: {
             controlled
-        }
+        },
+        videoRef
     } = useContext(VideoContext);
 
-    const playStatusHandler = () => {
-        // todo
-        console.log('playStatusHandler');
-    };
-
-    const reloadHandler = () => {
-        // todo
-        //
-        console.log('reloadHandler');
-    };
+    const {
+        playing,
+        // inPip,
+        totalTime,
+        currentTime,
+        changePlayStatusHandler,
+        // videoMethods
+    } = useVideo(
+        videoRef as HTMLVideoElement,
+        [videoRef]
+    );
 
     return (
         <div
@@ -33,15 +36,15 @@ const ControlPanel: ControlPanelInterface = () => {
         >
             <div className={classes(cn, 'left-warp')}>
                 <ControlPanel.PlayControl
-                    playing={true}
+                    playing={playing}
                     living={false}
-                    onClick={playStatusHandler}
+                    onClick={() => changePlayStatusHandler && changePlayStatusHandler()}
                 />
-                <ControlPanel.ReloadControl onClick={reloadHandler}/>
+                <ControlPanel.ReloadControl onClick={() => videoRef?.load()}/>
                 <ControlPanel.TimeViewer
                     living={false}
-                    currentTime={toMinutesAndSeconds(123)}
-                    totalTime={toMinutesAndSeconds(232)}
+                    currentTime={toMinutesAndSeconds(currentTime)}
+                    totalTime={toMinutesAndSeconds(totalTime)}
                 />
             </div>
             <div className={classes(cn, 'right-warp')}>

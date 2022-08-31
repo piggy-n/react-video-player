@@ -26,7 +26,7 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
     const videoRef = useRef<HTMLVideoElement>(null);
     const videoUsefulTimerRef = useRef<NodeJS.Timer | null>(null);
 
-    const { videoAttributes, videoMethods } = useVideo(
+    const { videoAttributes, videoMethods, playing } = useVideo(
         videoRef.current as HTMLVideoElement,
         [videoRef.current]
     );
@@ -93,7 +93,7 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
 
             videoUsefulTimerRef.current && clearTimeout(videoUsefulTimerRef.current as NodeJS.Timer);
         };
-    }, [videoRef.current]);
+    }, [videoRef.current, playing]);
 
     return (
         <div
@@ -103,6 +103,7 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
         >
             <video
                 ref={videoRef}
+                muted={true}
                 src={'https://qiniu.qyhever.com/162962488432086ba29652658echrome.mp4'}
             />
             {
