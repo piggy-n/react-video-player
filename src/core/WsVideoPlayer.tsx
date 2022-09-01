@@ -16,12 +16,14 @@ const WsVideoPlayer = () => {
     const [size, setSize] = useState({ width: 482, height: 312 });
     const [resizing, setResizing] = useState<boolean>(false);
     const [resizeHandlesArr, setResizeHandlesArr] = useState<ResizeHandle[] | undefined>(['se', 'e', 's']);
+    const [position, setPosition] = useState<{ x: number, y: number } | null>(null);
 
     const mouseOverHandler = (arg: boolean) => {
         setDisabled(arg);
     };
 
     const webFullScreenHandler = (arg: boolean) => {
+        setPosition(arg ? { x: 0, y: 0 } : null);
         setResizeHandlesArr(arg ? [] : ['se', 'e', 's']);
     };
 
@@ -33,7 +35,11 @@ const WsVideoPlayer = () => {
                 onWebFullScreen: webFullScreenHandler,
             }}
         >
-            <Draggable bounds={'parent'} disabled={disabled}>
+            <Draggable
+                bounds={'parent'}
+                disabled={disabled}
+                position={position}
+            >
                 <ResizableBox
                     width={size.width}
                     height={size.height}
