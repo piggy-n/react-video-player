@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { classes } from '@/utils/methods/classes';
 import './styles/progressBar.scss';
+import useWindowClient from '@/utils/hooks/useWindowClient';
 import type { MouseEventHandler } from 'react';
 import { useContext, useEffect, useMemo, useRef } from 'react';
 import { VideoContext } from '@/utils/hooks/useVideoContext';
 import { useVideo } from '@/utils/hooks/useVideo';
-import useWindowClient from '@/utils/hooks/useWindowClient';
 import { useProgressBarModel } from '@/utils/hooks/useProgressBarModel';
 import { hoverStylesHandler } from '@/utils/methods/hoverStylesHandler';
 import { percentToSeconds, toMinutesAndSeconds } from '@/utils/methods/time';
