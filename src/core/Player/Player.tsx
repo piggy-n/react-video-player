@@ -40,8 +40,8 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
                 {
                     videoModel,
                     dispatch,
-                    videoRef: videoRef.current,
-                    videoContainerRef: videoContainerRef.current,
+                    videoEle: videoRef.current,
+                    videoContainerEle: videoContainerRef.current,
                 }
             );
         },

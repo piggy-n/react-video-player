@@ -13,7 +13,7 @@ const cn = 'Player-Controller';
 
 const PlayerController: PlayerControllerInterface = () => {
     const { resizing } = useContext(LayoutContext);
-    const { dispatch, videoRef } = useContext(VideoContext);
+    const { dispatch, videoEle } = useContext(VideoContext);
 
     const inactivityTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -27,8 +27,8 @@ const PlayerController: PlayerControllerInterface = () => {
         playing,
         ended,
     } = useVideo(
-        videoRef as HTMLVideoElement,
-        [videoRef]
+        videoEle as HTMLVideoElement,
+        [videoEle]
     );
 
     const playerControllerVisibleHandler = (status: 'enter' | 'leave') => {

@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { classes } from '@/utils/methods/classes';
 import './styles/progressBar.scss';
-import { MouseEventHandler, useContext, useEffect, useMemo, useRef } from 'react';
+import type { MouseEventHandler } from 'react';
+import { useContext, useEffect, useMemo, useRef } from 'react';
 import { VideoContext } from '@/utils/hooks/useVideoContext';
 import { useVideo } from '@/utils/hooks/useVideo';
 import useWindowClient from '@/utils/hooks/useWindowClient';
@@ -16,7 +17,7 @@ const ProgressBar = () => {
         videoModel: {
             controlled
         },
-        videoRef
+        videoEle
     } = useContext(VideoContext);
 
     const distanceOfClientXRef = useRef<number>(0);
@@ -41,8 +42,8 @@ const ProgressBar = () => {
         totalTime,
         bufferedTime
     } = useVideo(
-        videoRef as HTMLVideoElement,
-        [videoRef]
+        videoEle as HTMLVideoElement,
+        [videoEle]
     );
 
     const bufferedPercentage = useMemo(
@@ -89,15 +90,15 @@ const ProgressBar = () => {
                         payload: true
                     });
 
-                    videoRef!.currentTime = percentToSeconds(percentage, totalTime);
+                    videoEle!.currentTime = percentToSeconds(percentage, totalTime);
                 }
 
                 if (position < 0) {
-                    videoRef!.currentTime = 0;
+                    videoEle!.currentTime = 0;
                 }
 
                 if (position > progressMaskEleOffsetWidth) {
-                    videoRef!.currentTime = totalTime;
+                    videoEle!.currentTime = totalTime;
                 }
             },
             1
@@ -108,7 +109,7 @@ const ProgressBar = () => {
         bIntervalRef.current && clearInterval(bIntervalRef.current);
 
         if (currentTime < totalTime && dragging) {
-            videoRef?.play();
+            videoEle?.play();
 
             dispatch({
                 type: 'dragging',
@@ -149,7 +150,7 @@ const ProgressBar = () => {
     };
 
     const clickHandler = () => {
-        videoRef!.currentTime = percentToSeconds(percentage, totalTime);
+        videoEle!.currentTime = percentToSeconds(percentage, totalTime);
 
         dispatch({
             type: 'suspending',

@@ -6,14 +6,14 @@ import type { VideoModelState, MergeActionType } from '@/utils/hooks/useVideoMod
 export interface VideoContextType {
     dispatch: Dispatch<MergeActionType>;
     videoModel: VideoModelState;
-    videoRef: HTMLVideoElement | null;
-    videoContainerRef: HTMLElement | null;
+    videoEle: HTMLVideoElement | null;
+    videoContainerEle: HTMLElement | null;
 }
 
 export const defaultValue: Partial<VideoContextType> = {
     videoModel: initialState,
-    videoRef: null,
-    videoContainerRef: null,
+    videoEle: null,
+    videoContainerEle: null,
 };
 
 export const VideoContext = createContext<VideoContextType>(<VideoContextType>defaultValue);

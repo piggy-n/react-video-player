@@ -14,7 +14,7 @@ const ControlPanel: ControlPanelInterface = () => {
         videoModel: {
             controlled
         },
-        videoRef
+        videoEle
     } = useContext(VideoContext);
 
     const {
@@ -25,8 +25,8 @@ const ControlPanel: ControlPanelInterface = () => {
         changePlayStatusHandler,
         // videoMethods
     } = useVideo(
-        videoRef as HTMLVideoElement,
-        [videoRef]
+        videoEle as HTMLVideoElement,
+        [videoEle]
     );
 
     return (
@@ -40,7 +40,7 @@ const ControlPanel: ControlPanelInterface = () => {
                     living={false}
                     onClick={() => changePlayStatusHandler && changePlayStatusHandler()}
                 />
-                <ControlPanel.ReloadControl onClick={() => videoRef?.load()}/>
+                <ControlPanel.ReloadControl onClick={() => videoEle?.load()}/>
                 <ControlPanel.TimeViewer
                     living={false}
                     currentTime={toMinutesAndSeconds(currentTime)}
