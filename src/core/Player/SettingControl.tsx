@@ -1,10 +1,10 @@
-import * as React from 'react';
-import { classes } from '@/utils/methods/classes';
 import type { FC } from 'react';
+import * as React from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
+import { classes } from '@/utils/methods/classes';
 import Icon from '@/components/Icon';
 import type { SettingControlProps } from '@/core/Player/type';
 import './styles/settingControl.scss';
-import { useContext, useEffect, useRef, useState } from 'react';
 import { VideoContext } from '@/utils/hooks/useVideoContext';
 import { capture } from '@/utils/methods/capture';
 import { createPortal } from 'react-dom';
@@ -24,19 +24,23 @@ const SettingControl: FC<SettingControlProps> = () => {
 
     const [visible, setVisible] = useState<boolean>(false);
     const [isScreenshot, setIsScreenshot] = useState<boolean>(false);
+    const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
     const screenshotHandler = () => {
-        setVisible(false);
         setIsScreenshot(true);
 
-        const screenshotDiv = screenshotDivRef.current;
-        const canvas = capture(videoEle as HTMLVideoElement, 0.45);
+        canvasRef.current = capture(videoEle as HTMLVideoElement);
+    };
 
-        if (screenshotDiv) {
+    useEffect(() => {
+        const screenshotDiv = screenshotDivRef.current;
+        const canvas = canvasRef.current;
+
+        if (screenshotDiv && canvas) {
             screenshotDiv.innerHTML = '';
             screenshotDiv.appendChild(canvas);
         }
-    };
+    }, [screenshotDivRef.current, canvasRef.current]);
 
     useEffect(() => {
         if (visible && !controlled) {
@@ -73,6 +77,13 @@ const SettingControl: FC<SettingControlProps> = () => {
                 isScreenshot &&
                 createPortal(
                     <div className={'ws-screenshot-container'}>
+                        <div className={'ws-screenshot-close'}>
+                            <Icon
+                                name={'screenshot-close'}
+                                size={12}
+                                onClick={() => setIsScreenshot(false)}
+                            />
+                        </div>
                         <div ref={screenshotDivRef} className={'ws-screenshot'}/>
                     </div>,
                     videoContainerEle as HTMLDivElement

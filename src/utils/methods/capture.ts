@@ -1,7 +1,7 @@
-export const capture = (video: HTMLVideoElement, scaleFactor = 0.25) => {
-    const w = video.videoWidth * scaleFactor;
-    const h = video.videoHeight * scaleFactor;
+export const capture = (video: HTMLVideoElement) => {
     const canvas = document.createElement('canvas') as HTMLCanvasElement;
+    const w = video.videoWidth;
+    const h = video.videoHeight;
 
     canvas.width = w;
     canvas.height = h;
