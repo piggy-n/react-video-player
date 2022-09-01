@@ -28,4 +28,23 @@
       animation: loading 1.5s linear infinite;
     }
   }
+
+  .ws-screenshot-container {
+    @include ps(absolute, auto, 0, 55px, auto);
+    width: 280px;
+    background: #fff;
+    padding: 3px;
+    overflow: hidden;
+
+    .ws-screenshot {
+      height: 155px;
+      overflow: hidden;
+      position: relative;
+
+      canvas {
+        @include ps(absolute, 50%, auto, auto, 50%);
+        transform: translate(-50%, -50%);
+      }
+    }
+  }
 }
