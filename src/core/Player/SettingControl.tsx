@@ -59,10 +59,10 @@ const SettingControl: FC<SettingControlProps> = () => {
     }, [screenshotDivRef.current, canvasRef.current]);
 
     useEffect(() => {
-        if (visible && !controlled) {
+        if (visible && !controlled && !isScreenshot) {
             setVisible(false);
         }
-    }, [controlled]);
+    }, [controlled, isScreenshot, visible]);
 
     return (
         <div className={classes(cn, '')}>
