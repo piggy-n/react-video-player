@@ -15,7 +15,7 @@
   }
 
   &-wrapper {
-    @include ps(absolute, auto, -22px, 36px, auto);
+    @include ps(absolute, auto, -22px, 46px, auto);
     @include wh(68px, 56px);
     @include fd(flex-start);
     background: rgba(6, 23, 30, .7);

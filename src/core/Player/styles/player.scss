@@ -62,6 +62,7 @@
       height: 100px;
       overflow: hidden;
       position: relative;
+      cursor: pointer;
 
       canvas {
         @include ps(absolute, 50%, auto, auto, 50%);

@@ -1,10 +1,11 @@
-import type { FC } from 'react';
+import type { FC, MouseEventHandler } from 'react';
 import * as React from 'react';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { classes } from '@/utils/methods/classes';
 import Icon from '@/components/Icon';
 import type { SettingControlProps } from '@/core/Player/type';
 import './styles/settingControl.scss';
+import ziv3 from '@/utils/methods/zxImageViewer';
 import { VideoContext } from '@/utils/hooks/useVideoContext';
 import { capture } from '@/utils/methods/capture';
 import { createPortal } from 'react-dom';
@@ -21,15 +22,26 @@ const SettingControl: FC<SettingControlProps> = () => {
     } = useContext(VideoContext);
 
     const screenshotDivRef = useRef<HTMLDivElement>(null);
+    const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
     const [visible, setVisible] = useState<boolean>(false);
     const [isScreenshot, setIsScreenshot] = useState<boolean>(false);
-    const canvasRef = useRef<HTMLCanvasElement | null>(null);
+    const [imageBase64, setImageBase64] = useState<string>('');
 
     const screenshotHandler = () => {
         setIsScreenshot(true);
 
         canvasRef.current = capture(videoEle as HTMLVideoElement);
+    };
+
+    const imageClickHandler: MouseEventHandler = (e) => {
+        e.stopPropagation();
+        const imageArr: string[] = [];
+
+        imageArr.push(imageBase64);
+
+        ziv3.update(imageArr);
+        ziv3.view(0);
     };
 
     useEffect(() => {
@@ -39,6 +51,10 @@ const SettingControl: FC<SettingControlProps> = () => {
         if (screenshotDiv && canvas) {
             screenshotDiv.innerHTML = '';
             screenshotDiv.appendChild(canvas);
+        }
+
+        if (canvas) {
+            setImageBase64(canvas.toDataURL('image/png', 1));
         }
     }, [screenshotDivRef.current, canvasRef.current]);
 
@@ -84,7 +100,11 @@ const SettingControl: FC<SettingControlProps> = () => {
                                 onClick={() => setIsScreenshot(false)}
                             />
                         </div>
-                        <div ref={screenshotDivRef} className={'ws-screenshot'}/>
+                        <div
+                            ref={screenshotDivRef}
+                            className={'ws-screenshot'}
+                            onClick={imageClickHandler}
+                        />
                     </div>,
                     videoContainerEle as HTMLDivElement
                 )

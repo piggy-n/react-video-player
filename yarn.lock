@@ -8236,3 +8236,8 @@ yocto-queue@^0.1.0:
   version "0.1.0"
   resolved "https://registry.npmmirror.com/yocto-queue/-/yocto-queue-0.1.0.tgz#0294eb3dee05028d31ee1a5fa2c556a6aaf10a1b"
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
+
+zx-image-view@^1.5.0:
+  version "1.5.0"
+  resolved "https://registry.npmmirror.com/zx-image-view/-/zx-image-view-1.5.0.tgz#c5cf78356811814f589735397065176a4d1f6eea"
+  integrity sha512-GSUC3RrH5dhkPvDP2ed5Rm/+6WILoaz5wuij9KUXGg1pDC0bmNlfLY29f7SQwcfCwScm7r1aHwinhN+m5CygqA==
