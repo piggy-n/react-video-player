@@ -1,5 +1,11 @@
 @import 'src/assets/styles/mixin.scss';
 
+.ws-web-full-screen {
+  @include wh(100vw !important, 100vh !important);
+  @include ps(fixed !important, 0, 0, 0, 0);
+  z-index: 100000 !important;
+}
+
 .ws-control-panel {
   @include ps(relative);
   @include wh(100%, 40px);

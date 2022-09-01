@@ -15,7 +15,9 @@ const Header: HeaderInterface = () => {
         const { target } = e;
         const targetEleName = (target as Record<string, any>)?.tagName;
 
-        onMouseOver(targetEleName !== 'DIV');
+        if (onMouseOver) {
+            onMouseOver(targetEleName !== 'DIV');
+        }
     };
 
     return (

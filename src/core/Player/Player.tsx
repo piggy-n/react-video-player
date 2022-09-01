@@ -99,7 +99,7 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
         <div
             ref={videoContainerRef}
             className={classes(cn, '')}
-            onMouseOver={() => onMouseOver(true)}
+            onMouseOver={() => onMouseOver && onMouseOver(true)}
         >
             <video
                 ref={videoRef}

@@ -2,7 +2,8 @@ import { createContext } from 'react';
 
 export interface LayoutContextType {
     resizing: boolean;
-    onMouseOver: (arg: boolean) => void;
+    onMouseOver?: (arg: boolean) => void;
+    onWebFullScreen?: (arg: boolean) => void;
 }
 
 export const defaultValue: Partial<LayoutContextType> = {

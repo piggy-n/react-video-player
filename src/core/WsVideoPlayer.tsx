@@ -2,6 +2,7 @@ import * as React from 'react';
 import Header from '@/core/Header';
 import Player from '@/core/Player';
 import { useState } from 'react';
+import type { ResizeHandle } from 'react-resizable';
 import { ResizableBox } from 'react-resizable';
 import '@/global.scss';
 import './wsVideoPlayer.scss';
@@ -14,9 +15,14 @@ const WsVideoPlayer = () => {
     const [disabled, setDisabled] = useState<boolean>(true);
     const [size, setSize] = useState({ width: 482, height: 312 });
     const [resizing, setResizing] = useState<boolean>(false);
+    const [resizeHandlesArr, setResizeHandlesArr] = useState<ResizeHandle[] | undefined>(['se', 'e', 's']);
 
     const mouseOverHandler = (arg: boolean) => {
         setDisabled(arg);
+    };
+
+    const webFullScreenHandler = (arg: boolean) => {
+        setResizeHandlesArr(arg ? [] : ['se', 'e', 's']);
     };
 
     return (
@@ -24,6 +30,7 @@ const WsVideoPlayer = () => {
             value={{
                 resizing,
                 onMouseOver: mouseOverHandler,
+                onWebFullScreen: webFullScreenHandler,
             }}
         >
             <Draggable bounds={'parent'} disabled={disabled}>
@@ -31,7 +38,7 @@ const WsVideoPlayer = () => {
                     width={size.width}
                     height={size.height}
                     minConstraints={[482, 312]}
-                    resizeHandles={['se', 'e', 's']}
+                    resizeHandles={resizeHandlesArr}
                     lockAspectRatio
                     onResizeStart={() => setResizing(true)}
                     onResizeStop={() => setResizing(false)}
