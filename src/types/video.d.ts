@@ -1,3 +1,8 @@
+export type VideoSize = {
+    videoWidth: number;
+    videoHeight: number;
+}
+
 export interface VideoAttributes {
     playing: boolean;
     currentTime: number;
@@ -6,6 +11,7 @@ export interface VideoAttributes {
     inPip: boolean;
     ended: boolean;
     error: null | number;
+    videoSize: VideoSize;
 }
 
 export interface VideoMethods {

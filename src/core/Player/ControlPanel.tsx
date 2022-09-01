@@ -23,6 +23,7 @@ const ControlPanel: ControlPanelInterface = () => {
         totalTime,
         currentTime,
         changePlayStatusHandler,
+        videoSize
         // videoMethods
     } = useVideo(
         videoEle as HTMLVideoElement,
@@ -49,7 +50,7 @@ const ControlPanel: ControlPanelInterface = () => {
             </div>
             <div className={classes(cn, 'right-warp')}>
                 <ControlPanel.VideoFormatViewer format={'H.265'}/>
-                <ControlPanel.QualityControl quality={'UHD'}/>
+                <ControlPanel.QualityControl videoSize={videoSize}/>
                 <ControlPanel.TransmissionRateViewer rate={'1.28Mbps'}/>
                 <ControlPanel.SettingControl/>
                 <ControlPanel.WebFullScreenControl/>

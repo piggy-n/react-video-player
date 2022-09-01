@@ -24,6 +24,10 @@ export const useVideo = (ele: HTMLVideoElement, dep: DependencyList = []) => {
         inPip: false,
         ended: false,
         error: null,
+        videoSize: {
+            videoWidth: 0,
+            videoHeight: 0
+        },
     });
 
     const videoMethods = useMemo<VideoMethods>(
@@ -56,6 +60,10 @@ export const useVideo = (ele: HTMLVideoElement, dep: DependencyList = []) => {
             video.addEventListener('canplay', () => {
                 setVideoArgsHandler({
                     totalTime: video.duration,
+                    videoSize: {
+                        videoWidth: video.videoWidth,
+                        videoHeight: video.videoHeight
+                    },
                 });
             });
 
@@ -118,6 +126,10 @@ export const useVideo = (ele: HTMLVideoElement, dep: DependencyList = []) => {
                         totalTime: video.duration,
                         playing: !video.paused,
                         ended: video.ended,
+                        videoSize: {
+                            videoWidth: video.videoWidth,
+                            videoHeight: video.videoHeight
+                        }
                     });
                 },
                 1

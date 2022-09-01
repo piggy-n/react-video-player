@@ -1,5 +1,5 @@
 import type { FC, MouseEventHandler } from 'react';
-import type { VideoAttributes, VideoMethods } from '@/types/video';
+import type { VideoAttributes, VideoMethods, VideoSize } from '@/types/video';
 
 export type PlayerRef = VideoAttributes & VideoMethods & { video: HTMLVideoElement };
 
@@ -52,7 +52,7 @@ export interface TransmissionRateViewerProps {
 }
 
 export interface QualityControlProps {
-    quality?: any;
+    videoSize?: VideoSize;
 }
 
 export interface VideoFormatViewerProps {

@@ -5,6 +5,7 @@
   @include wh(100%, 100%);
   @include fr(center);
   overflow: hidden;
+  user-select: none;
 
   & > video {
     @include ps(absolute, 0, auto, auto, 0);
