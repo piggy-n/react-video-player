@@ -15,16 +15,24 @@ const QualityControl: FC<QualityControlProps> = ({ videoSize }) => {
     const [quality, setQuality] = useState<QualityType>();
 
     useEffect(() => {
-        if (videoWidth > 0 && videoWidth < 720) {
+        if (videoWidth > 0 && videoWidth < 1280) {
             setQuality(qualityObj['SD']);
         }
 
-        if (videoWidth >= 720 && videoWidth < 1080) {
+        if (videoWidth >= 1280 && videoWidth < 1920) {
             setQuality(qualityObj['HD']);
         }
 
-        if (videoWidth >= 1080 && videoWidth < 1920) {
+        if (videoWidth >= 1920 && videoWidth < 2560) {
             setQuality(qualityObj['FHD']);
+        }
+
+        if (videoWidth >= 2560 && videoWidth < 3840) {
+            setQuality(qualityObj['QHD']);
+        }
+
+        if (videoWidth >= 3840) {
+            setQuality(qualityObj['UHD']);
         }
     }, [videoWidth]);
 
