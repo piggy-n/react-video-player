@@ -64,13 +64,14 @@ const SettingControl: FC<SettingControlProps> = () => {
 
     const recordingHandler = () => {
         if (!recorded) {
-            recorderRef.current?.start(10);
+            recorderRef.current?.start(0);
             drawFrame();
         } else {
             recorderRef.current?.stop();
             cancelAnimationFrame(frameIdRef.current);
             download(chunksRef.current);
             chunksRef.current = [];
+            recordingCtxRef.current!.clearRect(0, 0, videoEle!.videoWidth, videoEle!.videoHeight);
         }
 
         setVisible(false);
