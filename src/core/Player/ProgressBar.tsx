@@ -226,7 +226,7 @@ const ProgressBar = () => {
                     />
                 </div>
                 {
-                    suspending &&
+                    suspending && totalTime > 0 &&
                     <>
                         <div
                             className={classes(cn, 'pointer')}
