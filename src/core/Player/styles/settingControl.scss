@@ -16,7 +16,7 @@
 
   &-wrapper {
     @include ps(absolute, auto, -22px, 46px, auto);
-    @include wh(68px, 56px);
+    @include wh(auto, 56px);
     @include fd(flex-start);
     background: rgba(6, 23, 30, .7);
     border-radius: 3px 3px 3px 3px;
@@ -25,12 +25,18 @@
     animation: show 0.3s ease;
 
     .ws-setting-control-item {
-      @include fr(center);
+      @include fr(flex-start);
       @include wh(100%, 50%);
       @include style(12px, rgba(255, 255, 255, 1));
       line-height: 12px;
       cursor: pointer;
+      padding: 0 12px;
       border-radius: 3px 3px 3px 3px;
+
+      p {
+        flex: 1;
+        text-align: center;
+      }
 
       svg {
         margin-right: 5px;

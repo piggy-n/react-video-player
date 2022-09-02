@@ -32,7 +32,7 @@ const SettingControl: FC<SettingControlProps> = () => {
     const [visible, setVisible] = useState<boolean>(false);
     const [isScreenshot, setIsScreenshot] = useState<boolean>(false);
     const [imageBase64, setImageBase64] = useState<string>('');
-    const [isStartRecording, setIsStartRecording] = useState<boolean>(true);
+    const [recorded, setRecorded] = useState<boolean>(false);
 
     const screenshotHandler = () => {
         setIsScreenshot(true);
@@ -63,7 +63,7 @@ const SettingControl: FC<SettingControlProps> = () => {
     };
 
     const recordingHandler = () => {
-        if (isStartRecording) {
+        if (!recorded) {
             recorderRef.current?.start(10);
             drawFrame();
         } else {
@@ -72,7 +72,8 @@ const SettingControl: FC<SettingControlProps> = () => {
             download(chunksRef.current);
         }
 
-        setIsStartRecording(!isStartRecording);
+        setVisible(false);
+        setRecorded(!recorded);
     };
 
     useEffect(() => {
@@ -89,7 +90,7 @@ const SettingControl: FC<SettingControlProps> = () => {
             ctx!.fillStyle = '#000';
             ctx!.fillRect(0, 0, w, h);
 
-            const stream = canvas.captureStream(25);
+            const stream = canvas.captureStream(30);
             const recorder = new MediaRecorder(stream, {
                 mimeType: 'video/webm;codecs=vp8',
             });
@@ -145,8 +146,16 @@ const SettingControl: FC<SettingControlProps> = () => {
                         className={classes(cn, 'item')}
                         onClick={recordingHandler}
                     >
-                        <Icon name={'recording-start'}/>
-                        <p>录像</p>
+                        {
+                            recorded
+                                ? <Icon name={'stop'}/>
+                                : <Icon name={'recording-start'}/>
+                        }
+                        <p>
+                            {
+                                recorded ? '停止录制' : '录像'
+                            }
+                        </p>
                     </div>
                 </div>
             }
