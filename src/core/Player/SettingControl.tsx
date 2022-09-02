@@ -70,6 +70,7 @@ const SettingControl: FC<SettingControlProps> = () => {
             recorderRef.current?.stop();
             cancelAnimationFrame(frameIdRef.current);
             download(chunksRef.current);
+            chunksRef.current = [];
         }
 
         setVisible(false);
@@ -176,6 +177,17 @@ const SettingControl: FC<SettingControlProps> = () => {
                             className={'ws-screenshot'}
                             onClick={imageClickHandler}
                         />
+                    </div>,
+                    videoContainerEle as HTMLDivElement
+                )
+            }
+
+            {
+                recorded &&
+                createPortal(
+                    <div className={'ws-recording-container'}>
+                        <div className={'ws-recording-point'}/>
+                        <p>录制中</p>
                     </div>,
                     videoContainerEle as HTMLDivElement
                 )

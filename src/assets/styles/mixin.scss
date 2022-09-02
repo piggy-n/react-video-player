@@ -72,4 +72,13 @@
       transform: rotateZ(360deg);
     }
   }
+
+  @keyframes twinkle {
+    0% {
+      opacity: 0.8;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
 }

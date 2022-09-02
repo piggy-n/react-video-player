@@ -71,4 +71,20 @@
       }
     }
   }
+
+  .ws-recording-container {
+    @include ps(absolute, 0, auto, auto, 0);
+    @include fr(flex-start);
+    @include style(9px, rgba(239, 242, 246, 1));
+    line-height: 9px;
+    padding: 8px 0 0 8px;
+
+    .ws-recording-point {
+      @include wh(9px, 9px);
+      margin-right: 8px;
+      border-radius: 50%;
+      background: rgba(255, 0, 0, 1);
+      //animation: twinkle .8s infinite alternate;
+    }
+  }
 }
