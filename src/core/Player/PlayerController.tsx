@@ -3,23 +3,26 @@ import { classes } from '@/utils/methods/classes';
 import './styles/playerController.scss';
 import { useContext, useRef } from 'react';
 import { useRafInterval, useReactive } from 'ahooks';
+import screenfull from 'screenfull';
 import { VideoContext } from '@/utils/hooks/useVideoContext';
 import { LayoutContext } from '@/utils/hooks/useLayoutContext';
-import type { PlayerControllerInterface } from '@/core/Player/type';
 import Icon from '@/components/Icon';
 import { useVideo } from '@/utils/hooks/useVideo';
+import type { PlayerControllerInterface } from '@/core/Player/type';
 
 const cn = 'Player-Controller';
 
 const PlayerController: PlayerControllerInterface = () => {
     const { resizing } = useContext(LayoutContext);
-    const { dispatch, videoEle } = useContext(VideoContext);
+    const { dispatch, videoEle, videoContainerEle } = useContext(VideoContext);
 
     const inactivityTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+    const clickTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
     const mouseState = useReactive({
         mouseIsMoving: false,
         mouseIsOnController: false,
+        mouseClickCount: 0,
     });
 
     const {
@@ -82,7 +85,29 @@ const PlayerController: PlayerControllerInterface = () => {
 
     const endBtnClickHandler = () => {
         changePlayStatusHandler && changePlayStatusHandler();
+
         playerControllerVisibleHandler('enter');
+    };
+
+    const clickHandler = () => {
+        mouseState.mouseClickCount += 1;
+
+        clickTimeoutRef.current && clearTimeout(clickTimeoutRef.current);
+        clickTimeoutRef.current = setTimeout(
+            () => {
+                if (mouseState.mouseClickCount === 1) {
+                    changePlayStatusHandler && changePlayStatusHandler();
+                }
+
+                if (mouseState.mouseClickCount === 2) {
+                    if (screenfull.isEnabled) {
+                        screenfull.toggle(videoContainerEle as HTMLDivElement);
+                    }
+                }
+
+                mouseState.mouseClickCount = 0;
+            },
+            200);
     };
 
     useRafInterval(
@@ -104,7 +129,7 @@ const PlayerController: PlayerControllerInterface = () => {
                 className={classes(cn, 'play-or-pause-wrapper')}
                 onMouseMove={() => playerControllerMouseStatusHandler('move')}
                 onMouseLeave={() => playerControllerMouseStatusHandler('leave')}
-                onClick={() => changePlayStatusHandler && changePlayStatusHandler()}
+                onClick={clickHandler}
             />
             <div
                 className={classes(cn, 'pause-or-replay-btn')}
