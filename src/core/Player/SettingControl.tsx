@@ -70,8 +70,14 @@ const SettingControl: FC<SettingControlProps> = () => {
             recorderRef.current?.stop();
             cancelAnimationFrame(frameIdRef.current);
             download(chunksRef.current);
+
             chunksRef.current = [];
-            recordingCtxRef.current!.clearRect(0, 0, videoEle!.videoWidth, videoEle!.videoHeight);
+            recordingCtxRef.current!.clearRect(
+                0,
+                0,
+                videoEle!.videoWidth,
+                videoEle!.videoHeight
+            );
         }
 
         setVisible(false);
