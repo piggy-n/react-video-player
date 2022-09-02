@@ -105,7 +105,7 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
                 ref={videoRef}
                 muted={true}
                 crossOrigin={'anonymous'}
-                src={'https://qiniu.qyhever.com/162962488432086ba29652658echrome.mp4'}
+                src={'https://gs-files.oss-cn-hongkong.aliyuncs.com/okr/test/file/2021/07/01/haiwang.mp4'}
             />
             {
                 loading &&
