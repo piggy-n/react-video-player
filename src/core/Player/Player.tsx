@@ -11,6 +11,7 @@ import Icon from '@/components/Icon';
 import { useVideoModel } from '@/utils/hooks/useVideoModel';
 import { LayoutContext } from '@/utils/hooks/useLayoutContext';
 import { VideoContext } from '@/utils/hooks/useVideoContext';
+import StreamH265Player from '@/utils/methods/StreamH265Player.js';
 
 const cn = 'Player';
 
@@ -25,6 +26,7 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
     const videoContainerRef = useRef<HTMLDivElement>(null);
     const videoRef = useRef<HTMLVideoElement>(null);
     const videoUsefulTimerRef = useRef<NodeJS.Timer | null>(null);
+    const playerRef = useRef<any>();
 
     const { videoAttributes, videoMethods, playing } = useVideo(
         videoRef.current as HTMLVideoElement,
@@ -95,6 +97,20 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
         };
     }, [videoRef.current, playing]);
 
+    useEffect(() => {
+        const videoEle = videoRef.current as HTMLVideoElement;
+        const url = 'ws://192.168.9.148/live/1561636628588400641/101.live.mp4?token=908b37f1-6c5d-44a4-bb8e-752b663705d9';
+
+        if (videoEle) {
+            playerRef.current = new StreamH265Player({
+                url,
+                dom: videoEle
+            });
+
+            playerRef.current.startToPlay(url, videoEle);
+        }
+    }, [videoRef.current]);
+
     return (
         <div
             ref={videoContainerRef}
@@ -103,9 +119,11 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
         >
             <video
                 ref={videoRef}
-                muted={true}
+                muted
+                autoPlay
+                preload={'auto'}
                 crossOrigin={'anonymous'}
-                src={'https://gs-files.oss-cn-hongkong.aliyuncs.com/okr/test/file/2021/07/01/haiwang.mp4'}
+                style={{ background: playing ? 'rgba(0, 0, 0, 1)' : 'rgba(84, 84, 84, 0.8)' }}
                 // https://ks3-cn-beijing.ksyun.com/ksplayer/h265/mp4_resource/jinjie_265.mp4
             />
             {

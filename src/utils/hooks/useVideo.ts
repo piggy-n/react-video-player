@@ -17,7 +17,7 @@ export const useVideo = (ele: HTMLVideoElement, dep: DependencyList = []) => {
 
     const videoInterval = useRef<NodeJS.Timeout | null>(null);
     const videoArgsRef = useRef<VideoAttributes>({
-        playing: false,
+        playing: true,
         currentTime: 0,
         totalTime: 0,
         bufferedTime: 0,

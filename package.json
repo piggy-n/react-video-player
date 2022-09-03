@@ -43,6 +43,7 @@
     "file-loader": "^3.0.1",
     "html-webpack-plugin": "^3.2.0",
     "lodash": "^4.17.21",
+    "mp4box": "^0.5.2",
     "prism-react-renderer": "^0.1.6",
     "raw-loader": "^2.0.0",
     "react-draggable": "^4.4.5",
@@ -60,7 +61,6 @@
     "webpack-cli": "^3.2.3",
     "webpack-dev-server": "^3.2.1",
     "zx-image-view": "^1.5.0"
-
   },
   "dependencies": {
     "react": "^17.0.2",

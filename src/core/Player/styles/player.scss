@@ -11,8 +11,6 @@
     @include ps(absolute, 0, auto, auto, 0);
     @include wh(100%, 100%);
     pointer-events: none;
-    background: rgba(84, 84, 84, 0.8);
-    object-fit: cover;
   }
 
   &-loading {
@@ -84,7 +82,6 @@
       margin-right: 8px;
       border-radius: 50%;
       background: rgba(255, 0, 0, 1);
-      //animation: twinkle .8s infinite alternate;
     }
   }
 }
