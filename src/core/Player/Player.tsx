@@ -99,7 +99,7 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
 
     useEffect(() => {
         const videoEle = videoRef.current as HTMLVideoElement;
-        const url = 'ws://192.168.9.148/live/1561636628588400641/101.live.mp4?token=908b37f1-6c5d-44a4-bb8e-752b663705d9';
+        const url = 'wss://lzz.enbo12119.com/live/1557972017858404353/101.live.mp4?token=e068c1c1-6814-454f-ac7b-534e4b4af848';
 
         if (videoEle) {
             playerRef.current = new StreamH265Player({
