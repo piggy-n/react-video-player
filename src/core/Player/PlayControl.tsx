@@ -10,7 +10,7 @@ const cn = 'Play-Control';
 const PlayControl: FC<PlayControlProps> = (
     {
         playing = false,
-        living = false,
+        isLive,
         onClick = () => {
             return;
         },
@@ -25,7 +25,7 @@ const PlayControl: FC<PlayControlProps> = (
                 playing
                     ? <>
                         {
-                            living
+                            isLive
                                 ? <Icon name={'stop'} size={18} title={'停止'}/>
                                 : <Icon name={'pause'} size={18} title={'暂停'}/>
                         }

@@ -56,7 +56,7 @@ const WsVideoPlayer = () => {
                     >
                         <Header/>
                         <div className={'ws-player-wrapper'}>
-                            <Player/>
+                            <Player isLive/>
                         </div>
                     </div>
                 </ResizableBox>

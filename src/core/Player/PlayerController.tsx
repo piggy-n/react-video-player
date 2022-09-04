@@ -14,7 +14,7 @@ const cn = 'Player-Controller';
 
 const PlayerController: PlayerControllerInterface = () => {
     const { resizing } = useContext(LayoutContext);
-    const { dispatch, videoEle, videoContainerEle } = useContext(VideoContext);
+    const { dispatch, videoEle, videoContainerEle, isLive } = useContext(VideoContext);
 
     const inactivityTimeoutRef = useRef<NodeJS.Timeout | null>(null);
     const clickTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -154,7 +154,7 @@ const PlayerController: PlayerControllerInterface = () => {
                 onMouseEnter={() => controllerPanelMouseStatusHandler('enter')}
                 onMouseLeave={() => controllerPanelMouseStatusHandler('leave')}
             >
-                <PlayerController.ProgressBar/>
+                {!isLive && <PlayerController.ProgressBar/>}
                 <PlayerController.Panel/>
             </div>
         </div>

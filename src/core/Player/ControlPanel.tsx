@@ -14,7 +14,8 @@ const ControlPanel: ControlPanelInterface = () => {
         videoModel: {
             controlled
         },
-        videoEle
+        videoEle,
+        isLive
     } = useContext(VideoContext);
 
     const {
@@ -38,12 +39,12 @@ const ControlPanel: ControlPanelInterface = () => {
             <div className={classes(cn, 'left-warp')}>
                 <ControlPanel.PlayControl
                     playing={playing}
-                    living={false}
+                    isLive={isLive}
                     onClick={() => changePlayStatusHandler && changePlayStatusHandler()}
                 />
                 <ControlPanel.ReloadControl onClick={() => videoEle?.load()}/>
                 <ControlPanel.TimeViewer
-                    living={false}
+                    isLive={isLive}
                     currentTime={toMinutesAndSeconds(currentTime)}
                     totalTime={toMinutesAndSeconds(totalTime)}
                 />

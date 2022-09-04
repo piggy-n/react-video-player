@@ -6,9 +6,7 @@ export type PlayerRef = VideoAttributes & VideoMethods & { video: HTMLVideoEleme
 export interface PlayerProps {
     width?: number;
     height?: number;
-    minWidth?: number;
-    minHeight?: number;
-    resize?: boolean;
+    isLive?: boolean;
 }
 
 export interface PlayerControllerInterface extends FC<PlayerControllerProps> {
@@ -33,7 +31,7 @@ export interface ControlPanelInterface extends FC<ControlPanelProps> {
 
 export interface PlayControlProps {
     playing: boolean;
-    living: boolean;
+    isLive?: boolean;
     onClick: MouseEventHandler<HTMLDivElement>;
 }
 
@@ -42,7 +40,7 @@ export interface ReloadControlProps {
 }
 
 export interface TimeViewerProps {
-    living: boolean;
+    isLive?: boolean;
     currentTime: string;
     totalTime: string;
 }

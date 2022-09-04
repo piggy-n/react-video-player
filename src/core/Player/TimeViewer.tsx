@@ -8,7 +8,7 @@ const cn = 'Time-Viewer';
 
 const TimeViewer: FC<TimeViewerProps> = (
     {
-        living = false,
+        isLive,
         currentTime = '--',
         totalTime = '--'
     }
@@ -16,7 +16,7 @@ const TimeViewer: FC<TimeViewerProps> = (
     return (
         <div className={classes(cn, '')}>
             {
-                living
+                isLive
                     ? <div>实时</div>
                     : <div className={classes(cn, 'time')}>
                         {currentTime}&nbsp;/&nbsp;{totalTime}
