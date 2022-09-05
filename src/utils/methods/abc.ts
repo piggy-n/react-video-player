@@ -1,16 +1,16 @@
 import MP4Box from 'mp4box';
 
 class StreamH265Player {
+    ws?: WebSocket;
     ele: HTMLVideoElement; // 流媒体播放器DOM
     url: string; // 流媒体地址
-    mediaSource: MediaSource;
-    MP4BoxFile?: any;
-    ws?: WebSocket;
     mime?: string;
     streaming = false;
+    mediaSource: MediaSource;
+    MP4BoxFile?: any;
     connectionTimes = 0;
     sourceBuffer?: SourceBuffer;
-    mediaPacketsQueue: ArrayBuffer[] = []; // 媒体数据包队列
+    arrayBuffer: ArrayBuffer[] = []; // 媒体数据包队列
 
     onMessage(e: MessageEvent) {
         const { data } = e;
@@ -23,7 +23,7 @@ class StreamH265Player {
         }
 
         if (!this.streaming) {
-            const arrayBuffer = this.mediaPacketsQueue.shift();
+            const arrayBuffer = this.arrayBuffer.shift();
 
             if (arrayBuffer && this.sourceBuffer) {
                 this.sourceBuffer.appendBuffer(arrayBuffer);
@@ -35,7 +35,7 @@ class StreamH265Player {
             this.ele.currentTime = latestDuration - 0.5;
         }
 
-        this.mediaPacketsQueue.push(data);
+        this.arrayBuffer.push(data);
     }
 
     sourceOpen() {
@@ -71,8 +71,8 @@ class StreamH265Player {
     load() {
         if (this.sourceBuffer?.updating) return;
 
-        if (this.mediaPacketsQueue.length > 0) {
-            this.sourceBuffer!.appendBuffer(this.mediaPacketsQueue.shift() as any);
+        if (this.arrayBuffer.length > 0) {
+            this.sourceBuffer!.appendBuffer(this.arrayBuffer.shift() as any);
         } else {
             this.streaming = false;
         }
@@ -83,6 +83,8 @@ class StreamH265Player {
             this.ele = ele;
             this.url = url;
         }
+
+        console.dir(this.ele);
 
         if (!this.ele || !this.url) return;
 
@@ -112,6 +114,9 @@ class StreamH265Player {
     stop() {
         if (this.ws) {
             this.ws.close();
+            this.ws.onopen = null;
+            this.ws.onmessage = null;
+            this.ws.onclose = null;
             this.ws = undefined;
         }
 
@@ -123,10 +128,6 @@ class StreamH265Player {
             this.sourceBuffer.removeEventListener('updateend', this.load.bind(this));
             this.mediaSource.removeSourceBuffer(this.sourceBuffer);
             this.sourceBuffer = undefined;
-        }
-
-        if (this.ele) {
-            this.ele.pause();
         }
 
         this.streaming = false;
@@ -144,7 +145,7 @@ class StreamH265Player {
         // this.streaming = false;
         // this.connectionTimes = 0;
         // this.sourceBuffer = null;
-        // this.mediaPacketsQueue = [];
+        // this.arrayBuffer = [];
         // this.seeked = false;
         // this.updateEndHandler = null;
     }

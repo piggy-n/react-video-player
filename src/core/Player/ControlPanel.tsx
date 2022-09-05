@@ -33,11 +33,11 @@ const ControlPanel: ControlPanelInterface = () => {
     );
 
     const playControlClickHandler = () => {
-        changePlayStatusHandler && changePlayStatusHandler();
-
         if (isLive) {
             playing ? H265Player.stop() : H265Player.start();
         }
+
+        changePlayStatusHandler && changePlayStatusHandler();
     };
 
     return (
