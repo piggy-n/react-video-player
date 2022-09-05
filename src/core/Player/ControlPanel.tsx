@@ -15,7 +15,8 @@ const ControlPanel: ControlPanelInterface = () => {
             controlled
         },
         videoEle,
-        isLive
+        isLive,
+        H265Player
     } = useContext(VideoContext);
 
     const {
@@ -31,6 +32,14 @@ const ControlPanel: ControlPanelInterface = () => {
         [videoEle]
     );
 
+    const playControlClickHandler = () => {
+        changePlayStatusHandler && changePlayStatusHandler();
+
+        if (isLive) {
+            playing ? H265Player.stop() : H265Player.start();
+        }
+    };
+
     return (
         <div
             className={classes(cn, '')}
@@ -40,7 +49,7 @@ const ControlPanel: ControlPanelInterface = () => {
                 <ControlPanel.PlayControl
                     playing={playing}
                     isLive={isLive}
-                    onClick={() => changePlayStatusHandler && changePlayStatusHandler()}
+                    onClick={playControlClickHandler}
                 />
                 <ControlPanel.ReloadControl onClick={() => videoEle?.load()}/>
                 <ControlPanel.TimeViewer

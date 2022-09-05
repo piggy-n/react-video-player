@@ -11,7 +11,7 @@ import Icon from '@/components/Icon';
 import { useVideoModel } from '@/utils/hooks/useVideoModel';
 import { LayoutContext } from '@/utils/hooks/useLayoutContext';
 import { VideoContext } from '@/utils/hooks/useVideoContext';
-import StreamH265Player from '@/utils/methods/StreamH265Player.js';
+import StreamH265Player from '@/utils/methods/abc';
 
 const cn = 'Player';
 
@@ -26,7 +26,7 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
     const videoContainerRef = useRef<HTMLDivElement>(null);
     const videoRef = useRef<HTMLVideoElement>(null);
     const videoUsefulTimerRef = useRef<NodeJS.Timer | null>(null);
-    const playerRef = useRef<any>();
+    const H265PlayerRef = useRef<any>(new StreamH265Player());
 
     const { videoAttributes, videoMethods, playing } = useVideo(
         videoRef.current as HTMLVideoElement,
@@ -44,6 +44,7 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
                     dispatch,
                     videoEle: videoRef.current,
                     videoContainerEle: videoContainerRef.current,
+                    H265Player: H265PlayerRef.current,
                     ...props
                 }
             );
@@ -100,15 +101,10 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
 
     useEffect(() => {
         const videoEle = videoRef.current as HTMLVideoElement;
-        const url = 'wss://lzz.enbo12119.com/live/1557972017858404353/101.live.mp4?token=e068c1c1-6814-454f-ac7b-534e4b4af848';
+        const url = 'wss://lzz.enbo12119.com/live/1557971988926095361/101.live.mp4?token=9b51af1d-c008-46b2-928e-8d5b6ce67a62';
 
         if (videoEle) {
-            playerRef.current = new StreamH265Player({
-                url,
-                dom: videoEle
-            });
-
-            playerRef.current.startToPlay(url, videoEle);
+            H265PlayerRef.current.start(videoEle, url);
         }
     }, [videoRef.current]);
 

@@ -44,55 +44,55 @@ class StreamH265Player {
     }
   }
 
-  toInt(arr, index) {
-    const dev = new DataView(arr.buffer, 0);
-    return dev.getInt32(index, false);
-  }
-
-  toString(arr, fr, to) {
-    return String.fromCharCode.apply(null, arr.slice(fr, to));
-  }
-
-  getBox(arr, i) {
-    return [this.toInt(arr, i), this.toString(arr, i + 4, i + 8)];
-  }
-
-  getSubBox(arr, box_name) {
-    let i = 0;
-    let res = this.getBox(arr, i);
-    let main_length = res[0];
-    let name = res[1]; // this boxes length and name
-    i = i + 8;
-    let sub_box = null;
-
-    while (i < main_length) {
-      res = this.getBox(arr, i);
-      let l = res[0];
-      name = res[1];
-
-      if (box_name === name) {
-        sub_box = arr.slice(i, i + l);
-      }
-      i = i + l;
-    }
-    return sub_box;
-  }
-
-  hasFirstSampleFlag(arr) {
-    let tRaf = this.getSubBox(arr, 'traf');
-    if (tRaf === null) {
-      return false;
-    }
-
-    let tRun = this.getSubBox(tRaf, 'trun');
-    if (tRun === null) {
-      return false;
-    }
-
-    let flags = tRun.slice(10, 13);
-    const f = flags[1] & 4; // console.log(f);
-    return f === 4;
-  }
+  // toInt(arr, index) {
+  //   const dev = new DataView(arr.buffer, 0);
+  //   return dev.getInt32(index, false);
+  // }
+  //
+  // toString(arr, fr, to) {
+  //   return String.fromCharCode.apply(null, arr.slice(fr, to));
+  // }
+  //
+  // getBox(arr, i) {
+  //   return [this.toInt(arr, i), this.toString(arr, i + 4, i + 8)];
+  // }
+  //
+  // getSubBox(arr, box_name) {
+  //   let i = 0;
+  //   let res = this.getBox(arr, i);
+  //   let main_length = res[0];
+  //   let name = res[1]; // this boxes length and name
+  //   i = i + 8;
+  //   let sub_box = null;
+  //
+  //   while (i < main_length) {
+  //     res = this.getBox(arr, i);
+  //     let l = res[0];
+  //     name = res[1];
+  //
+  //     if (box_name === name) {
+  //       sub_box = arr.slice(i, i + l);
+  //     }
+  //     i = i + l;
+  //   }
+  //   return sub_box;
+  // }
+  //
+  // hasFirstSampleFlag(arr) {
+  //   let tRaf = this.getSubBox(arr, 'traf');
+  //   if (tRaf === null) {
+  //     return false;
+  //   }
+  //
+  //   let tRun = this.getSubBox(tRaf, 'trun');
+  //   if (tRun === null) {
+  //     return false;
+  //   }
+  //
+  //   let flags = tRun.slice(10, 13);
+  //   const f = flags[1] & 4; // console.log(f);
+  //   return f === 4;
+  // }
 
   _bindFunction(object, func) {
     return function () {
@@ -113,36 +113,36 @@ class StreamH265Player {
       }
     }
 
-    const memView = new Uint8Array(arr);
-    if (this.verbose) {
-      console.log('got', arr.byteLength, 'bytes.  Values=', memView[0], memView[1], memView[2], memView[3], memView[4]);
-    }
+    // const memView = new Uint8Array(arr);
+    // if (this.verbose) {
+    //   console.log('got', arr.byteLength, 'bytes.  Values=', memView[0], memView[1], memView[2], memView[3], memView[4]);
+    // }
 
-    const res = this.getBox(memView, 0);
-    const mainLength = res[0];
-    const name = res[1];
-    if ((name === 'ftyp') && (this.pass === 0)) {
-      this.pass = this.pass + 1;
-      console.log('got ftyp');
-    } else if ((name === 'styp') && (this.pass === 1)) {
-      this.pass = this.pass + 1;
-      console.log('got styp');
-    } else if ((name === 'styp') && (this.pass === 2)) {
-      this.pass = this.pass + 1;
-      console.log('got styp');
-    } else if ((name === 'moov') && (this.pass === 1)) {
-      this.pass = this.pass + 1;
-      console.log('got moov');
-    } else if ((name === 'moof') && (this.pass === 2)) {
-      if (this.hasFirstSampleFlag(memView)) {
-        this.pass = this.pass + 1;
-        console.log('got that special moof');
-      } else {
-        return;
-      }
-    } else if (this.pass < 3) {
-      return;
-    }
+    // const res = this.getBox(memView, 0);
+    // const mainLength = res[0];
+    // const name = res[1];
+    // if ((name === 'ftyp') && (this.pass === 0)) {
+    //   this.pass = this.pass + 1;
+    //   console.log('got ftyp');
+    // } else if ((name === 'styp') && (this.pass === 1)) {
+    //   this.pass = this.pass + 1;
+    //   console.log('got styp');
+    // } else if ((name === 'styp') && (this.pass === 2)) {
+    //   this.pass = this.pass + 1;
+    //   console.log('got styp');
+    // } else if ((name === 'moov') && (this.pass === 1)) {
+    //   this.pass = this.pass + 1;
+    //   console.log('got moov');
+    // } else if ((name === 'moof') && (this.pass === 2)) {
+    //   if (this.hasFirstSampleFlag(memView)) {
+    //     this.pass = this.pass + 1;
+    //     console.log('got that special moof');
+    //   } else {
+    //     return;
+    //   }
+    // } else if (this.pass < 3) {
+    //   return;
+    // }
 
 
     let latest = this.streamLiveDom.duration;
@@ -171,7 +171,7 @@ class StreamH265Player {
     this.mp4BoxFile.onReady = (info) => {
       if (info.mime && MediaSource.isTypeSupported(info.mime)) {
         this.codecParams = info.mime;
-        console.log(info);
+        console.log(this.codecParams);
         this.sourceBuffer = this.mediaSource.addSourceBuffer(this.codecParams);
         this.sourceBuffer.mode = 'sequence';
         this.updateEndHandler = this._bindFunction(this, this.loadPacket);
@@ -238,6 +238,7 @@ class StreamH265Player {
       console.log(this.times, 'iii');
       if (this.times <= 20) {
         this.interval = this.startToPlay(this.socketUrl);
+        console.log(this.interval, 'interval');
       }
     };
   }
@@ -264,6 +265,7 @@ class StreamH265Player {
     this.mediaSourceOpenHandler = this._bindFunction(this, this.onMediaSourceOpen);
     this.mediaSource.addEventListener('sourceopen', this.mediaSourceOpenHandler);
     this.mp4BoxFile = MP4Box.createFile();
+    console.log(this.mp4BoxFile);
     this.registerMp4BoxEvents();
 
     this.streamLiveDom.src = window.URL.createObjectURL(this.mediaSource);
