@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { classes } from '@/utils/methods/classes';
 import './styles/playerController.scss';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef } from 'react';
 import { useRafInterval, useReactive } from 'ahooks';
 import screenfull from 'screenfull';
 import { VideoContext } from '@/utils/hooks/useVideoContext';
@@ -14,12 +14,19 @@ const cn = 'Player-Controller';
 
 const PlayerController: PlayerControllerInterface = () => {
     const { resizing } = useContext(LayoutContext);
-    const { dispatch, videoEle, videoContainerEle, isLive, H265Player } = useContext(VideoContext);
+    const {
+        dispatch,
+        videoEle,
+        videoContainerEle,
+        isLive,
+        H265Player,
+        videoModel: {
+            waiting
+        }
+    } = useContext(VideoContext);
 
     const inactivityTimeoutRef = useRef<NodeJS.Timeout | null>(null);
     const clickTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-
-    const [waiting, setWaiting] = useState<boolean>(false);
 
     const mouseState = useReactive({
         mouseIsMoving: false,
@@ -94,6 +101,8 @@ const PlayerController: PlayerControllerInterface = () => {
     };
 
     const pauseOrReplayBtnClickHandler = () => {
+        if (waiting) return;
+
         if (isLive) {
             playing ? H265Player.stop() : H265Player.start();
         }
@@ -137,7 +146,10 @@ const PlayerController: PlayerControllerInterface = () => {
     );
 
     useEffect(() => {
-        setWaiting(networkState === 2 && readyState <= 1);
+        dispatch({
+            type: 'waiting',
+            payload: networkState === 2 && readyState <= 1
+        });
     }, [networkState, readyState]);
 
     return (

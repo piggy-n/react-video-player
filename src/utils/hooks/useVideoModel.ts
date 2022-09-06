@@ -3,11 +3,13 @@ import { useReducer } from 'react';
 export interface VideoModelState {
     controlled: boolean;
     isFullscreen: boolean;
+    waiting: boolean;
 }
 
 export const initialState: VideoModelState = {
     controlled: false,
     isFullscreen: false,
+    waiting: false,
 };
 
 export interface ControlledActionType {
@@ -20,9 +22,15 @@ export interface IsFullscreenActionType {
     payload: VideoModelState['isFullscreen'];
 }
 
+export interface WaitingActionType {
+    type: 'waiting';
+    payload: VideoModelState['waiting'];
+}
+
 export type MergeActionType =
     | ControlledActionType
-    | IsFullscreenActionType;
+    | IsFullscreenActionType
+    | WaitingActionType
 
 export const useVideoModel = () => {
     const reducer = (state: VideoModelState, action: MergeActionType) => {
@@ -33,6 +41,8 @@ export const useVideoModel = () => {
                 return { ...state, controlled: payload };
             case 'isFullscreen':
                 return { ...state, isFullscreen: payload };
+            case 'waiting':
+                return { ...state, waiting: payload };
             default:
                 return state;
         }

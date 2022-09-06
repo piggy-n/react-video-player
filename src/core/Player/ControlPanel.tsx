@@ -12,7 +12,8 @@ const cn = 'Control-Panel';
 const ControlPanel: ControlPanelInterface = () => {
     const {
         videoModel: {
-            controlled
+            controlled,
+            waiting
         },
         videoEle,
         isLive,
@@ -34,6 +35,8 @@ const ControlPanel: ControlPanelInterface = () => {
     );
 
     const playControlClickHandler = () => {
+        if (waiting) return;
+
         if (isLive) {
             playing ? H265Player.stop() : H265Player.start();
         }
@@ -42,6 +45,8 @@ const ControlPanel: ControlPanelInterface = () => {
     };
 
     const reloadControlClickHandler = () => {
+        if (waiting) return;
+
         isLive ? H265Player.reload() : videoEle?.load();
     };
 
