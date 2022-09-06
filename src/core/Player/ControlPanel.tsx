@@ -40,6 +40,10 @@ const ControlPanel: ControlPanelInterface = () => {
         changePlayStatusHandler && changePlayStatusHandler();
     };
 
+    const reloadControlClickHandler = () => {
+        isLive ? H265Player.reload() : videoEle?.load();
+    };
+
     return (
         <div
             className={classes(cn, '')}
@@ -51,7 +55,7 @@ const ControlPanel: ControlPanelInterface = () => {
                     isLive={isLive}
                     onClick={playControlClickHandler}
                 />
-                <ControlPanel.ReloadControl onClick={() => videoEle?.load()}/>
+                <ControlPanel.ReloadControl onClick={reloadControlClickHandler}/>
                 <ControlPanel.TimeViewer
                     isLive={isLive}
                     currentTime={toMinutesAndSeconds(currentTime)}

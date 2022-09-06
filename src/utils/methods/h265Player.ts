@@ -100,7 +100,7 @@ export class StreamH265Player {
         if (!this.MP4BoxFile) return;
 
         this.MP4BoxFile.onError = () => {
-            this.destroy();
+            this.stop();
         };
 
         this.MP4BoxFile.onReady = (info: any) => {
@@ -153,17 +153,18 @@ export class StreamH265Player {
             this.sourceBuffer = undefined;
         }
 
+        if (this.mediaSource) {
+            this.sourceOpenHandler && this.mediaSource.removeEventListener('sourceopen', this.sourceOpenHandler);
+            this.mediaSource = undefined;
+        }
+
         this.streaming = false;
         this.arrayBuffer = [];
         this.mime = '';
     }
 
-    destroy() {
+    reload() {
         this.stop();
-
-        if (this.mediaSource) {
-            this.sourceOpenHandler && this.mediaSource.removeEventListener('sourceopen', this.sourceOpenHandler);
-            this.mediaSource = undefined;
-        }
+        this.start();
     }
 }
