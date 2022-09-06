@@ -14,7 +14,7 @@ const cn = 'Player-Controller';
 
 const PlayerController: PlayerControllerInterface = () => {
     const { resizing } = useContext(LayoutContext);
-    const { dispatch, videoEle, videoContainerEle, isLive } = useContext(VideoContext);
+    const { dispatch, videoEle, videoContainerEle, isLive, H265Player } = useContext(VideoContext);
 
     const inactivityTimeoutRef = useRef<NodeJS.Timeout | null>(null);
     const clickTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -93,6 +93,14 @@ const PlayerController: PlayerControllerInterface = () => {
         playerControllerVisibleHandler('enter');
     };
 
+    const pauseOrReplayBtnClickHandler = () => {
+        if (isLive) {
+            playing ? H265Player.stop() : H265Player.start();
+        }
+
+        changePlayStatusHandler && changePlayStatusHandler();
+    };
+
     const clickHandler = () => {
         mouseState.mouseClickCount += 1;
 
@@ -100,7 +108,7 @@ const PlayerController: PlayerControllerInterface = () => {
         clickTimeoutRef.current = setTimeout(
             () => {
                 if (mouseState.mouseClickCount === 1) {
-                    changePlayStatusHandler && changePlayStatusHandler();
+                    pauseOrReplayBtnClickHandler();
                 }
 
                 if (mouseState.mouseClickCount === 2) {
@@ -147,7 +155,7 @@ const PlayerController: PlayerControllerInterface = () => {
             />
             <div
                 className={classes(cn, 'pause-or-replay-btn')}
-                onClick={() => changePlayStatusHandler && changePlayStatusHandler()}
+                onClick={pauseOrReplayBtnClickHandler}
             >
                 {
                     !playing && !ended && !waiting &&
