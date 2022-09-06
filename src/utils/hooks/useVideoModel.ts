@@ -5,6 +5,7 @@ export interface VideoModelState {
     isFullscreen: boolean;
     waiting: boolean;
     mime: string;
+    transmissionRate: number;
 }
 
 export const initialState: VideoModelState = {
@@ -12,6 +13,7 @@ export const initialState: VideoModelState = {
     isFullscreen: false,
     waiting: false,
     mime: '',
+    transmissionRate: 0,
 };
 
 export interface ControlledActionType {
@@ -34,11 +36,17 @@ export interface MimeActionType {
     payload: VideoModelState['mime'];
 }
 
+export interface TransmissionRateActionType {
+    type: 'transmissionRate';
+    payload: VideoModelState['transmissionRate'];
+}
+
 export type MergeActionType =
     | ControlledActionType
     | IsFullscreenActionType
     | WaitingActionType
-    | MimeActionType;
+    | MimeActionType
+    | TransmissionRateActionType;
 
 export const useVideoModel = () => {
     const reducer = (state: VideoModelState, action: MergeActionType) => {
@@ -53,6 +61,8 @@ export const useVideoModel = () => {
                 return { ...state, waiting: payload };
             case 'mime':
                 return { ...state, mime: payload };
+            case 'transmissionRate':
+                return { ...state, transmissionRate: payload };
             default:
                 return state;
         }

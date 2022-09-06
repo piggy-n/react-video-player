@@ -14,7 +14,8 @@ const ControlPanel: ControlPanelInterface = () => {
         videoModel: {
             controlled,
             waiting,
-            mime
+            mime,
+            transmissionRate
         },
         videoEle,
         isLive,
@@ -72,7 +73,7 @@ const ControlPanel: ControlPanelInterface = () => {
             <div className={classes(cn, 'right-warp')}>
                 <ControlPanel.VideoFormatViewer format={mime}/>
                 <ControlPanel.QualityControl videoSize={videoSize}/>
-                <ControlPanel.TransmissionRateViewer rate={'1.28Mbps'}/>
+                <ControlPanel.TransmissionRateViewer rate={transmissionRate}/>
                 <ControlPanel.SettingControl ended={ended}/>
                 <ControlPanel.WebFullScreenControl/>
             </div>

@@ -47,7 +47,7 @@ export interface TimeViewerProps {
 }
 
 export interface TransmissionRateViewerProps {
-    rate?: string;
+    rate?: number;
 }
 
 export interface QualityControlProps {

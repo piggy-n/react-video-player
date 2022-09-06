@@ -17,10 +17,12 @@ export class StreamH265Player {
     sourceBuffer?: SourceBuffer;
     MP4BoxFile?: Record<string, any>;
     connectionTimes: number;
+    transmissionRate: number;
 
     loadHandler?: () => void;
     sourceOpenHandler?: () => void;
     dispatch: Dispatch<MergeActionType>;
+    transmissionRateInterval?: NodeJS.Timeout;
 
     constructor(options: Options) {
         this.dispatch = options.dispatch;
@@ -28,6 +30,7 @@ export class StreamH265Player {
         this.streaming = false;
         this.arrayBuffer = [];
         this.connectionTimes = 0;
+        this.transmissionRate = 0;
     }
 
     bindFunc(obj: Record<string, any>, func: any) {
@@ -50,7 +53,9 @@ export class StreamH265Player {
         }
     }
 
-    onMessage(data: any) {
+    onMessage(data: any, byteLength: number) {
+        this.transmissionRate += byteLength / 1024 / 1024;
+
         if (!this.mime) {
             data.fileStart = 0;
             this.MP4BoxFile?.appendBuffer(data);
@@ -83,10 +88,21 @@ export class StreamH265Player {
         this.ws.binaryType = 'arraybuffer';
 
         this.ws.onmessage = (e) => {
-            this.onMessage(e.data);
+            this.onMessage(e.data, e.data.byteLength);
         };
 
         this.ws.onopen = () => {
+            this.transmissionRateInterval = setInterval(
+                () => {
+                    this.dispatch({
+                        type: 'transmissionRate',
+                        payload: this.transmissionRate
+                    });
+                    this.transmissionRate = 0;
+                },
+                1000
+            );
+
             this.connectionTimes = 0;
         };
 
@@ -170,6 +186,10 @@ export class StreamH265Player {
         if (this.mediaSource) {
             this.sourceOpenHandler && this.mediaSource.removeEventListener('sourceopen', this.sourceOpenHandler);
             this.mediaSource = undefined;
+        }
+
+        if (this.transmissionRateInterval) {
+            clearInterval(this.transmissionRateInterval);
         }
 
         this.streaming = false;

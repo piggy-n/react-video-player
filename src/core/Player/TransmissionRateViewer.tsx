@@ -9,7 +9,7 @@ const cn = 'Transmission-Rate-Viewer';
 const TransmissionRateViewer: FC<TransmissionRateViewerProps> = ({ rate }) => {
     return (
         <div className={classes(cn, '')}>
-            {rate}
+            {rate && `${rate.toFixed(2)}Mbps`}
         </div>
     );
 };
