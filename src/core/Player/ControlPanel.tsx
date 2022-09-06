@@ -21,6 +21,7 @@ const ControlPanel: ControlPanelInterface = () => {
 
     const {
         playing,
+        ended,
         // inPip,
         totalTime,
         currentTime,
@@ -66,7 +67,7 @@ const ControlPanel: ControlPanelInterface = () => {
                 <ControlPanel.VideoFormatViewer format={'H.265'}/>
                 <ControlPanel.QualityControl videoSize={videoSize}/>
                 <ControlPanel.TransmissionRateViewer rate={'1.28Mbps'}/>
-                <ControlPanel.SettingControl/>
+                <ControlPanel.SettingControl ended={ended}/>
                 <ControlPanel.WebFullScreenControl/>
             </div>
         </div>

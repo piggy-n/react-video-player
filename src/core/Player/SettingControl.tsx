@@ -13,13 +13,18 @@ import { download } from '@/utils/methods/dowload';
 
 const cn = 'Setting-Control';
 
-const SettingControl: FC<SettingControlProps> = () => {
+const SettingControl: FC<SettingControlProps> = (
+    {
+        ended
+    }
+) => {
     const {
         videoModel: {
             controlled
         },
         videoEle,
-        videoContainerEle
+        videoContainerEle,
+        isLive
     } = useContext(VideoContext);
 
     const screenshotDivRef = useRef<HTMLDivElement>(null);
@@ -131,6 +136,24 @@ const SettingControl: FC<SettingControlProps> = () => {
             setVisible(false);
         }
     }, [controlled, isScreenshot, visible]);
+
+    useEffect(() => {
+        if (ended && recorded && !isLive) {
+            recorderRef.current?.stop();
+            cancelAnimationFrame(frameIdRef.current);
+            download(chunksRef.current);
+
+            chunksRef.current = [];
+            recordingCtxRef.current!.clearRect(
+                0,
+                0,
+                videoEle!.videoWidth,
+                videoEle!.videoHeight
+            );
+
+            setRecorded(false);
+        }
+    }, [ended, isLive, recorded]);
 
     return (
         <div className={classes(cn, '')}>

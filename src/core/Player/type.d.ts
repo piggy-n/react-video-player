@@ -59,7 +59,7 @@ export interface VideoFormatViewerProps {
 }
 
 export interface SettingControlProps {
-
+    ended: boolean;
 }
 
 export interface WebFullScreenControlProps {
