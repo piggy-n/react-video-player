@@ -106,6 +106,12 @@ const PlayerController: PlayerControllerInterface = () => {
                 if (mouseState.mouseClickCount === 2) {
                     if (screenfull.isEnabled) {
                         screenfull.toggle(videoContainerEle as HTMLDivElement);
+                        screenfull.on('change', () => {
+                            dispatch({
+                                type: 'isFullscreen',
+                                payload: screenfull.isFullscreen,
+                            });
+                        });
                     }
                 }
 
