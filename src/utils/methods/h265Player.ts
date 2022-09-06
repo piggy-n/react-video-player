@@ -1,4 +1,10 @@
 import MP4Box from 'mp4box';
+import type { Dispatch } from 'react';
+import type { MergeActionType } from '@/utils/hooks/useVideoModel';
+
+interface Options {
+    dispatch: Dispatch<MergeActionType>;
+}
 
 export class StreamH265Player {
     ws?: WebSocket;
@@ -14,8 +20,10 @@ export class StreamH265Player {
 
     loadHandler?: () => void;
     sourceOpenHandler?: () => void;
+    dispatch: Dispatch<MergeActionType>;
 
-    constructor() {
+    constructor(options: Options) {
+        this.dispatch = options.dispatch;
         this.mime = '';
         this.streaming = false;
         this.arrayBuffer = [];
@@ -108,10 +116,16 @@ export class StreamH265Player {
                 this.mime = info.mime;
                 this.sourceBuffer = this.mediaSource?.addSourceBuffer(info.mime);
                 this.loadHandler = this.bindFunc(this, this.load);
+
                 if (this.sourceBuffer) {
                     this.sourceBuffer.mode = 'sequence';
                     this.sourceBuffer.addEventListener('updateend', this.loadHandler);
                 }
+
+                this.dispatch({
+                    type: 'mime',
+                    payload: this.mime.includes('hvc1') ? 'H265' : 'H264',
+                });
             }
         };
     }
@@ -161,6 +175,11 @@ export class StreamH265Player {
         this.streaming = false;
         this.arrayBuffer = [];
         this.mime = '';
+
+        this.dispatch({
+            type: 'mime',
+            payload: '',
+        });
     }
 
     reload() {

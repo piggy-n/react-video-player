@@ -13,7 +13,8 @@ const ControlPanel: ControlPanelInterface = () => {
     const {
         videoModel: {
             controlled,
-            waiting
+            waiting,
+            mime
         },
         videoEle,
         isLive,
@@ -69,7 +70,7 @@ const ControlPanel: ControlPanelInterface = () => {
                 />
             </div>
             <div className={classes(cn, 'right-warp')}>
-                <ControlPanel.VideoFormatViewer format={'H.265'}/>
+                <ControlPanel.VideoFormatViewer format={mime}/>
                 <ControlPanel.QualityControl videoSize={videoSize}/>
                 <ControlPanel.TransmissionRateViewer rate={'1.28Mbps'}/>
                 <ControlPanel.SettingControl ended={ended}/>

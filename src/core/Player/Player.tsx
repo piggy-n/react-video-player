@@ -22,14 +22,16 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
     },
     ref
 ) => {
-    const { onMouseOver } = useContext(LayoutContext);
+    const { videoModel, dispatch } = useVideoModel();
 
-    const [loading, setLoading] = useState<boolean>(false);
+    const { onMouseOver } = useContext(LayoutContext);
 
     const videoContainerRef = useRef<HTMLDivElement>(null);
     const videoRef = useRef<HTMLVideoElement>(null);
     const videoUsefulTimerRef = useRef<NodeJS.Timer | null>(null);
-    const H265PlayerRef = useRef<any>(new StreamH265Player());
+    const H265PlayerRef = useRef<any>(new StreamH265Player({ dispatch }));
+
+    const [loading, setLoading] = useState<boolean>(false);
 
     const {
         videoAttributes,
@@ -41,8 +43,6 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
         videoRef.current as HTMLVideoElement,
         [videoRef.current]
     );
-
-    const { videoModel, dispatch } = useVideoModel();
 
     const videoContextValue = useMemo(
         () => {
