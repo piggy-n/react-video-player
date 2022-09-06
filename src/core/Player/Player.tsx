@@ -35,7 +35,8 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
         videoAttributes,
         videoMethods,
         networkState,
-        readyState
+        readyState,
+        playing
     } = useVideo(
         videoRef.current as HTMLVideoElement,
         [videoRef.current]
@@ -127,7 +128,7 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
                 // https://ks3-cn-beijing.ksyun.com/ksplayer/h265/mp4_resource/jinjie_265.mp4
             />
             {
-                loading &&
+                ((loading && playing) || (networkState === 2 && readyState <= 1)) &&
                 <div className={classes(cn, 'loading')}>
                     <Icon name={'loading'} size={24}/>
                     <p>正在加载中...</p>

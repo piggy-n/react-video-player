@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { classes } from '@/utils/methods/classes';
 import './styles/playerController.scss';
-import { useContext, useRef } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { useRafInterval, useReactive } from 'ahooks';
 import screenfull from 'screenfull';
 import { VideoContext } from '@/utils/hooks/useVideoContext';
@@ -19,6 +19,8 @@ const PlayerController: PlayerControllerInterface = () => {
     const inactivityTimeoutRef = useRef<NodeJS.Timeout | null>(null);
     const clickTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
+    const [waiting, setWaiting] = useState<boolean>(false);
+
     const mouseState = useReactive({
         mouseIsMoving: false,
         mouseIsOnController: false,
@@ -29,6 +31,8 @@ const PlayerController: PlayerControllerInterface = () => {
         changePlayStatusHandler,
         playing,
         ended,
+        readyState,
+        networkState
     } = useVideo(
         videoEle as HTMLVideoElement,
         [videoEle]
@@ -118,10 +122,14 @@ const PlayerController: PlayerControllerInterface = () => {
         }
     );
 
+    useEffect(() => {
+        setWaiting(networkState === 2 && readyState <= 1);
+    }, [networkState, readyState]);
+
     return (
         <div
             className={classes(cn, '')}
-            style={{ backgroundColor: ended ? 'rgba(0, 0, 0, 0.5)' : 'transparent' }}
+            style={{ backgroundColor: (ended || !playing) && !waiting ? 'rgba(0, 0, 0, 0.5)' : 'transparent' }}
             onMouseEnter={() => playerControllerVisibleHandler('enter')}
             onMouseLeave={() => playerControllerVisibleHandler('leave')}
         >
@@ -136,7 +144,7 @@ const PlayerController: PlayerControllerInterface = () => {
                 onClick={() => changePlayStatusHandler && changePlayStatusHandler()}
             >
                 {
-                    !playing && !ended &&
+                    !playing && !ended && !waiting &&
                     <Icon name={'player'} size={55} title={'播放'}/>
                 }
             </div>
