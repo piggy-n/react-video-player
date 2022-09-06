@@ -11,7 +11,7 @@ import Icon from '@/components/Icon';
 import { useVideoModel } from '@/utils/hooks/useVideoModel';
 import { LayoutContext } from '@/utils/hooks/useLayoutContext';
 import { VideoContext } from '@/utils/hooks/useVideoContext';
-import StreamH265Player from '@/utils/methods/abc';
+import { StreamH265Player } from '@/utils/methods/h265Player';
 
 const cn = 'Player';
 
@@ -101,7 +101,7 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
 
     useEffect(() => {
         const videoEle = videoRef.current as HTMLVideoElement;
-        const url = 'wss://lzz.enbo12119.com/live/1557971988926095361/101.live.mp4?token=9b51af1d-c008-46b2-928e-8d5b6ce67a62';
+        const url = 'wss://lzz.enbo12119.com/live/1557971988926095361/101.live.mp4?token=49754077-2f7e-41ef-9f1b-835f1aff94a1';
 
         if (videoEle) {
             H265PlayerRef.current.start(videoEle, url);
