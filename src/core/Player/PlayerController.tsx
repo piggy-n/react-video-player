@@ -107,7 +107,7 @@ const PlayerController: PlayerControllerInterface = () => {
 
                 mouseState.mouseClickCount = 0;
             },
-            200);
+            300);
     };
 
     useRafInterval(
@@ -145,7 +145,7 @@ const PlayerController: PlayerControllerInterface = () => {
                 onClick={endBtnClickHandler}
             >
                 {
-                    ended &&
+                    ended && !isLive &&
                     <Icon name={'replay'} size={55} title={'重播'}/>
                 }
             </div>

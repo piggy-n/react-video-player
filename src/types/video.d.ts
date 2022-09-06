@@ -12,6 +12,8 @@ export interface VideoAttributes {
     ended: boolean;
     error: null | number;
     videoSize: VideoSize;
+    networkState: number;
+    readyState: number;
 }
 
 export interface VideoMethods {

@@ -28,6 +28,8 @@ export const useVideo = (ele: HTMLVideoElement, dep: DependencyList = []) => {
             videoWidth: 0,
             videoHeight: 0
         },
+        networkState: 0,
+        readyState: 0,
     });
 
     const videoMethods = useMemo<VideoMethods>(
@@ -129,7 +131,9 @@ export const useVideo = (ele: HTMLVideoElement, dep: DependencyList = []) => {
                         videoSize: {
                             videoWidth: video.videoWidth,
                             videoHeight: video.videoHeight
-                        }
+                        },
+                        networkState: video.networkState,
+                        readyState: video.readyState,
                     });
                 },
                 1

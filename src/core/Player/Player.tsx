@@ -22,13 +22,20 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
     const { onMouseOver } = useContext(LayoutContext);
 
     const [loading, setLoading] = useState<boolean>(false);
+    const [videoCanBePlayed, setVideoCanBePlayed] = useState<boolean>(false);
 
     const videoContainerRef = useRef<HTMLDivElement>(null);
     const videoRef = useRef<HTMLVideoElement>(null);
     const videoUsefulTimerRef = useRef<NodeJS.Timer | null>(null);
     const H265PlayerRef = useRef<any>(new StreamH265Player());
 
-    const { videoAttributes, videoMethods, playing } = useVideo(
+    const {
+        videoAttributes,
+        videoMethods,
+        playing,
+        networkState,
+        readyState
+    } = useVideo(
         videoRef.current as HTMLVideoElement,
         [videoRef.current]
     );
@@ -108,6 +115,11 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
         }
     }, [videoRef.current]);
 
+    useEffect(() => {
+        console.log('networkState', networkState, 'readyState', readyState);
+        setVideoCanBePlayed(networkState !== 0 && networkState !== 3 || readyState !== 0);
+    }, [networkState, readyState]);
+
     return (
         <div
             ref={videoContainerRef}
@@ -120,7 +132,7 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
                 autoPlay
                 preload={'auto'}
                 crossOrigin={'anonymous'}
-                style={{ background: playing ? 'rgba(0, 0, 0, 1)' : 'rgba(84, 84, 84, 0.8)' }}
+                style={{ background: videoCanBePlayed ? 'rgba(0, 0, 0, 1)' : 'rgba(84, 84, 84, 0.8)' }}
                 // https://ks3-cn-beijing.ksyun.com/ksplayer/h265/mp4_resource/jinjie_265.mp4
             />
             {
