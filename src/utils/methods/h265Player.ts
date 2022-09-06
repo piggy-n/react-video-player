@@ -175,15 +175,15 @@ export class StreamH265Player {
         this.streaming = false;
         this.arrayBuffer = [];
         this.mime = '';
-
-        this.dispatch({
-            type: 'mime',
-            payload: '',
-        });
     }
 
     reload() {
         this.stop();
         this.start();
+
+        this.dispatch({
+            type: 'mime',
+            payload: '',
+        });
     }
 }
