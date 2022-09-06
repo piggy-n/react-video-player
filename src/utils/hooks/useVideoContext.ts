@@ -4,7 +4,7 @@ import type { Dispatch } from 'react';
 import type { VideoModelState, MergeActionType } from '@/utils/hooks/useVideoModel';
 import type { PlayerProps } from '@/core/Player/type';
 
-export interface VideoContextType extends PlayerProps {
+export interface VideoContextType extends Partial<PlayerProps> {
     dispatch: Dispatch<MergeActionType>;
     videoModel: VideoModelState;
     videoEle: HTMLVideoElement | null;
@@ -16,7 +16,6 @@ export const defaultValue: Partial<VideoContextType> = {
     videoModel: initialState,
     videoEle: null,
     videoContainerEle: null,
-    isLive: true
 };
 
 export const VideoContext = createContext<VideoContextType>(<VideoContextType>defaultValue);

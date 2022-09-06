@@ -4,6 +4,7 @@ import type { VideoAttributes, VideoMethods, VideoSize } from '@/types/video';
 export type PlayerRef = VideoAttributes & VideoMethods & { video: HTMLVideoElement };
 
 export interface PlayerProps {
+    url: string;
     width?: number;
     height?: number;
     isLive?: boolean;

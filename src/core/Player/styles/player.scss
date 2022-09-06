@@ -11,6 +11,8 @@
     @include ps(absolute, 0, auto, auto, 0);
     @include wh(100%, 100%);
     pointer-events: none;
+    object-fit: fill;
+    background-color: rgba(84, 84, 84, 0.8);
   }
 
   &-loading {

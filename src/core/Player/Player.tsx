@@ -16,13 +16,15 @@ import { StreamH265Player } from '@/utils/methods/h265Player';
 const cn = 'Player';
 
 const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
-    props,
+    {
+        isLive,
+        url,
+    },
     ref
 ) => {
     const { onMouseOver } = useContext(LayoutContext);
 
     const [loading, setLoading] = useState<boolean>(false);
-    const [videoCanBePlayed, setVideoCanBePlayed] = useState<boolean>(false);
 
     const videoContainerRef = useRef<HTMLDivElement>(null);
     const videoRef = useRef<HTMLVideoElement>(null);
@@ -32,7 +34,6 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
     const {
         videoAttributes,
         videoMethods,
-        playing,
         networkState,
         readyState
     } = useVideo(
@@ -52,7 +53,7 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
                     videoEle: videoRef.current,
                     videoContainerEle: videoContainerRef.current,
                     H265Player: H265PlayerRef.current,
-                    ...props
+                    isLive,
                 }
             );
         },
@@ -81,6 +82,8 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
     useEffect(() => {
         const videoEle = videoRef.current as HTMLVideoElement;
 
+        isLive ? H265PlayerRef.current.start(videoEle, url) : videoEle.src = url;
+
         forceUpdate();
 
         videoUsefulTimerRef.current = setTimeout(
@@ -104,20 +107,10 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
 
             videoUsefulTimerRef.current && clearTimeout(videoUsefulTimerRef.current as NodeJS.Timer);
         };
-    }, [videoRef.current, playing]);
-
-    useEffect(() => {
-        const videoEle = videoRef.current as HTMLVideoElement;
-        const url = 'wss://lzz.enbo12119.com/live/1557971988926095361/101.live.mp4?token=49754077-2f7e-41ef-9f1b-835f1aff94a1';
-
-        if (videoEle) {
-            H265PlayerRef.current.start(videoEle, url);
-        }
-    }, [videoRef.current]);
+    }, [videoRef.current, url, isLive]);
 
     useEffect(() => {
         console.log('networkState', networkState, 'readyState', readyState);
-        setVideoCanBePlayed(networkState !== 0 && networkState !== 3 || readyState !== 0);
     }, [networkState, readyState]);
 
     return (
@@ -130,9 +123,7 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
                 ref={videoRef}
                 muted
                 autoPlay
-                preload={'auto'}
                 crossOrigin={'anonymous'}
-                style={{ background: videoCanBePlayed ? 'rgba(0, 0, 0, 1)' : 'rgba(84, 84, 84, 0.8)' }}
                 // https://ks3-cn-beijing.ksyun.com/ksplayer/h265/mp4_resource/jinjie_265.mp4
             />
             {
