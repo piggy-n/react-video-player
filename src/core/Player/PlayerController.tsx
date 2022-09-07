@@ -14,6 +14,7 @@ const cn = 'Player-Controller';
 
 const PlayerController: PlayerControllerInterface = () => {
     const { resizing } = useContext(LayoutContext);
+
     const {
         dispatch,
         videoEle,

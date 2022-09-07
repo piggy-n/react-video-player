@@ -24,8 +24,8 @@ const ProgressBar = () => {
     const progressMaskRef = useRef<HTMLDivElement>(null);
     const progressWrapperRef = useRef<HTMLDivElement>(null);
     const progressControlPointRef = useRef<HTMLDivElement>(null);
-    const aIntervalRef = useRef<NodeJS.Timer | null>(null);
-    const bIntervalRef = useRef<NodeJS.Timer | null>(null);
+    const hoverStylesIntervalRef = useRef<NodeJS.Timer | null>(null);
+    const draggingIntervalRef = useRef<NodeJS.Timer | null>(null);
 
     const {
         progressBarModel: {
@@ -62,8 +62,8 @@ const ProgressBar = () => {
     const mouseDownHandler = () => {
         const progressMaskEleOffsetWidth = progressMaskRef.current!.offsetWidth;
 
-        bIntervalRef.current && clearInterval(bIntervalRef.current);
-        bIntervalRef.current = setInterval(
+        draggingIntervalRef.current && clearInterval(draggingIntervalRef.current);
+        draggingIntervalRef.current = setInterval(
             () => {
                 const position = distanceOfClientXRef.current - progressMaskRef.current!.getBoundingClientRect().left + 1;
 
@@ -106,7 +106,7 @@ const ProgressBar = () => {
     };
 
     const mouseUpHandler = () => {
-        bIntervalRef.current && clearInterval(bIntervalRef.current);
+        draggingIntervalRef.current && clearInterval(draggingIntervalRef.current);
 
         if (currentTime < totalTime && dragging) {
             videoEle?.play();
@@ -163,7 +163,7 @@ const ProgressBar = () => {
             const progressWrapperEle = progressWrapperRef.current;
             const progressControlPointEle = progressControlPointRef.current;
 
-            aIntervalRef.current = setInterval(
+            hoverStylesIntervalRef.current = setInterval(
                 () => {
                     hoverStylesHandler({
                         height: suspending ? 7 : 3,
@@ -178,7 +178,7 @@ const ProgressBar = () => {
         }
 
         return () => {
-            aIntervalRef.current && clearInterval(aIntervalRef.current);
+            hoverStylesIntervalRef.current && clearInterval(hoverStylesIntervalRef.current);
         };
     }, [suspending]);
 
