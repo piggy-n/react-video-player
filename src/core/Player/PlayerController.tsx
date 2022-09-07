@@ -21,7 +21,8 @@ const PlayerController: PlayerControllerInterface = () => {
         isLive,
         H265Player,
         videoModel: {
-            waiting
+            waiting,
+            error
         }
     } = useContext(VideoContext);
 
@@ -150,12 +151,17 @@ const PlayerController: PlayerControllerInterface = () => {
             type: 'waiting',
             payload: networkState === 2 && readyState <= 1
         });
+
+        dispatch({
+            type: 'error',
+            payload: networkState === 3 || networkState === 0
+        });
     }, [networkState, readyState]);
 
     return (
         <div
             className={classes(cn, '')}
-            style={{ backgroundColor: (ended || !playing) && !waiting ? 'rgba(0, 0, 0, 0.5)' : 'transparent' }}
+            style={{ backgroundColor: (ended || !playing) && !waiting && !error ? 'rgba(0, 0, 0, 0.5)' : 'transparent' }}
             onMouseEnter={() => playerControllerVisibleHandler('enter')}
             onMouseLeave={() => playerControllerVisibleHandler('leave')}
         >

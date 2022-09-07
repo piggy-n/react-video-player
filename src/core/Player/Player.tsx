@@ -112,6 +112,10 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
         };
     }, [videoRef.current, url, isLive]);
 
+    useEffect(() => {
+        console.log('networkState', networkState, 'readyState', readyState);
+    }, [networkState, readyState]);
+
     return (
         <div
             ref={videoContainerRef}

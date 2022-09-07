@@ -4,6 +4,7 @@ export interface VideoModelState {
     controlled: boolean;
     isFullscreen: boolean;
     waiting: boolean;
+    error: boolean;
     mime: string;
     transmissionRate: number;
 }
@@ -12,6 +13,7 @@ export const initialState: VideoModelState = {
     controlled: false,
     isFullscreen: false,
     waiting: false,
+    error: false,
     mime: '',
     transmissionRate: 0,
 };
@@ -31,6 +33,11 @@ export interface WaitingActionType {
     payload: VideoModelState['waiting'];
 }
 
+export interface ErrorActionType {
+    type: 'error';
+    payload: VideoModelState['error'];
+}
+
 export interface MimeActionType {
     type: 'mime';
     payload: VideoModelState['mime'];
@@ -45,6 +52,7 @@ export type MergeActionType =
     | ControlledActionType
     | IsFullscreenActionType
     | WaitingActionType
+    | ErrorActionType
     | MimeActionType
     | TransmissionRateActionType;
 
@@ -59,6 +67,8 @@ export const useVideoModel = () => {
                 return { ...state, isFullscreen: payload };
             case 'waiting':
                 return { ...state, waiting: payload };
+            case 'error':
+                return { ...state, error: payload };
             case 'mime':
                 return { ...state, mime: payload };
             case 'transmissionRate':
