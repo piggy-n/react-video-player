@@ -54,7 +54,7 @@ export class StreamH265Player {
     }
 
     onMessage(data: any, byteLength: number) {
-        this.transmissionRate += byteLength / 1024 / 1024;
+        this.transmissionRate += byteLength / 1024;
 
         if (!this.mime) {
             data.fileStart = 0;
@@ -140,7 +140,7 @@ export class StreamH265Player {
 
                 this.dispatch({
                     type: 'mime',
-                    payload: this.mime.includes('hvc1') ? 'H265' : 'H264',
+                    payload: this.mime.includes('hvc1') ? 'H.265' : 'H.264',
                 });
             }
         };
@@ -195,6 +195,11 @@ export class StreamH265Player {
         this.streaming = false;
         this.arrayBuffer = [];
         this.mime = '';
+
+        this.dispatch({
+            type: 'transmissionRate',
+            payload: 0,
+        });
     }
 
     reload() {

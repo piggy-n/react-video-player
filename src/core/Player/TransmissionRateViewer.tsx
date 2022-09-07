@@ -6,10 +6,12 @@ import './styles/transmissionRateViewer.scss';
 
 const cn = 'Transmission-Rate-Viewer';
 
-const TransmissionRateViewer: FC<TransmissionRateViewerProps> = ({ rate }) => {
+const TransmissionRateViewer: FC<TransmissionRateViewerProps> = ({ rate = 0 }) => {
     return (
         <div className={classes(cn, '')}>
-            {rate && `${rate.toFixed(2)}Mbps`}
+            {
+                rate >= 1024 ? `${(rate / 1024).toFixed(2)}Mbps` : `${rate.toFixed(2)}Kbps`
+            }
         </div>
     );
 };

@@ -58,7 +58,7 @@ const WsVideoPlayer = () => {
                         <div className={'ws-player-wrapper'}>
                             <Player
                                 isLive
-                                url={'wss://lzz.enbo12119.com/live/1557971988926095361/101.live.mp4?token=49754077-2f7e-41ef-9f1b-835f1aff94a1'}
+                                url={'wss://lzz.enbo12119.com/live/1557971988926095361/101.live.mp4?token=acf76a55-0ce7-47ba-9add-0cc343b4ce70'}
                                 // url={'https://gs-files.oss-cn-hongkong.aliyuncs.com/okr/test/file/2021/07/01/haiwang.mp4'}
                             />
                         </div>

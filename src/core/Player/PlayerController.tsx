@@ -89,7 +89,7 @@ const PlayerController: PlayerControllerInterface = () => {
                         });
                     }
                 },
-                2000
+                5000
             );
         }
     };
