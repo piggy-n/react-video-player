@@ -10,7 +10,6 @@
   @include ps(relative);
   @include wh(100%, 40px);
   @include fr(flex-start);
-  padding: 0 12px;
   transition: all 0.5s;
   color: rgba(238, 238, 238, 1);
 
@@ -29,10 +28,12 @@
 
   &-left-warp {
     @include fr(flex-start);
+    margin-left: 12px;
   }
 
   &-right-warp {
     @include fr(flex-end);
+    margin-right: 12px;
     flex: 1;
   }
 }

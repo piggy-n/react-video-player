@@ -9,6 +9,7 @@ import { useVideo } from '@/utils/hooks/useVideo';
 import { useProgressBarModel } from '@/utils/hooks/useProgressBarModel';
 import { hoverStylesHandler } from '@/utils/methods/hoverStylesHandler';
 import { percentToSeconds, toMinutesAndSeconds } from '@/utils/methods/time';
+import { useDebounceEffect } from 'ahooks';
 
 const cn = 'Progress-Bar';
 
@@ -125,16 +126,16 @@ const ProgressBar = () => {
                 type: 'dragging',
                 payload: false
             });
+
+            dispatch({
+                type: 'progressMouseUpVal',
+                payload: Date.now()
+            });
         }
 
         dispatch({
             type: 'suspending',
             payload: false
-        });
-
-        dispatch({
-            type: 'progressMouseUpVal',
-            payload: Date.now()
         });
     };
 
@@ -211,11 +212,17 @@ const ProgressBar = () => {
         }
     }, [progressMouseDownVal]);
 
-    useEffect(() => {
-        if (progressMouseUpVal) {
-            onProgressMouseUp && onProgressMouseUp(videoAttributes);
+    useDebounceEffect(
+        () => {
+            if (progressMouseUpVal) {
+                onProgressMouseUp && onProgressMouseUp(videoAttributes);
+            }
+        },
+        [progressMouseUpVal],
+        {
+            wait: 100
         }
-    }, [progressMouseUpVal]);
+    );
 
     return (
         <div
