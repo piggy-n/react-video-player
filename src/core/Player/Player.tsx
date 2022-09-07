@@ -109,10 +109,10 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
             videoUsefulTimerRef.current && clearTimeout(videoUsefulTimerRef.current as NodeJS.Timer);
         };
     }, [videoRef.current, url, isLive]);
-
-    useEffect(() => {
-        console.log('networkState', networkState, 'readyState', readyState);
-    }, [networkState, readyState]);
+    //
+    // useEffect(() => {
+    //     console.log('networkState', networkState, 'readyState', readyState);
+    // }, [networkState, readyState]);
 
     return (
         <div

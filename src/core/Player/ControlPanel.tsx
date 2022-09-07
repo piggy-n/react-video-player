@@ -71,11 +71,17 @@ const ControlPanel: ControlPanelInterface = () => {
                 />
             </div>
             <div className={classes(cn, 'right-warp')}>
-                <ControlPanel.VideoFormatViewer format={mime}/>
-                <ControlPanel.QualityControl videoSize={videoSize}/>
-                <ControlPanel.TransmissionRateViewer rate={transmissionRate}/>
+                {
+                    !waiting &&
+                    <>
+                        <ControlPanel.VideoFormatViewer format={mime}/>
+                        <ControlPanel.QualityControl videoSize={videoSize}/>
+                        <ControlPanel.TransmissionRateViewer rate={transmissionRate}/>
+                    </>
+                }
                 <ControlPanel.SettingControl ended={ended}/>
-                <ControlPanel.WebFullScreenControl/>
+                {/*<ControlPanel.WebFullScreenControl/>*/}
+                <ControlPanel.FullScreenControl/>
             </div>
         </div>
     );
@@ -89,5 +95,6 @@ ControlPanel.QualityControl = require('./QualityControl').default;
 ControlPanel.TransmissionRateViewer = require('./TransmissionRateViewer').default;
 ControlPanel.SettingControl = require('./SettingControl').default;
 ControlPanel.WebFullScreenControl = require('./WebFullScreenControl').default;
+ControlPanel.FullScreenControl = require('./FullScreenControl').default;
 
 export default ControlPanel;

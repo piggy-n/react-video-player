@@ -1,8 +1,6 @@
 import * as React from 'react';
 import { classes } from '@/utils/methods/classes';
-import type { FC } from 'react';
 import Icon from '@/components/Icon';
-import type { WebFullScreenControlProps } from '@/core/Player/type';
 import screenfull from 'screenfull';
 import './styles/webFullScreenControl.scss';
 import { useContext, useEffect, useState } from 'react';
@@ -11,7 +9,7 @@ import { LayoutContext } from '@/utils/hooks/useLayoutContext';
 
 const cn = 'Web-Full-Screen-Control';
 
-const WebFullScreenControl: FC<WebFullScreenControlProps> = () => {
+const WebFullScreenControl = () => {
     const { onWebFullScreen } = useContext(LayoutContext);
     const { videoContainerEle, videoModel, dispatch } = useContext(VideoContext);
 

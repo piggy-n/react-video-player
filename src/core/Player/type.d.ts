@@ -27,7 +27,8 @@ export interface ControlPanelInterface extends FC<ControlPanelProps> {
     QualityControl: FC<QualityControlProps>;
     VideoFormatViewer: FC<VideoFormatViewerProps>;
     SettingControl: FC<SettingControlProps>;
-    WebFullScreenControl: FC<WebFullScreenControlProps>;
+    WebFullScreenControl: FC;
+    FullScreenControl: FC;
 }
 
 export interface PlayControlProps {
@@ -60,9 +61,5 @@ export interface VideoFormatViewerProps {
 
 export interface SettingControlProps {
     ended: boolean;
-}
-
-export interface WebFullScreenControlProps {
-
 }
 

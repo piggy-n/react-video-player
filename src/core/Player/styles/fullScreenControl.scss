@@ -1,0 +1,12 @@
+.ws-full-screen-control {
+  line-height: 1;
+
+  svg,
+  use {
+    cursor: pointer;
+  }
+
+  svg:hover {
+    animation: scaleAnimate .5s ease;
+  }
+}
