@@ -194,7 +194,10 @@ const PlayerController: PlayerControllerInterface = () => {
                 onMouseEnter={() => controllerPanelMouseStatusHandler('enter')}
                 onMouseLeave={() => controllerPanelMouseStatusHandler('leave')}
             >
-                {!isLive && <PlayerController.ProgressBar/>}
+                {
+                    !isLive &&
+                    <PlayerController.ProgressBar/>
+                }
                 <PlayerController.Panel/>
             </div>
         </div>
