@@ -5,6 +5,8 @@ export interface ProgressBarModelState {
     percentage: number;
     suspending: boolean;
     dragging: boolean;
+    progressMouseDownVal: number;
+    progressMouseUpVal: number;
 }
 
 export const initialState: ProgressBarModelState = {
@@ -12,6 +14,8 @@ export const initialState: ProgressBarModelState = {
     percentage: 0,
     suspending: false,
     dragging: false,
+    progressMouseDownVal: 0,
+    progressMouseUpVal: 0,
 };
 
 export interface positionActionType {
@@ -34,11 +38,23 @@ export interface draggingActionType {
     payload: ProgressBarModelState['dragging'];
 }
 
+export interface ProgressMouseDownValActionType {
+    type: 'progressMouseDownVal';
+    payload: ProgressBarModelState['progressMouseDownVal'];
+}
+
+export interface ProgressMouseUpValActionType {
+    type: 'progressMouseUpVal';
+    payload: ProgressBarModelState['progressMouseUpVal'];
+}
+
 export type MergeActionType =
     | positionActionType
     | percentageActionType
     | suspendingActionType
-    | draggingActionType;
+    | draggingActionType
+    | ProgressMouseDownValActionType
+    | ProgressMouseUpValActionType;
 
 export const useProgressBarModel = () => {
     const reducer = (state: ProgressBarModelState, action: MergeActionType) => {
@@ -53,6 +69,10 @@ export const useProgressBarModel = () => {
                 return { ...state, suspending: payload };
             case 'dragging':
                 return { ...state, dragging: payload };
+            case 'progressMouseDownVal':
+                return { ...state, progressMouseDownVal: payload };
+            case 'progressMouseUpVal':
+                return { ...state, progressMouseUpVal: payload };
             default:
                 return state;
         }

@@ -17,7 +17,10 @@ const ProgressBar = () => {
         videoModel: {
             controlled
         },
-        videoEle
+        videoEle,
+        videoAttributes,
+        onProgressMouseDown,
+        onProgressMouseUp,
     } = useContext(VideoContext);
 
     const distanceOfClientXRef = useRef<number>(0);
@@ -32,7 +35,9 @@ const ProgressBar = () => {
             suspending,
             dragging,
             percentage,
-            position
+            position,
+            progressMouseDownVal,
+            progressMouseUpVal,
         },
         dispatch
     } = useProgressBarModel();
@@ -100,6 +105,11 @@ const ProgressBar = () => {
                 if (position > progressMaskEleOffsetWidth) {
                     videoEle!.currentTime = totalTime;
                 }
+
+                dispatch({
+                    type: 'progressMouseDownVal',
+                    payload: Date.now()
+                });
             },
             1
         );
@@ -120,6 +130,11 @@ const ProgressBar = () => {
         dispatch({
             type: 'suspending',
             payload: false
+        });
+
+        dispatch({
+            type: 'progressMouseUpVal',
+            payload: Date.now()
         });
     };
 
@@ -189,6 +204,18 @@ const ProgressBar = () => {
             removeEventListener('mouseup', mouseUpHandler);
         };
     }, [currentTime, totalTime, dragging]);
+
+    useEffect(() => {
+        if (progressMouseDownVal) {
+            onProgressMouseDown && onProgressMouseDown(videoAttributes);
+        }
+    }, [progressMouseDownVal]);
+
+    useEffect(() => {
+        if (progressMouseUpVal) {
+            onProgressMouseUp && onProgressMouseUp(videoAttributes);
+        }
+    }, [progressMouseUpVal]);
 
     return (
         <div

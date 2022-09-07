@@ -1,9 +1,9 @@
 import type { FC } from 'react';
-import type { VideoAttributes, VideoMethods } from '@/types/video';
+import type { VideoAttributes, VideoCallBack, VideoMethods } from '@/types/video';
 
 export type PlayerRef = VideoAttributes & VideoMethods & { video: HTMLVideoElement };
 
-export interface PlayerProps {
+export interface PlayerProps extends Partial<VideoCallBack> {
     url: string;
     width?: number;
     height?: number;

@@ -25,11 +25,12 @@ export interface VideoMethods {
 }
 
 export interface VideoCallBack<T = VideoAttributes> {
-    onPlay: (par: T) => void;
-    onPause: (par: T) => void;
-    onTimeUpdate: (par: T) => void;
-    onEnded: (par: T) => void;
-    onProgressMouseDown: (par: T) => void;
-    onProgressMouseUp: (par: T) => void;
+    onPlay: (arg: T) => void;
+    onPause: (arg: T) => void;
+    onTimeUpdate: (arg: T) => void;
+    onEnded: (arg: T) => void;
+    onProgressMouseDown: (arg: T) => void;
+    onProgressMouseUp: (arg: T) => void;
+    onVideoStateChange: (arg: T) => void;
     onError: () => void;
 }

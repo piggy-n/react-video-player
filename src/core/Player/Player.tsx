@@ -12,6 +12,7 @@ import { useVideoModel } from '@/utils/hooks/useVideoModel';
 import { LayoutContext } from '@/utils/hooks/useLayoutContext';
 import { VideoContext } from '@/utils/hooks/useVideoContext';
 import { StreamH265Player } from '@/utils/methods/h265Player';
+import useVideoCallback from '@/utils/hooks/useVideoCallBack';
 
 const cn = 'Player';
 
@@ -52,6 +53,7 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
                 {
                     videoModel,
                     dispatch,
+                    videoAttributes,
                     videoEle: videoRef.current,
                     videoContainerEle: videoContainerRef.current,
                     H265Player: H265PlayerRef.current,
@@ -72,6 +74,11 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
     const playingListener = () => {
         setLoading(false);
     };
+
+    useVideoCallback(
+        videoAttributes,
+        { ...rest }
+    );
 
     useImperativeHandle(
         ref,
@@ -111,10 +118,6 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
             videoUsefulTimerRef.current && clearTimeout(videoUsefulTimerRef.current as NodeJS.Timer);
         };
     }, [videoRef.current, url, isLive]);
-
-    useEffect(() => {
-        console.log('networkState', networkState, 'readyState', readyState);
-    }, [networkState, readyState]);
 
     return (
         <div
