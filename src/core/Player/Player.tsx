@@ -19,6 +19,7 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
     {
         isLive,
         url,
+        ...rest
     },
     ref
 ) => {
@@ -55,6 +56,7 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
                     videoContainerEle: videoContainerRef.current,
                     H265Player: H265PlayerRef.current,
                     isLive,
+                    ...rest
                 }
             );
         },
@@ -109,10 +111,6 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
             videoUsefulTimerRef.current && clearTimeout(videoUsefulTimerRef.current as NodeJS.Timer);
         };
     }, [videoRef.current, url, isLive]);
-    //
-    // useEffect(() => {
-    //     console.log('networkState', networkState, 'readyState', readyState);
-    // }, [networkState, readyState]);
 
     return (
         <div
@@ -125,7 +123,6 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
                 muted
                 autoPlay
                 crossOrigin={'anonymous'}
-                // https://ks3-cn-beijing.ksyun.com/ksplayer/h265/mp4_resource/jinjie_265.mp4
             />
             {
                 ((loading && playing) || (networkState === 2 && readyState <= 1)) &&

@@ -33,8 +33,18 @@ const FullScreenControl = () => {
         <div className={classes(cn, '')}>
             {
                 isFullscreen
-                    ? <Icon name={'close-web-fullscreen'} title={'退出全屏'} onClick={clickHandler}/>
-                    : <Icon name={'fullscreen'} title={'全屏'} onClick={clickHandler}/>
+                    ? <Icon
+                        name={'close-web-fullscreen'}
+                        title={'退出全屏'}
+                        size={18}
+                        onClick={clickHandler}
+                    />
+                    : <Icon
+                        name={'fullscreen'}
+                        title={'全屏'}
+                        size={18}
+                        onClick={clickHandler}
+                    />
             }
         </div>
     );

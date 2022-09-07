@@ -9,6 +9,7 @@ import TimeViewer from './TimeViewer';
 import TransmissionRateViewer from './TransmissionRateViewer';
 import VideoFormatViewer from './VideoFormatViewer';
 import WebFullScreenControl from './WebFullScreenControl';
+import FullScreenControl from './FullScreenControl';
 
 export {
     PlayerController,
@@ -21,6 +22,7 @@ export {
     TransmissionRateViewer,
     VideoFormatViewer,
     WebFullScreenControl,
+    FullScreenControl,
 };
 
 export default Player;

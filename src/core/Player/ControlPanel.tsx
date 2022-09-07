@@ -25,7 +25,6 @@ const ControlPanel: ControlPanelInterface = () => {
     const {
         playing,
         ended,
-        // inPip,
         totalTime,
         currentTime,
         changePlayStatusHandler,
@@ -80,7 +79,6 @@ const ControlPanel: ControlPanelInterface = () => {
                     </>
                 }
                 <ControlPanel.SettingControl ended={ended}/>
-                {/*<ControlPanel.WebFullScreenControl/>*/}
                 <ControlPanel.FullScreenControl/>
             </div>
         </div>

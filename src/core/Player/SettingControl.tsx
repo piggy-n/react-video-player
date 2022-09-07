@@ -24,7 +24,9 @@ const SettingControl: FC<SettingControlProps> = (
         },
         videoEle,
         videoContainerEle,
-        isLive
+        isLive,
+        screenshot = true,
+        recording
     } = useContext(VideoContext);
 
     const screenshotDivRef = useRef<HTMLDivElement>(null);
@@ -157,11 +159,34 @@ const SettingControl: FC<SettingControlProps> = (
 
     return (
         <div className={classes(cn, '')}>
-            <Icon
-                name={'setting'}
-                size={18}
-                onClick={() => setVisible(!visible)}
-            />
+            {
+                screenshot && !recording &&
+                <Icon
+                    name={'screenshot'}
+                    size={18}
+                    title={'截图'}
+                    onClick={screenshotHandler}
+                />
+            }
+
+            {
+                recording && !screenshot &&
+                <Icon
+                    name={recorded ? 'stop' : 'recording-start'}
+                    size={18}
+                    title={recorded ? '停止录制' : '录制'}
+                    onClick={recordingHandler}
+                />
+            }
+
+            {
+                screenshot && recording &&
+                <Icon
+                    name={'setting'}
+                    size={18}
+                    onClick={() => setVisible(!visible)}
+                />
+            }
             {
                 visible &&
                 <div className={classes(cn, 'wrapper')}>
@@ -184,7 +209,7 @@ const SettingControl: FC<SettingControlProps> = (
                         }
                         <p>
                             {
-                                recorded ? '停止录制' : '录像'
+                                recorded ? '停止录制' : '录制'
                             }
                         </p>
                     </div>

@@ -8,6 +8,8 @@ export interface PlayerProps {
     width?: number;
     height?: number;
     isLive?: boolean;
+    screenshot?: boolean;
+    recording?: boolean;
 }
 
 export interface PlayerControllerInterface extends FC<PlayerControllerProps> {
