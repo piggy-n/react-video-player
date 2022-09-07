@@ -4,8 +4,6 @@ import { useContext } from 'react';
 import { VideoContext } from '@/utils/hooks/useVideoContext';
 import './styles/controlPanel.scss';
 import type { ControlPanelInterface } from '@/core/Player/type';
-import { toMinutesAndSeconds } from '@/utils/methods/time';
-import { useVideo } from '@/utils/hooks/useVideo';
 
 const cn = 'Control-Panel';
 
@@ -14,42 +12,8 @@ const ControlPanel: ControlPanelInterface = () => {
         videoModel: {
             controlled,
             waiting,
-            mime,
-            transmissionRate
         },
-        videoEle,
-        isLive,
-        H265Player
     } = useContext(VideoContext);
-
-    const {
-        playing,
-        ended,
-        totalTime,
-        currentTime,
-        changePlayStatusHandler,
-        videoSize
-        // videoMethods
-    } = useVideo(
-        videoEle as HTMLVideoElement,
-        [videoEle]
-    );
-
-    const playControlClickHandler = () => {
-        if (waiting) return;
-
-        if (isLive) {
-            playing ? H265Player.stop() : H265Player.start();
-        }
-
-        changePlayStatusHandler && changePlayStatusHandler();
-    };
-
-    const reloadControlClickHandler = () => {
-        if (waiting) return;
-
-        isLive ? H265Player.reload() : videoEle?.load();
-    };
 
     return (
         <div
@@ -57,28 +21,20 @@ const ControlPanel: ControlPanelInterface = () => {
             style={{ opacity: controlled ? 1 : 0 }}
         >
             <div className={classes(cn, 'left-warp')}>
-                <ControlPanel.PlayControl
-                    playing={playing}
-                    isLive={isLive}
-                    onClick={playControlClickHandler}
-                />
-                <ControlPanel.ReloadControl onClick={reloadControlClickHandler}/>
-                <ControlPanel.TimeViewer
-                    isLive={isLive}
-                    currentTime={toMinutesAndSeconds(currentTime)}
-                    totalTime={toMinutesAndSeconds(totalTime)}
-                />
+                <ControlPanel.PlayControl/>
+                <ControlPanel.ReloadControl/>
+                <ControlPanel.TimeViewer/>
             </div>
             <div className={classes(cn, 'right-warp')}>
                 {
                     !waiting &&
                     <>
-                        <ControlPanel.VideoFormatViewer format={mime}/>
-                        <ControlPanel.QualityControl videoSize={videoSize}/>
-                        <ControlPanel.TransmissionRateViewer rate={transmissionRate}/>
+                        <ControlPanel.VideoFormatViewer/>
+                        <ControlPanel.QualityControl/>
+                        <ControlPanel.TransmissionRateViewer/>
                     </>
                 }
-                <ControlPanel.SettingControl ended={ended}/>
+                <ControlPanel.SettingControl/>
                 <ControlPanel.FullScreenControl/>
             </div>
         </div>

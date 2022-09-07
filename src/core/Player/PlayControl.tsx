@@ -2,24 +2,44 @@ import * as React from 'react';
 import './styles/playControl.scss';
 import { classes } from '@/utils/methods/classes';
 import Icon from '@/components/Icon';
-import type { FC } from 'react';
-import type { PlayControlProps } from '@/core/Player/type';
+import { useContext } from 'react';
+import { VideoContext } from '@/utils/hooks/useVideoContext';
+import { useVideo } from '@/utils/hooks/useVideo';
 
 const cn = 'Play-Control';
 
-const PlayControl: FC<PlayControlProps> = (
-    {
-        playing = false,
+const PlayControl = () => {
+    const {
+        videoEle,
         isLive,
-        onClick = () => {
-            return;
-        },
-    }
-) => {
+        H265Player,
+        videoModel: {
+            waiting
+        }
+    } = useContext(VideoContext);
+
+    const {
+        playing,
+        changePlayStatusHandler
+    } = useVideo(
+        videoEle as HTMLVideoElement,
+        [videoEle]
+    );
+
+    const clickHandler = () => {
+        if (waiting) return;
+
+        if (isLive) {
+            playing ? H265Player.stop() : H265Player.start();
+        }
+
+        changePlayStatusHandler && changePlayStatusHandler();
+    };
+
     return (
         <div
             className={classes(cn, '')}
-            onClick={onClick}
+            onClick={clickHandler}
         >
             {
                 playing

@@ -1,15 +1,21 @@
 import * as React from 'react';
 import { classes } from '@/utils/methods/classes';
-import type { FC } from 'react';
-import type { VideoFormatViewerProps } from '@/core/Player/type';
 import './styles/videoFormatViewer.scss';
+import { useContext } from 'react';
+import { VideoContext } from '@/utils/hooks/useVideoContext';
 
 const cn = 'Video-Format-Viewer';
 
-const VideoFormatViewer: FC<VideoFormatViewerProps> = ({ format }) => {
+const VideoFormatViewer = () => {
+    const {
+        videoModel: {
+            mime
+        }
+    } = useContext(VideoContext);
+
     return (
         <div className={classes(cn, '')}>
-            {format}
+            {mime}
         </div>
     );
 };

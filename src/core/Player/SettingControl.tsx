@@ -1,23 +1,19 @@
-import type { FC, MouseEventHandler } from 'react';
+import type { MouseEventHandler } from 'react';
 import * as React from 'react';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { classes } from '@/utils/methods/classes';
 import Icon from '@/components/Icon';
-import type { SettingControlProps } from '@/core/Player/type';
 import './styles/settingControl.scss';
 import ziv3 from '@/utils/methods/zxImageViewer';
 import { VideoContext } from '@/utils/hooks/useVideoContext';
 import { capture } from '@/utils/methods/capture';
 import { createPortal } from 'react-dom';
 import { download } from '@/utils/methods/dowload';
+import { useVideo } from '@/utils/hooks/useVideo';
 
 const cn = 'Setting-Control';
 
-const SettingControl: FC<SettingControlProps> = (
-    {
-        ended
-    }
-) => {
+const SettingControl = () => {
     const {
         videoModel: {
             controlled
@@ -28,6 +24,8 @@ const SettingControl: FC<SettingControlProps> = (
         screenshot = true,
         recording
     } = useContext(VideoContext);
+
+    const { ended } = useVideo(videoEle as HTMLVideoElement, [videoEle]);
 
     const screenshotDivRef = useRef<HTMLDivElement>(null);
     const screenshotCanvasRef = useRef<HTMLCanvasElement | null>(null);

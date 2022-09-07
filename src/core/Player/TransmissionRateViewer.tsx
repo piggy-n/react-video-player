@@ -1,16 +1,24 @@
 import * as React from 'react';
 import { classes } from '@/utils/methods/classes';
-import type { FC } from 'react';
-import type { TransmissionRateViewerProps } from '@/core/Player/type';
 import './styles/transmissionRateViewer.scss';
+import { useContext } from 'react';
+import { VideoContext } from '@/utils/hooks/useVideoContext';
 
 const cn = 'Transmission-Rate-Viewer';
 
-const TransmissionRateViewer: FC<TransmissionRateViewerProps> = ({ rate = 0 }) => {
+const TransmissionRateViewer = () => {
+    const {
+        videoModel: {
+            transmissionRate = 0
+        }
+    } = useContext(VideoContext);
+
     return (
         <div className={classes(cn, '')}>
             {
-                rate >= 1024 ? `${(rate / 1024).toFixed(2)}Mbps` : `${rate.toFixed(2)}Kbps`
+                transmissionRate >= 1024
+                    ? `${(transmissionRate / 1024).toFixed(2)}Mbps`
+                    : `${transmissionRate.toFixed(2)}Kbps`
             }
         </div>
     );

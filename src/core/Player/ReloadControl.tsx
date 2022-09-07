@@ -1,23 +1,32 @@
 import * as React from 'react';
 import { classes } from '@/utils/methods/classes';
 import Icon from '@/components/Icon';
-import type { FC } from 'react';
-import type { ReloadControlProps } from '@/core/Player/type';
 import './styles/reloadControl.scss';
+import { useContext } from 'react';
+import { VideoContext } from '@/utils/hooks/useVideoContext';
 
 const cn = 'Reload-Control';
 
-const ReloadControl: FC<ReloadControlProps> = (
-    {
-        onClick = () => {
-            return;
+const ReloadControl = () => {
+    const {
+        isLive,
+        videoEle,
+        H265Player,
+        videoModel: {
+            waiting
         }
-    }
-) => {
+    } = useContext(VideoContext);
+
+    const clickHandler = () => {
+        if (waiting) return;
+
+        isLive ? H265Player.reload() : videoEle?.load();
+    };
+
     return (
         <div
             className={classes(cn, '')}
-            onClick={onClick}
+            onClick={clickHandler}
         >
             <Icon name={'reload'} size={18} title={'重新加载'}/>
         </div>
