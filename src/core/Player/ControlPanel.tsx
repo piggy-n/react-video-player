@@ -4,6 +4,7 @@ import { useContext } from 'react';
 import { VideoContext } from '@/utils/hooks/useVideoContext';
 import './styles/controlPanel.scss';
 import type { ControlPanelInterface } from '@/core/Player/type';
+import { useVideo } from '@/utils/hooks/useVideo';
 
 const cn = 'Control-Panel';
 
@@ -11,9 +12,14 @@ const ControlPanel: ControlPanelInterface = () => {
     const {
         videoModel: {
             controlled,
-            waiting,
         },
+        videoEle,
     } = useContext(VideoContext);
+
+    const { readyState } = useVideo(
+        videoEle as HTMLVideoElement,
+        [videoEle]
+    );
 
     return (
         <div
@@ -27,7 +33,7 @@ const ControlPanel: ControlPanelInterface = () => {
             </div>
             <div className={classes(cn, 'right-warp')}>
                 {
-                    !waiting &&
+                    readyState !== 0 &&
                     <>
                         <ControlPanel.VideoFormatViewer/>
                         <ControlPanel.QualityControl/>
