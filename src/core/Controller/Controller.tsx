@@ -7,7 +7,9 @@ const cn = 'Controller';
 const Controller = () => {
     return (
         <div className={classes(cn, '')}>
+            <div className={classes(cn, 'content')}>
 
+            </div>
         </div>
     );
 };

@@ -9,7 +9,8 @@
   z-index: 1;
 
   .ws-player-wrapper {
-    @include fr(flex-start);
+    @include fr(flex-start, flex-start);
+    flex-wrap: nowrap;
     width: 100%;
     flex: 1;
   }

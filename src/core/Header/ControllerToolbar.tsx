@@ -17,7 +17,6 @@ const ControllerToolbar: FC<ControllerToolbarProps> = () => {
     });
 
     const [panelStatus, setPanelStatus] = useState<Record<string, boolean>>({
-        screenshot: false,
         control: false,
         recording: false,
     });
@@ -37,7 +36,6 @@ const ControllerToolbar: FC<ControllerToolbarProps> = () => {
 
     const panelStatusHandler = (key: string) => {
         const newPanelStatus = {
-            screenshot: false,
             control: false,
             recording: false,
             [key]: !panelStatus[key],
@@ -79,8 +77,8 @@ const ControllerToolbar: FC<ControllerToolbarProps> = () => {
             />
             <Icon
                 name={panelStatus['screenshot'] ? 'screenshot-active' : 'screenshot'}
-                title={'查看截图'}
-                onClick={() => panelStatusHandler('screenshot')}
+                title={'截图'}
+                // onClick={() => panelStatusHandler('screenshot')}
             />
             <Icon
                 name={panelStatus['control'] ? 'control-active' : 'control'}

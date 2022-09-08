@@ -61,6 +61,7 @@ const WsVideoPlayer = () => {
                     width={size?.width ?? 0}
                     height={size?.height ?? 0}
                     minConstraints={minSize ? [minSize.width, minSize.height] : undefined}
+                    maxConstraints={[innerWidth, innerHeight]}
                     resizeHandles={resizeHandlesArr}
                     lockAspectRatio
                     onResizeStart={() => setResizing(true)}
@@ -79,7 +80,7 @@ const WsVideoPlayer = () => {
                                 url={'wss://lzz.enbo12119.com/live/1557971988926095361/101.live.mp4?token=d69d07a3-c588-4c5d-a33a-faaa23d77ad0'}
                                 // url={'https://gs-files.oss-cn-hongkong.aliyuncs.com/okr/test/file/2021/07/01/haiwang.mp4'}
                             />
-                            {/*<Controller/>*/}
+                            <Controller/>
                         </div>
                     </div>
                 </ResizableBox>
