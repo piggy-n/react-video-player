@@ -5,11 +5,14 @@ import { classes } from '@/utils/methods/classes';
 import './styles/controllerToolbar.scss';
 import Icon from '@/components/Icon';
 import Selector from '@/components/Selector';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import { LayoutContext } from '@/utils/hooks/useLayoutContext';
 
 const cn = 'Controller-Toolbar';
 
 const ControllerToolbar: FC<ControllerToolbarProps> = () => {
+    const { onControllerVisibleChange } = useContext(LayoutContext);
+
     const [gridStatus, setGridStatus] = useState<Record<string, boolean>>({
         singleGrid: true,
         doubleGrid: false,
@@ -40,6 +43,10 @@ const ControllerToolbar: FC<ControllerToolbarProps> = () => {
             recording: false,
             [key]: !panelStatus[key],
         };
+
+        if (onControllerVisibleChange) {
+            onControllerVisibleChange(!panelStatus[key]);
+        }
 
         setPanelStatus(newPanelStatus);
     };
