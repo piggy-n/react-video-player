@@ -1,0 +1,6 @@
+@import 'src/assets/styles/mixin.scss';
+
+.ws-controller {
+  @include wh(100px, 100%);
+  border: 1px solid red;
+}

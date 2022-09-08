@@ -3,6 +3,11 @@
   height: $h;
 }
 
+@mixin mwh($w, $h) {
+  min-width: $w;
+  min-height: $h;
+}
+
 @mixin ps($type, $t: auto, $r: auto, $b: auto, $l: auto) {
   position: $type;
   top: $t;

@@ -1,22 +1,27 @@
 import * as React from 'react';
 import Header from '@/core/Header';
 import Player from '@/core/Player';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { ResizeHandle } from 'react-resizable';
 import { ResizableBox } from 'react-resizable';
 import '@/global.scss';
 import './wsVideoPlayer.scss';
 import '@/assets/styles/resizableBox.css';
 import { LayoutContext } from '@/utils/hooks/useLayoutContext';
+import Controller from '@/core/Controller';
+import type { Position, Size } from '@/types/video';
 
 const Draggable = require('react-draggable');
 
 const WsVideoPlayer = () => {
+    const playerContainerRef = useRef<HTMLDivElement>(null);
+
     const [disabled, setDisabled] = useState<boolean>(true);
-    const [size, setSize] = useState({ width: 482, height: 312 });
     const [resizing, setResizing] = useState<boolean>(false);
     const [resizeHandlesArr, setResizeHandlesArr] = useState<ResizeHandle[] | undefined>(['se', 'e', 's']);
-    const [position, setPosition] = useState<{ x: number, y: number } | null>(null);
+    const [position, setPosition] = useState<Position | null>(null);
+    const [size, setSize] = useState<Size | null>(null);
+    const [minSize, setMinSize] = useState<Size | null>(null);
 
     const mouseOverHandler = (arg: boolean) => {
         setDisabled(arg);
@@ -26,6 +31,18 @@ const WsVideoPlayer = () => {
         setPosition(arg ? { x: 0, y: 0 } : null);
         setResizeHandlesArr(arg ? [] : ['se', 'e', 's']);
     };
+
+    useEffect(() => {
+        const { width, height } = playerContainerRef.current?.getBoundingClientRect() || { width: 0, height: 0 };
+
+        setSize({ width, height });
+        setMinSize({ width, height });
+
+        if (playerContainerRef.current) {
+            playerContainerRef.current.style.width = '100%';
+            playerContainerRef.current.style.height = '100%';
+        }
+    }, [playerContainerRef.current]);
 
     return (
         <LayoutContext.Provider
@@ -41,9 +58,9 @@ const WsVideoPlayer = () => {
                 position={position}
             >
                 <ResizableBox
-                    width={size.width}
-                    height={size.height}
-                    minConstraints={[482, 312]}
+                    width={size?.width ?? 0}
+                    height={size?.height ?? 0}
+                    minConstraints={minSize ? [minSize.width, minSize.height] : undefined}
                     resizeHandles={resizeHandlesArr}
                     lockAspectRatio
                     onResizeStart={() => setResizing(true)}
@@ -51,6 +68,7 @@ const WsVideoPlayer = () => {
                     onResize={(event, { size }) => setSize(size)}
                 >
                     <div
+                        ref={playerContainerRef}
                         className={'ws-video-player-container'}
                         onMouseLeave={() => setDisabled(true)}
                     >
@@ -61,6 +79,7 @@ const WsVideoPlayer = () => {
                                 url={'wss://lzz.enbo12119.com/live/1557971988926095361/101.live.mp4?token=d69d07a3-c588-4c5d-a33a-faaa23d77ad0'}
                                 // url={'https://gs-files.oss-cn-hongkong.aliyuncs.com/okr/test/file/2021/07/01/haiwang.mp4'}
                             />
+                            {/*<Controller/>*/}
                         </div>
                     </div>
                 </ResizableBox>

@@ -1,7 +1,6 @@
 @import 'src/assets/styles/mixin.scss';
 
 .ws-video-player-container {
-  @include wh(100%, 100%);
   @include ps(absolute);
   @include fd(flex-start);
   border: 2px solid rgba(30, 96, 121, 1);

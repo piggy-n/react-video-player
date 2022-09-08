@@ -2,7 +2,7 @@
 
 .ws-player {
   @include ps(relative);
-  @include wh(100%, 100%);
+  @include mwh(480px, 270px);
   @include fr(center);
   overflow: hidden;
   user-select: none;
