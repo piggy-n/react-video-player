@@ -3,9 +3,4 @@
 .ws-controller {
   @include wh(180px, 100%);
   background: rgba(7, 30, 39, .75);
-
-  &-content {
-    @include wh(100%, 100%);
-    background: rgba(30, 96, 121, .3);
-  }
 }
