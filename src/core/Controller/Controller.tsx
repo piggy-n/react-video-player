@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { classes } from '@/utils/methods/classes';
 import './styles/controller.scss';
-import VideoControlPanel from '@/core/Controller/VideoControlPanel';
 import { useContext } from 'react';
 import { LayoutContext } from '@/utils/hooks/useLayoutContext';
 
@@ -15,9 +14,12 @@ const Controller = () => {
             className={classes(cn, '')}
             onMouseOver={() => onMouseOver && onMouseOver(true)}
         >
-            <VideoControlPanel/>
+            <Controller.VideoControlPanel/>
         </div>
     );
 };
+
+Controller.VideoControlPanel = require('./VideoControlPanel').default;
+Controller.VideoListPanel = require('./VideoListPanel').default;
 
 export default Controller;

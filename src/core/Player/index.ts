@@ -24,5 +24,4 @@ export {
     WebFullScreenControl,
     FullScreenControl,
 };
-
 export default Player;
