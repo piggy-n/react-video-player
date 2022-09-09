@@ -113,7 +113,7 @@ const WsVideoPlayer = () => {
                         <div className={'ws-player-wrapper'}>
                             <Player
                                 isLive
-                                url={'wss://lzz.enbo12119.com/live/1557971988926095361/101.live.mp4?token=d69d07a3-c588-4c5d-a33a-faaa23d77ad0'}
+                                url={'wss://lzz.enbo12119.com/live/1557971988141760514/101.live.mp4?token=f84349a7-6c8d-4128-9647-6e0ba6be81af'}
                                 // url={'https://gs-files.oss-cn-hongkong.aliyuncs.com/okr/test/file/2021/07/01/haiwang.mp4'}
                             />
                             <ControllerContext.Provider value={controllerContextValue}>

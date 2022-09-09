@@ -1,0 +1,20 @@
+@import 'src/assets/styles/mixin.scss';
+
+.ws-video-list-panel {
+  @include wh(100%, 100%);
+  @include fd(flex-start);
+  padding: 8px;
+  background: rgba(30, 96, 121, .35);
+
+  &-item-wrapper {
+    @include wh(100%, auto);
+    @include fd(flex-start, flex-start);
+    margin: 0 4px;
+
+    .ws-video-list-panel-item-time {
+      @include style(12px, rgba(22, 174, 224, 1));
+      line-height: 12px;
+      margin-bottom: 8px;
+    }
+  }
+}
