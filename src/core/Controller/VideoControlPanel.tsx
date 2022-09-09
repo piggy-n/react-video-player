@@ -7,9 +7,11 @@ const cn = 'Video-Control-Panel';
 const VideoControlPanel = () => {
     return (
         <div className={classes(cn, '')}>
-
+            <VideoControlPanel.DirectionController/>
         </div>
     );
 };
+
+VideoControlPanel.DirectionController = require('./DirectionController').default;
 
 export default VideoControlPanel;

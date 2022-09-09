@@ -1,0 +1,43 @@
+@import 'src/assets/styles/mixin.scss';
+
+.ws-direction-controller {
+  @include wh(164px, 100px);
+  @include fr(space-between, center);
+  border-style: solid;
+  border-width: 4px 4px 4px 4px;
+  border-image-source: url('../../../assets/images/4974.png');
+  border-image-slice: 4 4 4 4 fill;
+
+  &-left {
+    @include wh(92px, 92px);
+    border-radius: 50%;
+    border: 1px solid rgba(22, 174, 224, .2);
+    margin-left: 4px;
+  }
+
+  &-right {
+    @include wh(44px, 100%);
+    @include ps(relative);
+    margin-right: 4px;
+
+    .ws-right-btn-up,
+    .ws-right-btn-down {
+      @include wh(44px, 15px);
+      @include fr(center, center);
+      background: rgba(22, 174, 224, .5);
+      cursor: pointer;
+    }
+
+    .ws-right-btn-up {
+      @include ps(absolute, 11px, auto, auto, auto);
+      border-top-left-radius: 3px;
+      border-top-right-radius: 3px;
+    }
+
+    .ws-right-btn-down {
+      @include ps(absolute, auto, auto, 11px, auto);
+      border-bottom-left-radius: 3px;
+      border-bottom-right-radius: 3px;
+    }
+  }
+}
