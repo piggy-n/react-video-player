@@ -1,0 +1,37 @@
+@import 'src/assets/styles/mixin.scss';
+
+.ws-presetting-bit-controller {
+  @include fd(flex-start);
+  width: 100%;
+
+  &-header {
+    @include fr(space-between, center);
+    @include wh(100%, 16px);
+
+    .ws-presetting-bit-controller-header-left {
+      @include fr(flex-start);
+      line-height: 12px;
+
+      p {
+        @include style(12px, rgba(181, 216, 238, 1));
+        cursor: pointer;
+      }
+
+      i {
+        @include wh(0px, 8px);
+        margin: 0 8px;
+        border-left: 1px solid #B5D8EE;
+      }
+    }
+
+    .ws-presetting-bit-controller-header-right {
+      @include fr(flex-start);
+      line-height: 12px;
+
+      svg {
+        margin: 0 2px;
+        cursor: pointer;
+      }
+    }
+  }
+}

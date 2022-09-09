@@ -9,11 +9,13 @@ const VideoControlPanel = () => {
         <div className={classes(cn, '')}>
             <VideoControlPanel.DirectionController/>
             <VideoControlPanel.ZoomController/>
+            <VideoControlPanel.PresettingBitController/>
         </div>
     );
 };
 
 VideoControlPanel.DirectionController = require('./DirectionController').default;
 VideoControlPanel.ZoomController = require('./ZoomController').default;
+VideoControlPanel.PresettingBitController = require('./PresettingBitController').default;
 
 export default VideoControlPanel;
