@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Header from '@/core/Header';
 import Player from '@/core/Player';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import type { ResizeHandle } from 'react-resizable';
 import { ResizableBox } from 'react-resizable';
 import '@/global.scss';
@@ -11,6 +11,8 @@ import { LayoutContext } from '@/utils/hooks/useLayoutContext';
 import Controller from '@/core/Controller';
 import type { Position, Size } from '@/types/video';
 import { useUpdateEffect } from 'ahooks';
+import { useControllerModel } from '@/utils/hooks/useControllerModel';
+import { ControllerContext } from '@/utils/hooks/useControllerContext';
 
 const Draggable = require('react-draggable');
 
@@ -24,6 +26,21 @@ const WsVideoPlayer = () => {
     const [size, setSize] = useState<Size | null>(null);
     const [minSize, setMinSize] = useState<Size | null>(null);
     const [controllerVisible, setControllerVisible] = useState<boolean>(false);
+
+    const { controllerModel, dispatch } = useControllerModel();
+
+    const controllerContextValue = useMemo(
+        () => {
+            return Object.assign(
+                {},
+                {
+                    controllerModel,
+                    dispatch,
+                }
+            );
+        },
+        [controllerModel, dispatch]
+    );
 
     const mouseOverHandler = (arg: boolean) => {
         setDisabled(arg);
@@ -95,7 +112,9 @@ const WsVideoPlayer = () => {
                         className={'ws-video-player-container'}
                         onMouseLeave={() => setDisabled(true)}
                     >
-                        <Header/>
+                        <ControllerContext.Provider value={controllerContextValue}>
+                            <Header/>
+                        </ControllerContext.Provider>
                         <div className={'ws-player-wrapper'}>
                             <Player
                                 isLive
@@ -103,7 +122,10 @@ const WsVideoPlayer = () => {
                                 // url={'https://gs-files.oss-cn-hongkong.aliyuncs.com/okr/test/file/2021/07/01/haiwang.mp4'}
                             />
                             {
-                                controllerVisible && <Controller/>
+                                controllerVisible &&
+                                <ControllerContext.Provider value={controllerContextValue}>
+                                    <Controller/>
+                                </ControllerContext.Provider>
                             }
                         </div>
                     </div>

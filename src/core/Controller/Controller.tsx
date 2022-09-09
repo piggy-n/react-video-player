@@ -3,18 +3,26 @@ import { classes } from '@/utils/methods/classes';
 import './styles/controller.scss';
 import { useContext } from 'react';
 import { LayoutContext } from '@/utils/hooks/useLayoutContext';
+import { ControllerContext } from '@/utils/hooks/useControllerContext';
 
 const cn = 'Controller';
 
 const Controller = () => {
     const { onMouseOver } = useContext(LayoutContext);
+    const {
+        controllerModel: {
+            isController,
+            isVideoList
+        }
+    } = useContext(ControllerContext);
 
     return (
         <div
             className={classes(cn, '')}
             onMouseOver={() => onMouseOver && onMouseOver(true)}
         >
-            <Controller.VideoControlPanel/>
+            {isController && <Controller.VideoControlPanel/>}
+            {isVideoList && <Controller.VideoListPanel/>}
         </div>
     );
 };

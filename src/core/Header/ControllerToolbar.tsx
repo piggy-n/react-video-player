@@ -7,11 +7,13 @@ import Icon from '@/components/Icon';
 import Selector from '@/components/Selector';
 import { useContext, useState } from 'react';
 import { LayoutContext } from '@/utils/hooks/useLayoutContext';
+import { ControllerContext } from '@/utils/hooks/useControllerContext';
 
 const cn = 'Controller-Toolbar';
 
 const ControllerToolbar: FC<ControllerToolbarProps> = () => {
     const { onControllerVisibleChange } = useContext(LayoutContext);
+    const { dispatch } = useContext(ControllerContext);
 
     const [gridStatus, setGridStatus] = useState<Record<string, boolean>>({
         singleGrid: true,
@@ -20,8 +22,8 @@ const ControllerToolbar: FC<ControllerToolbarProps> = () => {
     });
 
     const [panelStatus, setPanelStatus] = useState<Record<string, boolean>>({
-        control: false,
-        recording: false,
+        isController: false,
+        isVideoList: false,
     });
 
     const gridStatusHandler = (key: string) => {
@@ -39,14 +41,24 @@ const ControllerToolbar: FC<ControllerToolbarProps> = () => {
 
     const panelStatusHandler = (key: string) => {
         const newPanelStatus = {
-            control: false,
-            recording: false,
+            isController: false,
+            isVideoList: false,
             [key]: !panelStatus[key],
         };
 
         if (onControllerVisibleChange) {
             onControllerVisibleChange(!panelStatus[key]);
         }
+
+        dispatch({
+            type: 'isController',
+            payload: newPanelStatus['isController']
+        });
+
+        dispatch({
+            type: 'isVideoList',
+            payload: newPanelStatus['isVideoList']
+        });
 
         setPanelStatus(newPanelStatus);
     };
@@ -88,14 +100,14 @@ const ControllerToolbar: FC<ControllerToolbarProps> = () => {
                 // onClick={() => panelStatusHandler('screenshot')}
             />
             <Icon
-                name={panelStatus['control'] ? 'control-active' : 'control'}
+                name={panelStatus['isController'] ? 'control-active' : 'control'}
                 title={'控制面板'}
-                onClick={() => panelStatusHandler('control')}
+                onClick={() => panelStatusHandler('isController')}
             />
             <Icon
-                name={panelStatus['recording'] ? 'recording-active' : 'recording'}
+                name={panelStatus['isVideoList'] ? 'recording-active' : 'recording'}
                 title={'查看录像'}
-                onClick={() => panelStatusHandler('recording')}
+                onClick={() => panelStatusHandler('isVideoList')}
             />
             <Icon
                 name={'fullscreen'}
