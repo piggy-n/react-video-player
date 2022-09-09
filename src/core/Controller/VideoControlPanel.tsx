@@ -8,10 +8,12 @@ const VideoControlPanel = () => {
     return (
         <div className={classes(cn, '')}>
             <VideoControlPanel.DirectionController/>
+            <VideoControlPanel.ZoomController/>
         </div>
     );
 };
 
 VideoControlPanel.DirectionController = require('./DirectionController').default;
+VideoControlPanel.ZoomController = require('./ZoomController').default;
 
 export default VideoControlPanel;

@@ -1,0 +1,15 @@
+@import 'src/assets/styles/mixin.scss';
+
+.ws-zoom-controller {
+  @include wh(100%, 24px);
+  @include fr(space-between, center);
+  margin: 8px 0 12px 0;
+
+  &-btn {
+    @include wh(36px, 100%);
+    @include fr(center, center);
+    @include style(12px, rgba(181, 216, 238, 1));
+    background: rgba(30, 96, 121, .65);
+    cursor: pointer;
+  }
+}
