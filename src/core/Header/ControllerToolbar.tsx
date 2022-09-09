@@ -6,13 +6,11 @@ import './styles/controllerToolbar.scss';
 import Icon from '@/components/Icon';
 import Selector from '@/components/Selector';
 import { useContext, useState } from 'react';
-import { LayoutContext } from '@/utils/hooks/useLayoutContext';
 import { ControllerContext } from '@/utils/hooks/useControllerContext';
 
 const cn = 'Controller-Toolbar';
 
 const ControllerToolbar: FC<ControllerToolbarProps> = () => {
-    const { onControllerVisibleChange } = useContext(LayoutContext);
     const { dispatch } = useContext(ControllerContext);
 
     const [gridStatus, setGridStatus] = useState<Record<string, boolean>>({
@@ -46,9 +44,10 @@ const ControllerToolbar: FC<ControllerToolbarProps> = () => {
             [key]: !panelStatus[key],
         };
 
-        if (onControllerVisibleChange) {
-            onControllerVisibleChange(!panelStatus[key]);
-        }
+        dispatch({
+            type: 'controllerVisible',
+            payload: !panelStatus[key]
+        });
 
         dispatch({
             type: 'isController',

@@ -25,7 +25,6 @@ const WsVideoPlayer = () => {
     const [position, setPosition] = useState<Position | null>(null);
     const [size, setSize] = useState<Size | null>(null);
     const [minSize, setMinSize] = useState<Size | null>(null);
-    const [controllerVisible, setControllerVisible] = useState<boolean>(false);
 
     const { controllerModel, dispatch } = useControllerModel();
 
@@ -51,10 +50,6 @@ const WsVideoPlayer = () => {
         setResizeHandlesArr(arg ? [] : ['se', 'e', 's']);
     };
 
-    const controllerVisibleChangeHandler = (arg: boolean) => {
-        setControllerVisible(arg);
-    };
-
     useEffect(() => {
         const { width, height } = playerContainerRef.current?.getBoundingClientRect() || { width: 0, height: 0 };
 
@@ -68,6 +63,8 @@ const WsVideoPlayer = () => {
     }, [playerContainerRef.current]);
 
     useUpdateEffect(() => {
+        const { controllerVisible } = controllerModel;
+
         if (size && minSize) {
             setSize({
                 ...size,
@@ -79,16 +76,14 @@ const WsVideoPlayer = () => {
                 width: controllerVisible ? minSize.width + 180 : minSize.width - 180
             });
         }
-    }, [controllerVisible]);
+    }, [controllerModel.controllerVisible]);
 
     return (
         <LayoutContext.Provider
             value={{
                 resizing,
-                controllerVisible,
                 onMouseOver: mouseOverHandler,
                 onWebFullScreen: webFullScreenHandler,
-                onControllerVisibleChange: controllerVisibleChangeHandler,
             }}
         >
             <Draggable
@@ -121,12 +116,9 @@ const WsVideoPlayer = () => {
                                 url={'wss://lzz.enbo12119.com/live/1557971988926095361/101.live.mp4?token=d69d07a3-c588-4c5d-a33a-faaa23d77ad0'}
                                 // url={'https://gs-files.oss-cn-hongkong.aliyuncs.com/okr/test/file/2021/07/01/haiwang.mp4'}
                             />
-                            {
-                                controllerVisible &&
-                                <ControllerContext.Provider value={controllerContextValue}>
-                                    <Controller/>
-                                </ControllerContext.Provider>
-                            }
+                            <ControllerContext.Provider value={controllerContextValue}>
+                                <Controller/>
+                            </ControllerContext.Provider>
                         </div>
                     </div>
                 </ResizableBox>

@@ -17,13 +17,19 @@ const Controller = () => {
     } = useContext(ControllerContext);
 
     return (
-        <div
-            className={classes(cn, '')}
-            onMouseOver={() => onMouseOver && onMouseOver(true)}
-        >
-            {isController && <Controller.VideoControlPanel/>}
-            {isVideoList && <Controller.VideoListPanel/>}
-        </div>
+        <>
+            {
+                isController || isVideoList ?
+                    <div
+                        className={classes(cn, '')}
+                        onMouseOver={() => onMouseOver && onMouseOver(true)}
+                    >
+                        {isController && <Controller.VideoControlPanel/>}
+                        {isVideoList && <Controller.VideoListPanel/>}
+                    </div>
+                    : null
+            }
+        </>
     );
 };
 
