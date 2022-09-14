@@ -23,6 +23,46 @@
       border-radius: 50%;
       transform: translate(-50%, -50%);
     }
+
+    .ws-ctr-btn-top-left {
+      @include ps(absolute, 6.5px, 0, 0, 2.5px);
+      @include wh(0, 0)
+    }
+
+    .ws-ctr-btn-top {
+      @include ps(absolute, -4.5px, 0, 0, 24.5px);
+      @include wh(0, 0)
+    }
+
+    .ws-ctr-btn-top-right {
+      @include ps(absolute, 2.5px, 0, 0, 48.5px);
+      @include wh(0, 0)
+    }
+
+    .ws-ctr-btn-right {
+      @include ps(absolute, 25px, 0, 0, 60px);
+      @include wh(0, 0)
+    }
+
+    .ws-ctr-btn-bottom-right {
+      @include ps(absolute, 48px, 0, 0, 52px);
+      @include wh(0, 0)
+    }
+
+    .ws-ctr-btn-bottom {
+      @include ps(absolute, 58.5px, 0, 0, 29.5px);
+      @include wh(0, 0)
+    }
+
+    .ws-ctr-btn-bottom-left {
+      @include ps(absolute, 52px, 0, 0, 6px);
+      @include wh(0, 0)
+    }
+
+    .ws-ctr-btn-left {
+      @include ps(absolute, 30.5px, 0, 0, -4.5px);
+      @include wh(0, 0)
+    }
   }
 
   &-right {
