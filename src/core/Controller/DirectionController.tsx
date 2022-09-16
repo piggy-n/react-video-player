@@ -3,6 +3,8 @@ import { classes } from '@/utils/methods/classes';
 import './styles/directionController.scss';
 import Icon from '@/components/Icon';
 import { useHover } from 'ahooks';
+import { useEffect } from 'react';
+import { obtainControlAccess } from '@/services/controller';
 
 const cn = 'Direction-Controller';
 
@@ -15,6 +17,12 @@ const DirectionController = () => {
     const btnBottomIsHover = useHover(document.getElementById('ws-ctr-btn-bottom'));
     const btnBottomLeftIsHover = useHover(document.getElementById('ws-ctr-btn-bottom-left'));
     const btnLeftIsHover = useHover(document.getElementById('ws-ctr-btn-left'));
+
+    useEffect(() => {
+        obtainControlAccess({
+            id: '1561636627632099330',
+        });
+    }, []);
 
     return (
         <div className={classes(cn, '')}>
