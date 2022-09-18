@@ -1,23 +1,8 @@
 @import '~antd/dist/antd.min.css';
 @import 'src/assets/styles/mixin.scss';
 
-.ws-video-date-picker {
+.ws-video-time-picker {
   display: inline-block;
-
-  .ant-picker {
-    padding: 0;
-    line-height: 12px;
-    border: 0;
-  }
-
-  .ant-picker-input > input {
-    color: rgba(22, 174, 224, 1);
-    font-size: 12px;
-    font-family: 'Alibaba-PuHuiTi-Regular';
-    text-align: left;
-    width: 75px;
-    cursor: pointer;
-  }
 
   .ant-picker:hover,
   .ant-picker-focused {
@@ -26,23 +11,54 @@
     box-shadow: none;
   }
 
-  .ant-picker-suffix {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  .ant-picker {
+    padding: 0;
+    line-height: 12px;
+    border: 0;
   }
 
-  .ant-picker-clear {
-    color: #eaeaea;
-    background: transparent;
+  .ant-picker-time-panel-column {
+    width: auto;
   }
 
-  .ant-picker-clear:hover {
-    color: #eaeaea;
+  .ant-picker-input > input {
+    color: rgba(22, 174, 224, 1);
+    font-size: 12px;
+    font-family: 'Alibaba-PuHuiTi-Regular';
+    text-align: left;
+    width: 35px;
+    cursor: pointer;
   }
 
-  .ant-picker-input > input[disabled] {
-    color: #eaeaea;
+  .ant-picker-range-separator {
+    padding: 0 2px 0 0;
+
+    span {
+      display: none;
+    }
+
+    &:before {
+      content: '-';
+      color: rgba(22, 174, 224, 1);
+      font-size: 12px;
+      font-family: 'Alibaba-PuHuiTi-Regular';
+    }
+  }
+
+  .ant-picker-ranges .ant-picker-ok {
+    margin: 0;
+  }
+
+  .ant-picker-active-bar {
+    display: none;
+  }
+
+  .ant-picker-panel {
+    border-bottom: #16aee0;
+  }
+
+  .ant-picker-time-panel-column > li.ant-picker-time-panel-cell .ant-picker-time-panel-cell-inner {
+    padding: 0 10px;
   }
 
   .ant-picker-dropdown {
@@ -84,11 +100,14 @@
     }
   }
 
-  .ant-picker-panel {
-    border: 1px solid rgba(154, 160, 173, 0.3);
+  .ant-picker-footer {
+    border: 0;
   }
 
   .ant-picker-panel-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     background: rgba(7, 30, 39, 0.86);
     border: 1px solid rgba(51, 172, 218, 0.86);
   }
@@ -222,9 +241,5 @@
     background: transparent;
     border: unset;
     border-color: unset;
-  }
-
-  .ant-picker-input > input[disabled] {
-    color: #eaeaea;
   }
 }
