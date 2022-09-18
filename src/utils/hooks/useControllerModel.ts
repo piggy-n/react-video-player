@@ -6,7 +6,7 @@ export interface ControllerModelState {
     isVideoList: boolean;
     speed: number;
     urlList: string[];
-    isDoubleGrip: boolean;
+    isDoubleGrid: boolean;
     isPip: boolean;
 }
 
@@ -16,7 +16,7 @@ export const initialState: ControllerModelState = {
     isVideoList: false,
     speed: 50,
     urlList: [],
-    isDoubleGrip: false,
+    isDoubleGrid: false,
     isPip: false,
 };
 
@@ -45,9 +45,9 @@ export interface UrlListActionType {
     payload: ControllerModelState['urlList'];
 }
 
-export interface IsDoubleGripActionType {
-    type: 'isDoubleGrip';
-    payload: ControllerModelState['isDoubleGrip'];
+export interface IsDoubleGridActionType {
+    type: 'isDoubleGrid';
+    payload: ControllerModelState['isDoubleGrid'];
 }
 
 export interface IsPipActionType {
@@ -61,7 +61,7 @@ export type MergeActionType =
     | IsVideoListActionType
     | SpeedActionType
     | UrlListActionType
-    | IsDoubleGripActionType
+    | IsDoubleGridActionType
     | IsPipActionType;
 
 export const useControllerModel = () => {
@@ -79,8 +79,8 @@ export const useControllerModel = () => {
                 return { ...state, speed: payload };
             case 'urlList':
                 return { ...state, urlList: payload };
-            case 'isDoubleGrip':
-                return { ...state, isDoubleGrip: payload };
+            case 'isDoubleGrid':
+                return { ...state, isDoubleGrid: payload };
             case 'isPip':
                 return { ...state, isPip: payload };
             default:

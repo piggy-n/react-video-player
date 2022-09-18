@@ -5,7 +5,7 @@ import { classes } from '@/utils/methods/classes';
 import './styles/controllerToolbar.scss';
 import Icon from '@/components/Icon';
 import Selector from '@/components/Selector';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { ControllerContext } from '@/utils/hooks/useControllerContext';
 import { obtainControlAccess } from '@/services/controller';
 
@@ -90,7 +90,55 @@ const ControllerToolbar: FC<ControllerToolbarProps> = () => {
             type: 'urlList',
             payload: arg
         });
+
+        if (arg.length === 1) {
+            gridStatusHandler('singleGrid');
+
+            dispatch({
+                type: 'isPip',
+                payload: false
+            });
+
+            dispatch({
+                type: 'isDoubleGrid',
+                payload: false
+            });
+        }
+
+        if (arg.length === 2) {
+            gridStatusHandler('doubleGrid');
+
+            dispatch({
+                type: 'isDoubleGrid',
+                payload: true
+            });
+        }
     };
+
+    useEffect(() => {
+        if (gridStatus.doubleGrid) {
+            const newUrlList = Array.from(new Set([...urlList, ...deviceStreamList.map(item => item.url)]));
+            dispatch({
+                type: 'urlList',
+                payload: newUrlList
+            });
+        } else {
+            dispatch({
+                type: 'urlList',
+                payload: [urlList[0]]
+            });
+        }
+
+        dispatch({
+            type: 'isDoubleGrid',
+            payload: gridStatus.doubleGrid
+        });
+
+        dispatch({
+            type: 'isPip',
+            payload: gridStatus.pip
+        });
+    }, [gridStatus.doubleGrid, gridStatus.pip]);
 
     return (
         <div className={classes(cn, '')}>

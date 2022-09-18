@@ -109,6 +109,34 @@ const WsVideoPlayer = ({ id }: { id: string }) => {
         }
     }, [controllerModel.controllerVisible]);
 
+    useUpdateEffect(() => {
+        if (controllerModel.isDoubleGrid) {
+            if (size && minSize) {
+                setSize({
+                    ...size,
+                    width: size.width * 2,
+                });
+
+                setMinSize({
+                    ...minSize,
+                    width: minSize.width * 2
+                });
+            }
+        } else {
+            if (size && minSize) {
+                setSize({
+                    ...size,
+                    width: size.width / 2,
+                });
+
+                setMinSize({
+                    ...minSize,
+                    width: minSize.width / 2
+                });
+            }
+        }
+    }, [controllerModel.isDoubleGrid]);
+
     return (
         <LayoutContext.Provider
             value={{
@@ -146,6 +174,13 @@ const WsVideoPlayer = ({ id }: { id: string }) => {
                                     url={controllerModel.urlList[0] ?? ''}
                                     // url={'https://gs-files.oss-cn-hongkong.aliyuncs.com/okr/test/file/2021/07/01/haiwang.mp4'}
                                 />
+                                {
+                                    controllerModel.isDoubleGrid &&
+                                    <Player
+                                        isLive
+                                        url={controllerModel.urlList[1] ?? ''}
+                                    />
+                                }
                                 <Controller/>
                             </div>
                         </ControllerContext.Provider>
