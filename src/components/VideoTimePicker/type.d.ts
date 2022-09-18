@@ -1,5 +1,6 @@
-const VideoTimePicker = () => {
+import type { Moment } from 'moment';
 
-};
-
-export default VideoTimePicker;
+interface VideoTimePickerProps {
+    value: [Moment, Moment];
+    onChange: (value: [Moment, Moment], dateString: [string, string]) => void;
+}
