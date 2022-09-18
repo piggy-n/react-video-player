@@ -27,6 +27,7 @@ const WsVideoPlayer = ({ id }: { id: string }) => {
     const [position, setPosition] = useState<Position | null>(null);
     const [size, setSize] = useState<Size | null>(null);
     const [minSize, setMinSize] = useState<Size | null>(null);
+    const [deviceStreamList, setDeviceStreamList] = useState<DeviceStream[]>([]);
 
     const { controllerModel, dispatch } = useControllerModel();
 
@@ -37,10 +38,12 @@ const WsVideoPlayer = ({ id }: { id: string }) => {
                 {
                     controllerModel,
                     dispatch,
+                    id,
+                    deviceStreamList
                 }
             );
         },
-        [controllerModel, dispatch]
+        [controllerModel, dispatch, id, deviceStreamList]
     );
 
     const mouseOverHandler = (arg: boolean) => {
@@ -64,7 +67,8 @@ const WsVideoPlayer = ({ id }: { id: string }) => {
                 // item.url = `${prev}//${window.location.host}${item.url}${token}`;
                 item.url = `wss://lzz.enbo12119.com${item.url}${token}`;
             });
-            console.log(list);
+
+            setDeviceStreamList(list);
         });
     }, [id]);
 
@@ -131,7 +135,7 @@ const WsVideoPlayer = ({ id }: { id: string }) => {
                         <div className={'ws-player-wrapper'}>
                             <Player
                                 isLive
-                                url={'ws://192.168.9.148/live/1561636627816648706/102.live.mp4?token=0b1532ef-994f-40fa-b866-a23e6dec1bc8'}
+                                url={deviceStreamList[0]?.url ?? ''}
                                 // url={'https://gs-files.oss-cn-hongkong.aliyuncs.com/okr/test/file/2021/07/01/haiwang.mp4'}
                             />
                             <ControllerContext.Provider value={controllerContextValue}>

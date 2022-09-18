@@ -15,14 +15,13 @@ const Controller = () => {
         controllerModel: {
             isController,
             isVideoList
-        }
+        },
+        id
     } = useContext(ControllerContext);
 
     useUpdateEffect(() => {
         if (!isController) {
-            releaseControlAccess({
-                id: '1561636627632099330',
-            }).then(res => {
+            releaseControlAccess({ id }).then(res => {
                 if (!res?.success) return;
                 console.log(res);
             });

@@ -14,7 +14,8 @@ const DirectionController = () => {
         controllerModel: {
             speed
         },
-        dispatch
+        dispatch,
+        id
     } = useContext(ControllerContext);
 
     const increaseSpeedHandler = () => {
@@ -37,7 +38,7 @@ const DirectionController = () => {
 
     const move = (operation: string) => {
         pushControlCommands({
-            id: '1561636627632099330',
+            id,
             operation,
             speed,
         }).then(res => {
