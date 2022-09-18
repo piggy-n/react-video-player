@@ -4,12 +4,14 @@ export interface ControllerModelState {
     controllerVisible: boolean;
     isController: boolean;
     isVideoList: boolean;
+    speed: number;
 }
 
 export const initialState: ControllerModelState = {
     controllerVisible: false,
     isController: false,
     isVideoList: false,
+    speed: 50,
 };
 
 export interface ControllerVisibleActionType {
@@ -27,10 +29,16 @@ export interface IsVideoListActionType {
     payload: ControllerModelState['isVideoList'];
 }
 
+export interface SpeedActionType {
+    type: 'speed';
+    payload: ControllerModelState['speed'];
+}
+
 export type MergeActionType =
     | ControllerVisibleActionType
     | IsControllerActionType
-    | IsVideoListActionType;
+    | IsVideoListActionType
+    | SpeedActionType;
 
 export const useControllerModel = () => {
     const reducer = (state: ControllerModelState, action: MergeActionType) => {
@@ -43,6 +51,8 @@ export const useControllerModel = () => {
                 return { ...state, isController: payload };
             case 'isVideoList':
                 return { ...state, isVideoList: payload };
+            case 'speed':
+                return { ...state, speed: payload };
             default:
                 return state;
         }

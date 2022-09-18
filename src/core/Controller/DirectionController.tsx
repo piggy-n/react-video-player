@@ -4,20 +4,35 @@ import './styles/directionController.scss';
 import Icon from '@/components/Icon';
 import { useHover } from 'ahooks';
 import { pushControlCommands } from '@/services/controller';
+import { useContext } from 'react';
+import { ControllerContext } from '@/utils/hooks/useControllerContext';
 
 const cn = 'Direction-Controller';
 
 const DirectionController = () => {
-    const [speed, setSpeed] = React.useState(50);
+    const {
+        controllerModel: {
+            speed
+        },
+        dispatch
+    } = useContext(ControllerContext);
 
     const increaseSpeedHandler = () => {
         if (speed >= 100) return;
-        setSpeed(speed + 10);
+
+        dispatch({
+            type: 'speed',
+            payload: speed + 10,
+        });
     };
 
     const decreaseSpeedHandler = () => {
-        if (speed <= 0) return;
-        setSpeed(speed - 10);
+        if (speed <= 10) return;
+
+        dispatch({
+            type: 'speed',
+            payload: speed - 10,
+        });
     };
 
     const move = (operation: string) => {
