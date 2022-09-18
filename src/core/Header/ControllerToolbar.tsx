@@ -1,16 +1,17 @@
 import * as React from 'react';
-import type { FC } from 'react';
+import type { FC, MouseEventHandler } from 'react';
 import type { ControllerToolbarProps } from '@/core/Header/type';
 import { classes } from '@/utils/methods/classes';
 import './styles/controllerToolbar.scss';
 import Icon from '@/components/Icon';
 import Selector from '@/components/Selector';
-import { MouseEventHandler, useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { ControllerContext } from '@/utils/hooks/useControllerContext';
 import { obtainControlAccess } from '@/services/controller';
 import { capture } from '@/utils/methods/capture';
 import ziv3 from '@/utils/methods/zxImageViewer';
 import { createPortal } from 'react-dom';
+import screenfull from 'screenfull';
 
 const cn = 'Controller-Toolbar';
 
@@ -28,6 +29,7 @@ const ControllerToolbar: FC<ControllerToolbarProps> = () => {
     const screenshotDivRef = useRef<HTMLDivElement>(null);
     const screenshotCanvasRef = useRef<HTMLCanvasElement | null>(null);
 
+    const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
     const [isScreenshot, setIsScreenshot] = useState<boolean>(false);
     const [imageBase64, setImageBase64] = useState<string>('');
     const [gridStatus, setGridStatus] = useState<Record<string, boolean>>({
@@ -139,6 +141,15 @@ const ControllerToolbar: FC<ControllerToolbarProps> = () => {
         ziv3.view(0);
     };
 
+    const clickHandler = () => {
+        if (screenfull.isEnabled) {
+            screenfull.toggle(playerContainerEle as HTMLDivElement);
+            screenfull.on('change', () => {
+                setIsFullscreen(screenfull.isFullscreen);
+            });
+        }
+    };
+
     useEffect(() => {
         const screenshotDiv = screenshotDivRef.current;
         const canvas = screenshotCanvasRef.current;
@@ -219,8 +230,9 @@ const ControllerToolbar: FC<ControllerToolbarProps> = () => {
                 onClick={() => panelStatusHandler('isVideoList')}
             />
             <Icon
-                name={'fullscreen'}
+                name={isFullscreen ? 'close-web-fullscreen' : 'fullscreen'}
                 title={'全屏'}
+                onClick={clickHandler}
             />
             <Icon
                 name={'close'}
