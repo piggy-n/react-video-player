@@ -6,6 +6,7 @@ import VideoTimePicker from '@/components/VideoTimePicker';
 import { useEffect, useState } from 'react';
 import type { Moment } from 'moment';
 import moment from 'moment';
+import { obtainDeviceRecordingsList } from '@/services/recording';
 
 const cn = 'Video-List-Panel';
 
@@ -38,7 +39,13 @@ const VideoListPanel = () => {
     };
 
     useEffect(() => {
-        console.log(startDateTime, endDateTime);
+        obtainDeviceRecordingsList({
+            id: '1561636627632099330',
+            startTime: startDateTime,
+            endTime: endDateTime
+        }).then(res => {
+            console.log(res);
+        });
     }, [startDateTime, endDateTime]);
 
     return (
