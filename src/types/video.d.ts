@@ -44,3 +44,11 @@ export interface VideoCallBack<T = VideoAttributes> {
     onVideoStateChange: (arg: T) => void;
     onError: () => void;
 }
+
+export interface DeviceStream {
+    url: string,
+    streamTypeCode: string,
+    streamTypeDesc: string,
+    channelDesc: string,
+    channelCode: string
+}

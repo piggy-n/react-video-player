@@ -13,10 +13,12 @@ import type { Position, Size } from '@/types/video';
 import { useUpdateEffect } from 'ahooks';
 import { useControllerModel } from '@/utils/hooks/useControllerModel';
 import { ControllerContext } from '@/utils/hooks/useControllerContext';
+import { obtainDeviceStream } from '@/services/video';
+import type { DeviceStream } from '@/types/video';
 
 const Draggable = require('react-draggable');
 
-const WsVideoPlayer = () => {
+const WsVideoPlayer = ({ id }: { id: string }) => {
     const playerContainerRef = useRef<HTMLDivElement>(null);
 
     const [disabled, setDisabled] = useState<boolean>(true);
@@ -49,6 +51,22 @@ const WsVideoPlayer = () => {
         setPosition(arg ? { x: 0, y: 0 } : null);
         setResizeHandlesArr(arg ? [] : ['se', 'e', 's']);
     };
+
+    useEffect(() => {
+        obtainDeviceStream({ id }).then(res => {
+            if (!res?.success) return;
+
+            const list = res.list as DeviceStream[] || [];
+            const token = `?token=${localStorage.getItem('accessToken')}`;
+            // const prev = location.protocol.includes('https') ? 'wss:' : 'ws:';
+
+            list.forEach(item => {
+                // item.url = `${prev}//${window.location.host}${item.url}${token}`;
+                item.url = `wss://lzz.enbo12119.com${item.url}${token}`;
+            });
+            console.log(list);
+        });
+    }, [id]);
 
     useEffect(() => {
         const { width, height } = playerContainerRef.current?.getBoundingClientRect() || { width: 0, height: 0 };
@@ -113,7 +131,7 @@ const WsVideoPlayer = () => {
                         <div className={'ws-player-wrapper'}>
                             <Player
                                 isLive
-                                url={'wss://lzz.enbo12119.com/live/1557971988141760514/101.live.mp4?token=f84349a7-6c8d-4128-9647-6e0ba6be81af'}
+                                url={'ws://192.168.9.148/live/1561636627816648706/102.live.mp4?token=0b1532ef-994f-40fa-b866-a23e6dec1bc8'}
                                 // url={'https://gs-files.oss-cn-hongkong.aliyuncs.com/okr/test/file/2021/07/01/haiwang.mp4'}
                             />
                             <ControllerContext.Provider value={controllerContextValue}>
