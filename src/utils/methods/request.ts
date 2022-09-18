@@ -1,8 +1,7 @@
 import { extend } from 'umi-request';
-import { prodApi } from '@/utils/config';
 
 const request = extend({
-    prefix: prodApi,
+    prefix: '/prod-api',
     headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${localStorage.getItem('accessToken') as string}`,
