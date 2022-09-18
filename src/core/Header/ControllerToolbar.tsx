@@ -116,7 +116,7 @@ const ControllerToolbar: FC<ControllerToolbarProps> = () => {
     };
 
     useEffect(() => {
-        if (gridStatus.doubleGrid) {
+        if (gridStatus.doubleGrid || gridStatus.pip) {
             const newUrlList = Array.from(new Set([...urlList, ...deviceStreamList.map(item => item.url)]));
             dispatch({
                 type: 'urlList',

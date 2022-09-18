@@ -15,6 +15,7 @@ import { useControllerModel } from '@/utils/hooks/useControllerModel';
 import { ControllerContext } from '@/utils/hooks/useControllerContext';
 import { obtainDeviceStream } from '@/services/video';
 import type { DeviceStream } from '@/types/video';
+import PipPlayer from '@/core/Player/pipPlayer';
 
 const Draggable = require('react-draggable');
 
@@ -68,6 +69,7 @@ const WsVideoPlayer = ({ id }: { id: string }) => {
                 item.url = `wss://lzz.enbo12119.com${item.url}${token}`;
                 item.label = item.channelDesc;
                 item.value = item.url;
+                item.key = item.url;
             });
 
             setDeviceStreamList(list);
@@ -180,6 +182,15 @@ const WsVideoPlayer = ({ id }: { id: string }) => {
                                         isLive
                                         url={controllerModel.urlList[1] ?? ''}
                                     />
+                                }
+                                {
+                                    controllerModel.isPip &&
+                                    <div className={'ws-pip-container'}>
+                                        <PipPlayer
+                                            isLive
+                                            url={controllerModel.urlList[1] ?? ''}
+                                        />
+                                    </div>
                                 }
                                 <Controller/>
                             </div>
