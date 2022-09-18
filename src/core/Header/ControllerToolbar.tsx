@@ -5,7 +5,7 @@ import { classes } from '@/utils/methods/classes';
 import './styles/controllerToolbar.scss';
 import Icon from '@/components/Icon';
 import Selector from '@/components/Selector';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import { ControllerContext } from '@/utils/hooks/useControllerContext';
 import { obtainControlAccess } from '@/services/controller';
 
@@ -15,10 +15,11 @@ const ControllerToolbar: FC<ControllerToolbarProps> = () => {
     const {
         dispatch,
         id,
-        deviceStreamList
+        deviceStreamList,
+        controllerModel: {
+            urlList
+        }
     } = useContext(ControllerContext);
-
-    const [value, setValue] = useState<string[]>([]);
 
     const [gridStatus, setGridStatus] = useState<Record<string, boolean>>({
         singleGrid: true,
@@ -84,21 +85,19 @@ const ControllerToolbar: FC<ControllerToolbarProps> = () => {
 
     const selectorChangeHandler = (arg: string[]) => {
         if (arg.length === 0) return;
-        setValue(arg);
+
+        dispatch({
+            type: 'urlList',
+            payload: arg
+        });
     };
-
-    useEffect(() => {
-        if (deviceStreamList.length === 0) return;
-
-        setValue([deviceStreamList[0].url]);
-    }, [deviceStreamList]);
 
     return (
         <div className={classes(cn, '')}>
             {
                 deviceStreamList.length > 1 &&
                 <Selector
-                    value={value}
+                    value={urlList}
                     onChange={selectorChangeHandler}
                     options={deviceStreamList}
                 />

@@ -92,6 +92,10 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
     useEffect(() => {
         const videoEle = videoRef.current as HTMLVideoElement;
 
+        if (!videoEle.paused) {
+            H265PlayerRef.current.stop();
+        }
+
         isLive ? H265PlayerRef.current.start(videoEle, url) : videoEle.src = url;
 
         forceUpdate();

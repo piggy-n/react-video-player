@@ -71,6 +71,13 @@ const WsVideoPlayer = ({ id }: { id: string }) => {
             });
 
             setDeviceStreamList(list);
+
+            if (list.length > 0) {
+                dispatch({
+                    type: 'urlList',
+                    payload: [list[0].url]
+                });
+            }
         });
     }, [id]);
 
@@ -133,17 +140,15 @@ const WsVideoPlayer = ({ id }: { id: string }) => {
                     >
                         <ControllerContext.Provider value={controllerContextValue}>
                             <Header/>
-                        </ControllerContext.Provider>
-                        <div className={'ws-player-wrapper'}>
-                            <Player
-                                isLive
-                                url={deviceStreamList[0]?.url ?? ''}
-                                // url={'https://gs-files.oss-cn-hongkong.aliyuncs.com/okr/test/file/2021/07/01/haiwang.mp4'}
-                            />
-                            <ControllerContext.Provider value={controllerContextValue}>
+                            <div className={'ws-player-wrapper'}>
+                                <Player
+                                    isLive
+                                    url={controllerModel.urlList[0] ?? ''}
+                                    // url={'https://gs-files.oss-cn-hongkong.aliyuncs.com/okr/test/file/2021/07/01/haiwang.mp4'}
+                                />
                                 <Controller/>
-                            </ControllerContext.Provider>
-                        </div>
+                            </div>
+                        </ControllerContext.Provider>
                     </div>
                 </ResizableBox>
             </Draggable>
