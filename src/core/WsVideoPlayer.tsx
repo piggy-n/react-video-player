@@ -66,6 +66,8 @@ const WsVideoPlayer = ({ id }: { id: string }) => {
             list.forEach(item => {
                 // item.url = `${prev}//${window.location.host}${item.url}${token}`;
                 item.url = `wss://lzz.enbo12119.com${item.url}${token}`;
+                item.label = item.channelDesc;
+                item.value = item.url;
             });
 
             setDeviceStreamList(list);

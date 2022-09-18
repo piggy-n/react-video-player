@@ -5,14 +5,20 @@ import { classes } from '@/utils/methods/classes';
 import './styles/controllerToolbar.scss';
 import Icon from '@/components/Icon';
 import Selector from '@/components/Selector';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { ControllerContext } from '@/utils/hooks/useControllerContext';
 import { obtainControlAccess } from '@/services/controller';
 
 const cn = 'Controller-Toolbar';
 
 const ControllerToolbar: FC<ControllerToolbarProps> = () => {
-    const { dispatch } = useContext(ControllerContext);
+    const {
+        dispatch,
+        id,
+        deviceStreamList
+    } = useContext(ControllerContext);
+
+    const [value, setValue] = useState<string[]>([]);
 
     const [gridStatus, setGridStatus] = useState<Record<string, boolean>>({
         singleGrid: true,
@@ -42,7 +48,7 @@ const ControllerToolbar: FC<ControllerToolbarProps> = () => {
         if (key === 'isController') {
             if (!panelStatus[key]) {
                 obtainControlAccess({
-                    id: '1561636627632099330',
+                    id,
                     lock: false,
                     time: 10
                 }).then(res => {
@@ -76,22 +82,27 @@ const ControllerToolbar: FC<ControllerToolbarProps> = () => {
         setPanelStatus(newPanelStatus);
     };
 
+    const selectorChangeHandler = (arg: string[]) => {
+        if (arg.length === 0) return;
+        setValue(arg);
+    };
+
+    useEffect(() => {
+        if (deviceStreamList.length === 0) return;
+
+        setValue([deviceStreamList[0].url]);
+    }, [deviceStreamList]);
+
     return (
         <div className={classes(cn, '')}>
-            <Selector
-                onChange={(v) => console.log(v)}
-                options={[
-                    {
-                        label: '可见光',
-                        value: 'singleGrid',
-                        url: 'https://gw.alipayobjects.com/zos/rmsportal/wZcnGqRDyhPOEYFcZDnb.svg',
-                    },
-                    {
-                        label: '热像',
-                        value: 'doubleGrid',
-                        url: 'https://gw.alipayobjects.com/zos/rmsportal/wZcnGqRDyhPOEYFcZDnc.svg',
-                    },
-                ]}/>
+            {
+                deviceStreamList.length > 1 &&
+                <Selector
+                    value={value}
+                    onChange={selectorChangeHandler}
+                    options={deviceStreamList}
+                />
+            }
             <Icon
                 name={gridStatus['singleGrid'] ? 'single-grid-active' : 'single-grid'}
                 title={'单宫'}

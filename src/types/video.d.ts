@@ -51,4 +51,6 @@ export interface DeviceStream {
     streamTypeDesc: string,
     channelDesc: string,
     channelCode: string
+    value: string,
+    label: string,
 }
