@@ -1,0 +1,230 @@
+@import '~antd/dist/antd.min.css';
+@import 'src/assets/styles/mixin.scss';
+
+.ws-video-date-picker {
+  display: inline-block;
+
+  .ant-picker {
+    padding: 0;
+    line-height: 12px;
+    border: 0;
+  }
+
+  .ant-picker-input > input {
+    color: rgba(22, 174, 224, 1);
+    font-size: 12px;
+    font-family: 'Alibaba-PuHuiTi-Regular';
+    text-align: left;
+    width: 80px;
+    cursor: pointer;
+  }
+
+  .ant-picker:hover,
+  .ant-picker-focused {
+    border-right-width: 0;
+    outline: 0;
+    box-shadow: none;
+  }
+
+  .ant-picker-suffix {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ant-picker-clear {
+    color: #eaeaea;
+    background: transparent;
+  }
+
+  .ant-picker-clear:hover {
+    color: #eaeaea;
+  }
+
+  .ant-picker-input > input[disabled] {
+    color: #eaeaea;
+  }
+
+  .ant-picker-dropdown {
+    color: #fff;
+    font-family: 'Alibaba-PuHuiTi-Regular';
+
+    .ant-btn-primary {
+      background: #16aee0;
+      border-color: #16aee0;
+    }
+
+    .ant-btn-primary[disabled],
+    .ant-btn-primary[disabled]:hover,
+    .ant-btn-primary[disabled]:focus,
+    .ant-btn-primary[disabled]:active {
+      color: rgba(0, 0, 0, 0.25);
+      text-shadow: none;
+      background: #f5f5f5;
+      border-color: #d9d9d9;
+      box-shadow: none;
+    }
+  }
+
+  .ant-picker-range-arrow {
+    &::after {
+      border: 5px solid rgba(7, 30, 39, 0.86);
+      border-color: rgba(7, 30, 39, 0.86) rgba(7, 30, 39, 0.86) transparent transparent;
+    }
+
+    &::before {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 9px;
+      height: 9px;
+      border: 5px solid #33acda;
+      border-color: #33acda #33acda transparent transparent;
+      content: '';
+    }
+  }
+
+  .ant-picker-panel {
+    border: 1px solid rgba(154, 160, 173, 0.3);
+  }
+
+  .ant-picker-panel-container {
+    background: rgba(7, 30, 39, 0.86);
+    border: 1px solid rgba(51, 172, 218, 0.86);
+  }
+
+  .ant-picker-header {
+    color: #fff;
+    border-bottom: 1px solid rgba(154, 160, 173, 0.3);
+  }
+
+  .ant-picker-header-view button:hover {
+    color: #16aee0;
+  }
+
+  .ant-picker-header button.ant-picker-header-super-prev-btn,
+  .ant-picker-header button.ant-picker-header-prev-btn,
+  .ant-picker-header button.ant-picker-header-next-btn,
+  .ant-picker-header button.ant-picker-header-super-next-btn {
+    color: #878b91;
+
+    &:hover {
+      color: #16aee0;
+    }
+  }
+
+  .ant-picker-cell {
+    color: #878b91;
+  }
+
+  .ant-picker-content th,
+  .ant-picker-cell-in-view {
+    color: #fff;
+  }
+
+  .ant-picker-cell-disabled {
+    color: #878b91;
+  }
+
+  .ant-picker-cell-in-view.ant-picker-cell-today .ant-picker-cell-inner::before {
+    border: 1px solid #16aee0;
+  }
+
+  .ant-picker-cell:hover:not(.ant-picker-cell-in-view) .ant-picker-cell-inner,
+  .ant-picker-cell:hover:not(.ant-picker-cell-selected):not(.ant-picker-cell-range-start):not(.ant-picker-cell-range-end):not(.ant-picker-cell-range-hover-start):not(.ant-picker-cell-range-hover-end)
+  .ant-picker-cell-inner {
+    background: #16aee0;
+  }
+
+  .ant-picker-cell-in-view.ant-picker-cell-selected .ant-picker-cell-inner,
+  .ant-picker-cell-in-view.ant-picker-cell-range-start .ant-picker-cell-inner,
+  .ant-picker-cell-in-view.ant-picker-cell-range-end .ant-picker-cell-inner {
+    background: #16aee0;
+  }
+
+  .ant-picker-cell-in-view.ant-picker-cell-in-range::before {
+    background: #16aee0;
+  }
+
+  .ant-picker-cell-in-view.ant-picker-cell-range-start:not(.ant-picker-cell-range-start-single)::before,
+  .ant-picker-cell-in-view.ant-picker-cell-range-end:not(.ant-picker-cell-range-end-single)::before {
+    background: #16aee0;
+  }
+
+  .ant-picker-cell-in-view.ant-picker-cell-in-range.ant-picker-cell-range-hover::before,
+  .ant-picker-cell-in-view.ant-picker-cell-range-start.ant-picker-cell-range-hover::before,
+  .ant-picker-cell-in-view.ant-picker-cell-range-end.ant-picker-cell-range-hover::before,
+  .ant-picker-cell-in-view.ant-picker-cell-range-start:not(.ant-picker-cell-range-start-single).ant-picker-cell-range-hover-start::before,
+  .ant-picker-cell-in-view.ant-picker-cell-range-end:not(.ant-picker-cell-range-end-single).ant-picker-cell-range-hover-end::before,
+  .ant-picker-panel
+  > :not(.ant-picker-date-panel)
+  .ant-picker-cell-in-view.ant-picker-cell-in-range.ant-picker-cell-range-hover-start::before,
+  .ant-picker-panel
+  > :not(.ant-picker-date-panel)
+  .ant-picker-cell-in-view.ant-picker-cell-in-range.ant-picker-cell-range-hover-end::before {
+    background: #16aee0;
+  }
+
+  .ant-picker-date-panel
+  .ant-picker-cell-in-view.ant-picker-cell-in-range.ant-picker-cell-range-hover-start
+  .ant-picker-cell-inner::after,
+  .ant-picker-date-panel
+  .ant-picker-cell-in-view.ant-picker-cell-in-range.ant-picker-cell-range-hover-end
+  .ant-picker-cell-inner::after {
+    background: #16aee0;
+  }
+
+  .ant-picker-panel .ant-picker-footer {
+    border-top: 1px solid rgba(154, 160, 173, 0.3);
+
+    .ant-picker-today-btn {
+      color: #16aee0;
+    }
+  }
+
+  .ant-picker-datetime-panel .ant-picker-time-panel,
+  .ant-picker-time-panel-column:not(:first-child) {
+    border-left: 1px solid rgba(154, 160, 173, 0.3);
+  }
+
+  .ant-picker-time-panel-column > li.ant-picker-time-panel-cell .ant-picker-time-panel-cell-inner {
+    color: #fff;
+  }
+
+  .ant-picker-time-panel-column
+  > li.ant-picker-time-panel-cell-selected
+  .ant-picker-time-panel-cell-inner,
+  .ant-picker-time-panel-column
+  > li.ant-picker-time-panel-cell
+  .ant-picker-time-panel-cell-inner:hover {
+    background: #16aee0;
+  }
+
+  .ant-picker-time-panel-column {
+    &::-webkit-scrollbar {
+      width: 0px;
+    }
+  }
+
+  .ant-picker-now {
+    a {
+      color: #16aee0;
+    }
+  }
+
+  .ant-picker-week-panel-row-selected td,
+  .ant-picker-week-panel-row:hover td {
+    background: #16aee0;
+  }
+
+  .ant-picker-ranges .ant-picker-preset > .ant-tag-blue {
+    color: #16aee0;
+    background: transparent;
+    border: unset;
+    border-color: unset;
+  }
+
+  .ant-picker-input > input[disabled] {
+    color: #eaeaea;
+  }
+}
