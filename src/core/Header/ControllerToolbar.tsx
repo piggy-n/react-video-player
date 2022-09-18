@@ -7,6 +7,7 @@ import Icon from '@/components/Icon';
 import Selector from '@/components/Selector';
 import { useContext, useState } from 'react';
 import { ControllerContext } from '@/utils/hooks/useControllerContext';
+import { obtainControlAccess, releaseControlAccess } from '@/services/controller';
 
 const cn = 'Controller-Toolbar';
 
@@ -38,6 +39,29 @@ const ControllerToolbar: FC<ControllerToolbarProps> = () => {
     };
 
     const panelStatusHandler = (key: string) => {
+        if (key === 'isController') {
+            if (!panelStatus[key]) {
+                obtainControlAccess({
+                    id: '1561636627632099330',
+                }).then(res => {
+                    if (!res?.success) return;
+                    console.log(res);
+                });
+            }
+
+            if (panelStatus[key]) {
+                releaseControlAccess({
+                    id: '1561636627632099330',
+                }).then(res => {
+                    if (!res?.success) return;
+                    console.log(res);
+                });
+            }
+        }
+
+        if (key === 'isVideoList') {
+
+        }
         const newPanelStatus = {
             isController: false,
             isVideoList: false,

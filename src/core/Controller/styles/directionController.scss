@@ -91,9 +91,10 @@
     }
 
     span {
-      @include wh(16px, 20px);
+      @include wh(25px, 20px);
       @include ps(absolute, 50%, 0, 0, 50%);
       @include style(14px, rgba(255, 255, 255, 1));
+      text-align: center;
       transform: translate(-50%, -50%);
     }
   }

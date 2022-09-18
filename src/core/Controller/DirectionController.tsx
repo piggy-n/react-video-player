@@ -3,12 +3,34 @@ import { classes } from '@/utils/methods/classes';
 import './styles/directionController.scss';
 import Icon from '@/components/Icon';
 import { useHover } from 'ahooks';
-import { useEffect } from 'react';
-import { obtainControlAccess } from '@/services/controller';
+import { pushControlCommands } from '@/services/controller';
 
 const cn = 'Direction-Controller';
 
 const DirectionController = () => {
+    const [speed, setSpeed] = React.useState(50);
+
+    const increaseSpeedHandler = () => {
+        if (speed >= 100) return;
+        setSpeed(speed + 10);
+    };
+
+    const decreaseSpeedHandler = () => {
+        if (speed <= 0) return;
+        setSpeed(speed - 10);
+    };
+
+    const move = (operation: string) => {
+        pushControlCommands({
+            id: '1561636627632099330',
+            operation,
+            speed,
+        }).then(res => {
+            if (!res?.success) return;
+            console.log(res);
+        });
+    };
+
     const btnTopLeftIsHover = useHover(document.getElementById('ws-ctr-btn-top-left'));
     const btnTopIsHover = useHover(document.getElementById('ws-ctr-btn-top'));
     const btnTopRightIsHover = useHover(document.getElementById('ws-ctr-btn-top-right'));
@@ -17,12 +39,6 @@ const DirectionController = () => {
     const btnBottomIsHover = useHover(document.getElementById('ws-ctr-btn-bottom'));
     const btnBottomLeftIsHover = useHover(document.getElementById('ws-ctr-btn-bottom-left'));
     const btnLeftIsHover = useHover(document.getElementById('ws-ctr-btn-left'));
-
-    useEffect(() => {
-        obtainControlAccess({
-            id: '1561636627632099330',
-        });
-    }, []);
 
     return (
         <div className={classes(cn, '')}>
@@ -36,6 +52,8 @@ const DirectionController = () => {
                         name={btnTopLeftIsHover ? 'arrow-hover' : 'arrow'}
                         size={36}
                         style={{ transform: 'rotate(225deg)' }}
+                        onMouseDown={() => move('upleft')}
+                        onMouseUp={() => move('stop')}
                     />
                 </div>
                 <div className={'ws-ctr-btn-top'}>
@@ -44,6 +62,8 @@ const DirectionController = () => {
                         name={btnTopIsHover ? 'arrow-hover' : 'arrow'}
                         size={36}
                         style={{ transform: 'rotate(270deg)' }}
+                        onMouseDown={() => move('up')}
+                        onMouseUp={() => move('stop')}
                     />
                 </div>
                 <div className={'ws-ctr-btn-top-right'}>
@@ -52,6 +72,8 @@ const DirectionController = () => {
                         name={btnTopRightIsHover ? 'arrow-hover' : 'arrow'}
                         size={36}
                         style={{ transform: 'rotate(315deg)' }}
+                        onMouseDown={() => move('upright')}
+                        onMouseUp={() => move('stop')}
                     />
                 </div>
                 <div className={'ws-ctr-btn-right'}>
@@ -59,7 +81,8 @@ const DirectionController = () => {
                         id={'ws-ctr-btn-right'}
                         name={btnRightIsHover ? 'arrow-hover' : 'arrow'}
                         size={36}
-                        onUseClick={() => console.log(111)}
+                        onMouseDown={() => move('right')}
+                        onMouseUp={() => move('stop')}
                     />
                 </div>
                 <div className={'ws-ctr-btn-bottom-right'}>
@@ -68,6 +91,8 @@ const DirectionController = () => {
                         name={btnBottomRightIsHover ? 'arrow-hover' : 'arrow'}
                         size={36}
                         style={{ transform: 'rotate(45deg)' }}
+                        onMouseDown={() => move('downright')}
+                        onMouseUp={() => move('stop')}
                     />
                 </div>
                 <div className={'ws-ctr-btn-bottom'}>
@@ -76,6 +101,8 @@ const DirectionController = () => {
                         name={btnBottomIsHover ? 'arrow-hover' : 'arrow'}
                         size={36}
                         style={{ transform: 'rotate(90deg)' }}
+                        onMouseDown={() => move('down')}
+                        onMouseUp={() => move('stop')}
                     />
                 </div>
                 <div className={'ws-ctr-btn-bottom-left'}>
@@ -84,6 +111,8 @@ const DirectionController = () => {
                         name={btnBottomLeftIsHover ? 'arrow-hover' : 'arrow'}
                         size={36}
                         style={{ transform: 'rotate(135deg)' }}
+                        onMouseDown={() => move('downleft')}
+                        onMouseUp={() => move('stop')}
                     />
                 </div>
                 <div className={'ws-ctr-btn-left'}>
@@ -92,16 +121,24 @@ const DirectionController = () => {
                         name={btnLeftIsHover ? 'arrow-hover' : 'arrow'}
                         size={36}
                         style={{ transform: 'rotate(180deg)' }}
+                        onMouseDown={() => move('left')}
+                        onMouseUp={() => move('stop')}
                     />
                 </div>
             </div>
 
             <div className={classes(cn, 'right')}>
-                <div className={'ws-right-btn-up'}>
+                <div
+                    className={'ws-right-btn-up'}
+                    onClick={increaseSpeedHandler}
+                >
                     <Icon name={'arrowUp'} size={15}/>
                 </div>
-                <span>50</span>
-                <div className={'ws-right-btn-down'}>
+                <span>{speed}</span>
+                <div
+                    className={'ws-right-btn-down'}
+                    onClick={decreaseSpeedHandler}
+                >
                     <Icon name={'arrowDown'} size={15}/>
                 </div>
             </div>
