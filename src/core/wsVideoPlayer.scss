@@ -24,5 +24,48 @@
     border: 1px solid #16aee0;
     z-index: 99;
   }
+
+  .ws-screenshot-container {
+    @include ps(absolute, 40px, 0, auto, auto);
+    width: 182px;
+    background: #fff;
+    padding: 2px;
+    overflow: hidden;
+    z-index: 1;
+
+    .ws-screenshot-close {
+      @include ps(absolute, -12px, -12px, auto, auto);
+      @include wh(0, 0);
+      z-index: 1;
+      border: 13px solid transparent;
+      border-left-color: #fff;
+      -webkit-transform: rotate(-45deg);
+      transform: rotate(-45deg);
+      border-radius: 100%;
+
+      svg {
+        @include ps(absolute, -6px, 1px, auto, auto);
+        transform: rotate(45deg);
+        cursor: pointer;
+      }
+
+      svg:hover {
+        animation: none;
+      }
+    }
+
+    .ws-screenshot {
+      height: 100px;
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+
+      canvas {
+        @include ps(absolute, 50%, auto, auto, 50%);
+        @include wh(100%, 100%);
+        transform: translate(-50%, -50%);
+      }
+    }
+  }
 }
 

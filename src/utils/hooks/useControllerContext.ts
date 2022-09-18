@@ -9,6 +9,7 @@ export interface ControllerContextType {
     controllerModel: ControllerModelState;
     id: string;
     deviceStreamList: DeviceStream[];
+    playerContainerEle: HTMLDivElement | null;
 }
 
 export const defaultValue: Partial<ControllerContextType> = {

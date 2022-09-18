@@ -40,7 +40,8 @@ const WsVideoPlayer = ({ id }: { id: string }) => {
                     controllerModel,
                     dispatch,
                     id,
-                    deviceStreamList
+                    deviceStreamList,
+                    playerContainerEle: playerContainerRef.current,
                 }
             );
         },

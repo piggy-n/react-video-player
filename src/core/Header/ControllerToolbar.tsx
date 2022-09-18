@@ -5,9 +5,12 @@ import { classes } from '@/utils/methods/classes';
 import './styles/controllerToolbar.scss';
 import Icon from '@/components/Icon';
 import Selector from '@/components/Selector';
-import { useContext, useEffect, useState } from 'react';
+import { MouseEventHandler, useContext, useEffect, useRef, useState } from 'react';
 import { ControllerContext } from '@/utils/hooks/useControllerContext';
 import { obtainControlAccess } from '@/services/controller';
+import { capture } from '@/utils/methods/capture';
+import ziv3 from '@/utils/methods/zxImageViewer';
+import { createPortal } from 'react-dom';
 
 const cn = 'Controller-Toolbar';
 
@@ -16,17 +19,22 @@ const ControllerToolbar: FC<ControllerToolbarProps> = () => {
         dispatch,
         id,
         deviceStreamList,
+        playerContainerEle,
         controllerModel: {
             urlList
         }
     } = useContext(ControllerContext);
 
+    const screenshotDivRef = useRef<HTMLDivElement>(null);
+    const screenshotCanvasRef = useRef<HTMLCanvasElement | null>(null);
+
+    const [isScreenshot, setIsScreenshot] = useState<boolean>(false);
+    const [imageBase64, setImageBase64] = useState<string>('');
     const [gridStatus, setGridStatus] = useState<Record<string, boolean>>({
         singleGrid: true,
         doubleGrid: false,
         pip: false
     });
-
     const [panelStatus, setPanelStatus] = useState<Record<string, boolean>>({
         isController: false,
         isVideoList: false,
@@ -115,6 +123,36 @@ const ControllerToolbar: FC<ControllerToolbarProps> = () => {
         }
     };
 
+    const screenshotHandler = () => {
+        setIsScreenshot(true);
+
+        screenshotCanvasRef.current = capture(playerContainerEle as any);
+    };
+
+    const imageClickHandler: MouseEventHandler = (e) => {
+        e.stopPropagation();
+        const imageArr: string[] = [];
+
+        imageArr.push(imageBase64);
+
+        ziv3.update(imageArr);
+        ziv3.view(0);
+    };
+
+    useEffect(() => {
+        const screenshotDiv = screenshotDivRef.current;
+        const canvas = screenshotCanvasRef.current;
+
+        if (screenshotDiv && canvas) {
+            screenshotDiv.innerHTML = '';
+            screenshotDiv.appendChild(canvas);
+        }
+
+        if (canvas) {
+            setImageBase64(canvas.toDataURL('image/png', 1));
+        }
+    }, [screenshotDivRef.current, screenshotCanvasRef.current]);
+
     useEffect(() => {
         if (gridStatus.doubleGrid || gridStatus.pip) {
             const newUrlList = Array.from(new Set([...urlList, ...deviceStreamList.map(item => item.url)]));
@@ -168,7 +206,7 @@ const ControllerToolbar: FC<ControllerToolbarProps> = () => {
             <Icon
                 name={panelStatus['screenshot'] ? 'screenshot-active' : 'screenshot'}
                 title={'截图'}
-                // onClick={() => panelStatusHandler('screenshot')}
+                onClick={screenshotHandler}
             />
             <Icon
                 name={panelStatus['isController'] ? 'control-active' : 'control'}
@@ -188,6 +226,27 @@ const ControllerToolbar: FC<ControllerToolbarProps> = () => {
                 name={'close'}
                 title={'关闭'}
             />
+
+            {
+                isScreenshot &&
+                createPortal(
+                    <div className={'ws-screenshot-container'}>
+                        <div className={'ws-screenshot-close'}>
+                            <Icon
+                                name={'screenshot-close'}
+                                size={12}
+                                onClick={() => setIsScreenshot(false)}
+                            />
+                        </div>
+                        <div
+                            ref={screenshotDivRef}
+                            className={'ws-screenshot'}
+                            onClick={imageClickHandler}
+                        />
+                    </div>,
+                    playerContainerEle as HTMLDivElement
+                )
+            }
         </div>
     );
 };
