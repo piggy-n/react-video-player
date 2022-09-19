@@ -24,14 +24,29 @@
       transform: translate(-50%, -50%);
     }
 
+    .ws-ctr-pointer-top,
+    .ws-ctr-pointer-bottom,
+    .ws-ctr-pointer-left,
+    .ws-ctr-pointer-right,
+    .ws-ctr-pointer-top-left,
+    .ws-ctr-pointer-top-right,
+    .ws-ctr-pointer-bottom-left,
+    .ws-ctr-pointer-bottom-right {
+      @include ps(absolute, 10px, auto, auto, 7px);
+      @include wh(29px, 20px);
+      clip-path: polygon(100% 0, 73% 100%, 27% 100%, 0 0);
+      cursor: pointer;
+      z-index: 1;
+    }
+
     .ws-ctr-btn-top-left {
       @include ps(absolute, 6.5px, 0, 0, 2.5px);
-      @include wh(0, 0)
+      @include wh(0, 0);
     }
 
     .ws-ctr-btn-top {
       @include ps(absolute, -4.5px, 0, 0, 24.5px);
-      @include wh(0, 0)
+      @include wh(0, 0);
     }
 
     .ws-ctr-btn-top-right {

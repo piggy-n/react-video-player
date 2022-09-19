@@ -1,5 +1,5 @@
 import * as React from 'react';
-import type { FC, MouseEventHandler } from 'react';
+import type { FC } from 'react';
 import { classes } from '@/utils/methods/classes';
 import './styles/icon.scss';
 import '../../utils/methods/importAll';
@@ -9,22 +9,14 @@ const cn = 'Icon';
 
 const Icon: FC<IconProps> = (
     {
-        id,
         className,
         name,
         size,
         style,
         title,
-        onUseClick,
         ...rest
     },
 ) => {
-    const clickHandler: MouseEventHandler<SVGUseElement> = (e) => {
-        if (onUseClick) {
-            onUseClick(e);
-        }
-    };
-
     return (
         <svg
             className={classes(cn, '', [className])}
@@ -39,12 +31,7 @@ const Icon: FC<IconProps> = (
                 title &&
                 <title>{title}</title>
             }
-            <use
-                id={id}
-                xlinkHref={`#${name}`}
-                onClick={e => clickHandler(e)}
-                style={id ? { cursor: 'pointer' } : { cursor: 'default' }}
-            />
+            <use xlinkHref={`#${name}`}/>
         </svg>
     );
 };

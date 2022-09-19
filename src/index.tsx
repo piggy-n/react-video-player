@@ -20,7 +20,8 @@ const styles: CSSProperties = {
 ReactDOM.render(
     <div style={{ ...styles }}>
         {/*1561636627632099330*/}
-        <VideoPlayer id={'1557971988926095361'}/>
+        {/*1560452003676741634*/}
+        <VideoPlayer id={'1560452003676741634'}/>
         {/*<div style={{ ...styles2 }}>*/}
         {/*    <Player*/}
         {/*        isLive={false}*/}
