@@ -32,7 +32,6 @@
     .ws-ctr-pointer-top-right,
     .ws-ctr-pointer-bottom-left,
     .ws-ctr-pointer-bottom-right {
-      @include ps(absolute, 10px, auto, auto, 7px);
       @include wh(29px, 20px);
       clip-path: polygon(100% 0, 73% 100%, 27% 100%, 0 0);
       cursor: pointer;
@@ -40,43 +39,82 @@
     }
 
     .ws-ctr-btn-top-left {
-      @include ps(absolute, 6.5px, 0, 0, 2.5px);
+      @include ps(absolute, 6.7%, 0, 0, 2.5%);
       @include wh(0, 0);
+
+      .ws-ctr-pointer-top-left {
+        @include ps(absolute, 7px, 0, 0, 7px);
+        transform: rotate(-45deg);
+      }
     }
 
     .ws-ctr-btn-top {
-      @include ps(absolute, -4.5px, 0, 0, 24.5px);
+      @include ps(absolute, -5.5%, 0, 0, 27.1%);
       @include wh(0, 0);
+
+      .ws-ctr-pointer-top {
+        @include ps(absolute, 10px, auto, auto, 6px);
+      }
     }
 
     .ws-ctr-btn-top-right {
-      @include ps(absolute, 2.5px, 0, 0, 48.5px);
-      @include wh(0, 0)
+      @include ps(absolute, 2.5%, 0, 0, 53.5%);
+      @include wh(0, 0);
+
+      .ws-ctr-pointer-top-right {
+        @include ps(absolute, 11px, auto, auto, 5px);
+        transform: rotate(45deg);
+      }
     }
 
     .ws-ctr-btn-right {
-      @include ps(absolute, 25px, 0, 0, 60px);
-      @include wh(0, 0)
+      @include ps(absolute, 27%, 0, 0, 66%);
+      @include wh(0, 0);
+
+      .ws-ctr-pointer-right {
+        @include ps(absolute, 10.5px, -31px, auto, auto);
+        transform: rotate(90deg);
+      }
     }
 
     .ws-ctr-btn-bottom-right {
-      @include ps(absolute, 48px, 0, 0, 52px);
-      @include wh(0, 0)
+      @include ps(absolute, 53.3%, 0, 0, 57.8%);
+      @include wh(0, 0);
+
+      .ws-ctr-pointer-bottom-right {
+        @include ps(absolute, 9px, auto, auto, 1px);
+        transform: rotate(135deg);
+      }
     }
 
     .ws-ctr-btn-bottom {
-      @include ps(absolute, 58.5px, 0, 0, 29.5px);
-      @include wh(0, 0)
+      @include ps(absolute, 65.5%, 0, 0, 33.3%);
+      @include wh(0, 0);
+
+      .ws-ctr-pointer-bottom {
+        @include ps(absolute, 6px, auto, auto, .5px);
+        transform: rotate(180deg);
+      }
     }
 
     .ws-ctr-btn-bottom-left {
-      @include ps(absolute, 52px, 0, 0, 6px);
-      @include wh(0, 0)
+      @include ps(absolute, 57.4%, 0, 0, 6.6%);
+      @include wh(0, 0);
+
+      .ws-ctr-pointer-bottom-left {
+        @include ps(absolute, 5px, auto, auto, 3px);
+        transform: rotate(-135deg);
+      }
     }
 
     .ws-ctr-btn-left {
-      @include ps(absolute, 30.5px, 0, 0, -4.5px);
-      @include wh(0, 0)
+      @include ps(absolute, 33%, 0, 0, -6%);
+      @include wh(0, 0);
+
+      .ws-ctr-pointer-left {
+        @include ps(absolute, 5px, -34px, auto, auto);
+        transform: rotate(-90deg);
+      }
     }
   }
 

@@ -64,16 +64,7 @@ const DirectionController = () => {
                 <div className={'ws-left-center'}>
                     <Icon name={'box'} size={28}/>
                 </div>
-                <div className={'ws-ctr-btn-top-left'}>
-                    <Icon
-                        id={'ws-ctr-btn-top-left'}
-                        name={'arrow'}
-                        size={36}
-                        style={{ transform: 'rotate(225deg)' }}
-                        onMouseDown={() => move('upleft')}
-                        onMouseUp={() => move('stop')}
-                    />
-                </div>
+
                 <div className={'ws-ctr-btn-top'}>
                     <i
                         className={'ws-ctr-pointer-top'}
@@ -88,63 +79,108 @@ const DirectionController = () => {
                         style={{ transform: 'rotate(270deg)' }}
                     />
                 </div>
-                <div className={'ws-ctr-btn-top-right'}>
-                    <Icon
-                        id={'ws-ctr-btn-top-right'}
-                        name={'arrow'}
-                        size={36}
-                        style={{ transform: 'rotate(315deg)' }}
-                        onMouseDown={() => move('upright')}
-                        onMouseUp={() => move('stop')}
-                    />
-                </div>
-                <div className={'ws-ctr-btn-right'}>
-                    <Icon
-                        id={'ws-ctr-btn-right'}
-                        name={'arrow'}
-                        size={36}
-                        onMouseDown={() => move('right')}
-                        onMouseUp={() => move('stop')}
-                    />
-                </div>
-                <div className={'ws-ctr-btn-bottom-right'}>
-                    <Icon
-                        id={'ws-ctr-btn-bottom-right'}
-                        name={'arrow'}
-                        size={36}
-                        style={{ transform: 'rotate(45deg)' }}
-                        onMouseDown={() => move('downright')}
-                        onMouseUp={() => move('stop')}
-                    />
-                </div>
+
                 <div className={'ws-ctr-btn-bottom'}>
-                    <Icon
-                        id={'ws-ctr-btn-bottom'}
-                        name={'arrow'}
-                        size={36}
-                        style={{ transform: 'rotate(90deg)' }}
+                    <i
+                        className={'ws-ctr-pointer-bottom'}
+                        onMouseEnter={() => hoverState.bottom = true}
+                        onMouseLeave={() => hoverState.bottom = false}
                         onMouseDown={() => move('down')}
                         onMouseUp={() => move('stop')}
                     />
-                </div>
-                <div className={'ws-ctr-btn-bottom-left'}>
                     <Icon
-                        id={'ws-ctr-btn-bottom-left'}
-                        name={'arrow'}
+                        name={hoverState.bottom ? 'arrow-hover' : 'arrow'}
                         size={36}
-                        style={{ transform: 'rotate(135deg)' }}
+                        style={{ transform: 'rotate(90deg)' }}
+                    />
+                </div>
+
+                <div className={'ws-ctr-btn-left'}>
+                    <i
+                        className={'ws-ctr-pointer-left'}
+                        onMouseEnter={() => hoverState.left = true}
+                        onMouseLeave={() => hoverState.left = false}
+                        onMouseDown={() => move('left')}
+                        onMouseUp={() => move('stop')}
+                    />
+                    <Icon
+                        name={hoverState.left ? 'arrow-hover' : 'arrow'}
+                        size={36}
+                        style={{ transform: 'rotate(180deg)' }}
+                    />
+                </div>
+
+                <div className={'ws-ctr-btn-right'}>
+                    <i
+                        className={'ws-ctr-pointer-right'}
+                        onMouseEnter={() => hoverState.right = true}
+                        onMouseLeave={() => hoverState.right = false}
+                        onMouseDown={() => move('right')}
+                        onMouseUp={() => move('stop')}
+                    />
+                    <Icon
+                        name={hoverState.right ? 'arrow-hover' : 'arrow'}
+                        size={36}
+                    />
+                </div>
+
+                <div className={'ws-ctr-btn-top-left'}>
+                    <i
+                        className={'ws-ctr-pointer-top-left'}
+                        onMouseEnter={() => hoverState.topLeft = true}
+                        onMouseLeave={() => hoverState.topLeft = false}
+                        onMouseDown={() => move('upleft')}
+                        onMouseUp={() => move('stop')}
+                    />
+                    <Icon
+                        name={hoverState.topLeft ? 'arrow-hover' : 'arrow'}
+                        size={36}
+                        style={{ transform: 'rotate(225deg)' }}
+                    />
+                </div>
+
+                <div className={'ws-ctr-btn-top-right'}>
+                    <i
+                        className={'ws-ctr-pointer-top-right'}
+                        onMouseEnter={() => hoverState.topRight = true}
+                        onMouseLeave={() => hoverState.topRight = false}
+                        onMouseDown={() => move('upright')}
+                        onMouseUp={() => move('stop')}
+                    />
+                    <Icon
+                        name={hoverState.topRight ? 'arrow-hover' : 'arrow'}
+                        size={36}
+                        style={{ transform: 'rotate(315deg)' }}
+                    />
+                </div>
+
+                <div className={'ws-ctr-btn-bottom-left'}>
+                    <i
+                        className={'ws-ctr-pointer-bottom-left'}
+                        onMouseEnter={() => hoverState.bottomLeft = true}
+                        onMouseLeave={() => hoverState.bottomLeft = false}
                         onMouseDown={() => move('downleft')}
                         onMouseUp={() => move('stop')}
                     />
-                </div>
-                <div className={'ws-ctr-btn-left'}>
                     <Icon
-                        id={'ws-ctr-btn-left'}
-                        name={'arrow'}
+                        name={hoverState.bottomLeft ? 'arrow-hover' : 'arrow'}
                         size={36}
-                        style={{ transform: 'rotate(180deg)' }}
-                        onMouseDown={() => move('left')}
+                        style={{ transform: 'rotate(135deg)' }}
+                    />
+                </div>
+
+                <div className={'ws-ctr-btn-bottom-right'}>
+                    <i
+                        className={'ws-ctr-pointer-bottom-right'}
+                        onMouseEnter={() => hoverState.bottomRight = true}
+                        onMouseLeave={() => hoverState.bottomRight = false}
+                        onMouseDown={() => move('downright')}
                         onMouseUp={() => move('stop')}
+                    />
+                    <Icon
+                        name={hoverState.bottomRight ? 'arrow-hover' : 'arrow'}
+                        size={36}
+                        style={{ transform: 'rotate(45deg)' }}
                     />
                 </div>
             </div>
