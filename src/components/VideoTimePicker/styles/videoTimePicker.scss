@@ -49,6 +49,14 @@
     margin: 0;
   }
 
+  .ant-picker-range-arrow {
+    border-radius: 0;
+    box-shadow: none;
+    border-bottom: 3px solid rgba(22, 174, 224, 1);
+    border-right: 3px solid rgba(22, 174, 224, 1);
+    top: 1.5px;
+  }
+
   .ant-picker-active-bar {
     display: none;
   }

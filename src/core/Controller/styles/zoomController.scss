@@ -11,5 +11,9 @@
     @include style(12px, rgba(181, 216, 238, 1));
     background: rgba(30, 96, 121, .65);
     cursor: pointer;
+
+    &:hover {
+      background: rgba(22, 174, 224, .65);
+    }
   }
 }
