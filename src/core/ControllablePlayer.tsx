@@ -23,7 +23,6 @@ const ControllablePlayer = ({ id }: { id: string }) => {
     const playerContainerRef = useRef<HTMLDivElement>(null);
 
     const [disabled, setDisabled] = useState<boolean>(true);
-    const [resizing, setResizing] = useState<boolean>(false);
     const [resizeHandlesArr, setResizeHandlesArr] = useState<ResizeHandle[] | undefined>(['se', 'e', 's']);
     const [position, setPosition] = useState<Position | null>(null);
     const [size, setSize] = useState<Size | null>(null);
@@ -143,7 +142,6 @@ const ControllablePlayer = ({ id }: { id: string }) => {
     return (
         <LayoutContext.Provider
             value={{
-                resizing,
                 onMouseOver: mouseOverHandler,
                 onWebFullScreen: webFullScreenHandler,
             }}
@@ -160,8 +158,6 @@ const ControllablePlayer = ({ id }: { id: string }) => {
                     maxConstraints={[innerWidth, innerHeight]}
                     resizeHandles={resizeHandlesArr}
                     lockAspectRatio
-                    onResizeStart={() => setResizing(true)}
-                    onResizeStop={() => setResizing(false)}
                     onResize={(event, { size }) => setSize(size)}
                 >
                     <div
@@ -173,9 +169,9 @@ const ControllablePlayer = ({ id }: { id: string }) => {
                             <Header/>
                             <div className={'ws-player-wrapper'}>
                                 <Player
-                                    isLive={true}
-                                    url={'wss://lzz.enbo12119.com/live/1560452005253799937/101.live.mp4?token=1477fabe-4fab-4b65-8c32-a915558859dc'}
-                                    // url={'https://gs-files.oss-cn-hongkong.aliyuncs.com/okr/test/file/2021/07/01/haiwang.mp4'}
+                                    isLive={false}
+                                    // url={'wss://lzz.enbo12119.com/live/1560452005253799937/101.live.mp4?token=1477fabe-4fab-4b65-8c32-a915558859dc'}
+                                    url={'https://gs-files.oss-cn-hongkong.aliyuncs.com/okr/test/file/2021/07/01/haiwang.mp4'}
                                     // url={'https://gs-files.oss-cn-hongkong.aliyuncs.com/okr/prod/file/2021/08/31/540p.mp4'}
                                 />
                                 {

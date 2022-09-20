@@ -15,6 +15,7 @@ import useVideoCallback from '@/utils/hooks/useVideoCallBack';
 import useMandatoryUpdate from '@/utils/hooks/useMandatoryUpdate';
 import { StreamPlayer } from '@/utils/methods/streamPlayer';
 import { VideoPlayer } from '@/utils/methods/videoPlayer';
+import { useSize } from 'ahooks';
 
 const cn = 'Player';
 
@@ -36,9 +37,12 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
     const videoContainerRef = useRef<HTMLDivElement>(null);
     const videoPlayerRef = useRef<Record<string, any>>(new VideoPlayer({ dispatch }));
     const streamPlayerRef = useRef<Record<string, any>>(new StreamPlayer({ dispatch }));
+    const videoResizingTimerRef = useRef<NodeJS.Timer | null>(null);
 
     const [loading, setLoading] = useState<boolean>(false);
     const [buffering, setBuffering] = useState<boolean>(false);
+
+    const videoContainerSize = useSize(videoContainerRef);
 
     const forceUpdate = useMandatoryUpdate();
 
@@ -187,6 +191,30 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
             url,
             isLive
         ]
+    );
+
+    useEffect(
+        () => {
+            dispatch({
+                type: 'resizing',
+                payload: true
+            });
+
+            videoResizingTimerRef.current = setTimeout(
+                () => {
+                    dispatch({
+                        type: 'resizing',
+                        payload: false
+                    });
+                },
+                300
+            );
+
+            return () => {
+                clearTimeout(videoResizingTimerRef.current as NodeJS.Timer);
+            };
+        },
+        [videoContainerSize]
     );
 
     return (

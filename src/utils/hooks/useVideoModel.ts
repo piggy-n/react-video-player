@@ -9,6 +9,7 @@ export interface VideoModelState {
     transmissionRate: number;
     downloading: boolean;
     percentComplete: string;
+    resizing: boolean;
 }
 
 export const initialState: VideoModelState = {
@@ -20,6 +21,7 @@ export const initialState: VideoModelState = {
     transmissionRate: 0,
     downloading: false,
     percentComplete: '0',
+    resizing: false,
 };
 
 export interface ControlledActionType {
@@ -62,6 +64,11 @@ export interface PercentCompleteActionType {
     payload: VideoModelState['percentComplete'];
 }
 
+export interface ResizingActionType {
+    type: 'resizing';
+    payload: VideoModelState['resizing'];
+}
+
 export type MergeActionType =
     | ControlledActionType
     | IsFullscreenActionType
@@ -70,7 +77,8 @@ export type MergeActionType =
     | MimeActionType
     | TransmissionRateActionType
     | DownloadingActionType
-    | PercentCompleteActionType;
+    | PercentCompleteActionType
+    | ResizingActionType;
 
 export const useVideoModel = () => {
     const reducer = (state: VideoModelState, action: MergeActionType) => {
@@ -93,6 +101,8 @@ export const useVideoModel = () => {
                 return { ...state, downloading: payload };
             case 'percentComplete':
                 return { ...state, percentComplete: payload };
+            case 'resizing':
+                return { ...state, resizing: payload };
             default:
                 return state;
         }
