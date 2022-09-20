@@ -69,6 +69,7 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
                     videoEle: videoRef.current,
                     videoContainerEle: videoContainerRef.current,
                     streamPlayer: streamPlayerRef.current,
+                    videoPlayer: videoPlayerRef.current,
                     isLive,
                     ...rest
                 }

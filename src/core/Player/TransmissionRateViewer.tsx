@@ -10,17 +10,25 @@ const TransmissionRateViewer = () => {
     const {
         videoModel: {
             transmissionRate = 0
-        }
+        },
+        isLive
     } = useContext(VideoContext);
 
     return (
-        <div className={classes(cn, '')}>
+        <>
             {
-                transmissionRate >= 1024
-                    ? `${(transmissionRate / 1024).toFixed(2)}Mbps`
-                    : `${transmissionRate.toFixed(2)}Kbps`
+                isLive
+                    ? <div className={classes(cn, '')}>
+                        {
+                            transmissionRate >= 1024
+                                ? `${(transmissionRate / 1024).toFixed(2)}Mbps`
+                                : `${transmissionRate.toFixed(2)}Kbps`
+                        }
+                    </div>
+                    : null
             }
-        </div>
+        </>
+
     );
 };
 

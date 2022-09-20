@@ -4,6 +4,7 @@ import Icon from '@/components/Icon';
 import './styles/reloadControl.scss';
 import { useContext } from 'react';
 import { VideoContext } from '@/utils/hooks/useVideoContext';
+import { useVideo } from '@/utils/hooks/useVideo';
 
 const cn = 'Reload-Control';
 
@@ -12,13 +13,28 @@ const ReloadControl = () => {
         isLive,
         videoEle,
         streamPlayer,
+        videoPlayer,
         videoModel: {
-            waiting
+            waiting,
+            downloading
         }
     } = useContext(VideoContext);
 
+    const {
+        readyState,
+        networkState
+    } = useVideo(
+        videoEle as HTMLVideoElement,
+        [videoEle]
+    );
+
     const clickHandler = () => {
-        if (waiting) return;
+        if (waiting || downloading) return;
+
+        if (readyState === 0 || networkState === 0 || networkState === 3) {
+            isLive ? streamPlayer.reload() : videoPlayer.start();
+            return;
+        }
 
         isLive ? streamPlayer.reload() : videoEle?.load();
     };

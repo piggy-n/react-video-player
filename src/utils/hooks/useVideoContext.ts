@@ -11,6 +11,7 @@ export interface VideoContextType extends Partial<PlayerProps> {
     videoEle: HTMLVideoElement | null;
     videoContainerEle: HTMLElement | null;
     streamPlayer: Record<string, any>;
+    videoPlayer: Record<string, any>;
     videoAttributes: VideoAttributes;
 }
 
