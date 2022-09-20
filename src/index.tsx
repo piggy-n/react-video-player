@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import VideoPlayer from '@/core/WsVideoPlayer';
+import ControllablePlayer from '@/core/ControllablePlayer';
 import type { CSSProperties } from 'react';
 // import Player from '@/core/Player';
 
@@ -21,7 +21,7 @@ ReactDOM.render(
     <div style={{ ...styles }}>
         {/*1561636627632099330*/}
         {/*1560452003676741634*/}
-        <VideoPlayer id={'1560452003676741634'}/>
+        <ControllablePlayer id={'1560452003676741634'}/>
         {/*<div style={{ ...styles2 }}>*/}
         {/*    <Player*/}
         {/*        isLive={false}*/}

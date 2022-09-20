@@ -1,25 +1,25 @@
 import * as React from 'react';
 import Header from '@/core/Header';
 import Player from '@/core/Player';
-import { useEffect, useMemo, useRef, useState } from 'react';
-import type { ResizeHandle } from 'react-resizable';
+import PipPlayer from '@/core/Player/pipPlayer';
+import Controller from '@/core/Controller';
 import { ResizableBox } from 'react-resizable';
-import '@/global.scss';
-import './wsVideoPlayer.scss';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import './controllablePlayer.scss';
+import '@/assets/styles/global.scss';
 import '@/assets/styles/resizableBox.css';
 import { LayoutContext } from '@/utils/hooks/useLayoutContext';
-import Controller from '@/core/Controller';
-import type { Position, Size } from '@/types/video';
 import { useUpdateEffect } from 'ahooks';
 import { useControllerModel } from '@/utils/hooks/useControllerModel';
 import { ControllerContext } from '@/utils/hooks/useControllerContext';
 import { obtainDeviceStream } from '@/services/video';
 import type { DeviceStream } from '@/types/video';
-import PipPlayer from '@/core/Player/pipPlayer';
+import type { ResizeHandle } from 'react-resizable';
+import type { Position, Size } from '@/types/video';
 
 const Draggable = require('react-draggable');
 
-const WsVideoPlayer = ({ id }: { id: string }) => {
+const ControllablePlayer = ({ id }: { id: string }) => {
     const playerContainerRef = useRef<HTMLDivElement>(null);
 
     const [disabled, setDisabled] = useState<boolean>(true);
@@ -204,4 +204,4 @@ const WsVideoPlayer = ({ id }: { id: string }) => {
     );
 };
 
-export default WsVideoPlayer;
+export default ControllablePlayer;
