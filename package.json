@@ -1,6 +1,6 @@
 {
-  "name": "react-video-player",
-  "version": "1.0.0",
+  "name": "ws-player",
+  "version": "0.0.9",
   "description": "",
   "main": "dist/src/index.js",
   "types": "dist/src/index",
