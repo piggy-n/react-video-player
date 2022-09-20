@@ -20,6 +20,8 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
     {
         isLive,
         url,
+        width,
+        height,
         ...rest
     },
     ref
@@ -88,6 +90,19 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
             ...videoMethods,
         }),
     );
+
+    useEffect(() => {
+        const videoContainerEle = videoContainerRef.current;
+        if (!videoContainerEle) return;
+
+        if (width) {
+            videoContainerEle.style.minWidth = `${width}px`;
+        }
+
+        if (height) {
+            videoContainerEle.style.minHeight = `${height}px`;
+        }
+    }, [videoContainerRef.current, width, height]);
 
     useEffect(() => {
         const videoEle = videoRef.current as HTMLVideoElement;
