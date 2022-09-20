@@ -1,12 +1,11 @@
 import type { DependencyList } from 'react';
 import { useEffect, useMemo, useRef } from 'react';
 import useMandatoryUpdate from '@/utils/hooks/useMandatoryUpdate';
-import type { VideoAttributes, VideoMethods } from '@/types/video';
+import type { VideoAttributes } from '@/types/video';
 import { useLatest } from 'ahooks';
 
 export interface UseVideo extends VideoAttributes {
     videoAttributes: VideoAttributes;
-    videoMethods: VideoMethods;
     changePlayStatusHandler: () => void;
 }
 
@@ -31,17 +30,6 @@ export const useVideo = (ele: HTMLVideoElement, dep: DependencyList = []) => {
         networkState: 0,
         readyState: 0,
     });
-
-    const videoMethods = useMemo<VideoMethods>(
-        () => ({
-            play: () => videoEle.current.play(),
-            pause: () => videoEle.current.pause(),
-            reload: () => videoEle.current.load(),
-            setPlayProgress: (progress: number) => videoEle.current.currentTime = progress,
-            setVideoSrc: (src: string) => videoEle.current.src = src,
-        }),
-        [dep]
-    );
 
     const setVideoArgsHandler = <T extends Partial<VideoAttributes>>(val: T) => {
         videoArgsRef.current = { ...videoArgsRef.current, ...val };
@@ -149,7 +137,6 @@ export const useVideo = (ele: HTMLVideoElement, dep: DependencyList = []) => {
         () => ({
             ...videoArgsRef.current,
             videoAttributes: videoArgsRef.current,
-            videoMethods,
             changePlayStatusHandler,
         }),
         [videoArgsRef.current]

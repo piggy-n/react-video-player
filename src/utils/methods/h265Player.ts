@@ -147,6 +147,8 @@ export class StreamH265Player {
     }
 
     start(ele?: HTMLVideoElement, url?: string) {
+        this.stop();
+
         if (ele && url) {
             this.ele = ele;
             this.url = url;

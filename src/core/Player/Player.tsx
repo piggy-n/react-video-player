@@ -13,6 +13,7 @@ import { LayoutContext } from '@/utils/hooks/useLayoutContext';
 import { VideoContext } from '@/utils/hooks/useVideoContext';
 import { StreamH265Player } from '@/utils/methods/h265Player';
 import useVideoCallback from '@/utils/hooks/useVideoCallBack';
+import { useVideoMethods } from '@/utils/hooks/useVideoMethods';
 
 const cn = 'Player';
 
@@ -39,13 +40,20 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
 
     const {
         videoAttributes,
-        videoMethods,
         networkState,
         readyState,
         playing
     } = useVideo(
         videoRef.current as HTMLVideoElement,
         [videoRef.current]
+    );
+
+    const videoMethods = useVideoMethods(
+        videoRef.current as HTMLVideoElement,
+        H265PlayerRef.current,
+        url,
+        !!isLive,
+        [videoRef.current, H265PlayerRef.current, url, isLive]
     );
 
     const videoContextValue = useMemo(
@@ -107,7 +115,7 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
     useEffect(() => {
         const videoEle = videoRef.current as HTMLVideoElement;
 
-        if (!videoEle.paused) {
+        if (!videoEle.paused && isLive) {
             H265PlayerRef.current.stop();
         }
 
