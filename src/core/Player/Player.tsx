@@ -5,22 +5,23 @@ import { PlayerController } from '@/core/Player/index';
 import type { ForwardRefRenderFunction } from 'react';
 import type { PlayerProps, PlayerRef } from '@/core/Player/type';
 import './styles/player.scss';
-import { useVideo } from '@/utils/hooks/useVideo';
-import useMandatoryUpdate from '@/utils/hooks/useMandatoryUpdate';
 import Icon from '@/components/Icon';
+import { useVideo } from '@/utils/hooks/useVideo';
 import { useVideoModel } from '@/utils/hooks/useVideoModel';
 import { LayoutContext } from '@/utils/hooks/useLayoutContext';
 import { VideoContext } from '@/utils/hooks/useVideoContext';
-import { StreamH265Player } from '@/utils/methods/h265Player';
-import useVideoCallback from '@/utils/hooks/useVideoCallBack';
 import { useVideoMethods } from '@/utils/hooks/useVideoMethods';
+import useVideoCallback from '@/utils/hooks/useVideoCallBack';
+import useMandatoryUpdate from '@/utils/hooks/useMandatoryUpdate';
+import { StreamPlayer } from '@/utils/methods/streamPlayer';
+import { VideoPlayer } from '@/utils/methods/videoPlayer';
 
 const cn = 'Player';
 
 const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
     {
-        isLive,
-        url,
+        isLive = true,
+        url = '',
         width,
         height,
         ...rest
@@ -34,7 +35,8 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
     const videoContainerRef = useRef<HTMLDivElement>(null);
     const videoRef = useRef<HTMLVideoElement>(null);
     const videoUsefulTimerRef = useRef<NodeJS.Timer | null>(null);
-    const H265PlayerRef = useRef<any>(new StreamH265Player({ dispatch }));
+    const streamPlayerRef = useRef<Record<string, any>>(new StreamPlayer({ dispatch }));
+    const videoPlayerRef = useRef<Record<string, any>>(new VideoPlayer({ dispatch }));
 
     const [loading, setLoading] = useState<boolean>(false);
 
@@ -50,10 +52,10 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
 
     const videoMethods = useVideoMethods(
         videoRef.current as HTMLVideoElement,
-        H265PlayerRef.current,
+        streamPlayerRef.current,
         url,
-        !!isLive,
-        [videoRef.current, H265PlayerRef.current, url, isLive]
+        isLive,
+        [videoRef.current, streamPlayerRef.current, url, isLive]
     );
 
     const videoContextValue = useMemo(
@@ -66,7 +68,7 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
                     videoAttributes,
                     videoEle: videoRef.current,
                     videoContainerEle: videoContainerRef.current,
-                    H265Player: H265PlayerRef.current,
+                    streamPlayer: streamPlayerRef.current,
                     isLive,
                     ...rest
                 }
@@ -104,36 +106,42 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
         if (!videoContainerEle) return;
 
         if (width) {
+            videoContainerEle.style.width = `${width}px`;
             videoContainerEle.style.minWidth = `${width}px`;
         }
 
         if (height) {
+            videoContainerEle.style.height = `${height}px`;
             videoContainerEle.style.minHeight = `${height}px`;
         }
     }, [videoContainerRef.current, width, height]);
 
     useEffect(() => {
-        const videoEle = videoRef.current as HTMLVideoElement;
+        if (!videoRef.current) return;
+
+        const videoEle = videoRef.current;
 
         if (!videoEle.paused && isLive) {
-            H265PlayerRef.current.stop();
+            streamPlayerRef.current.stop();
         }
 
-        isLive ? H265PlayerRef.current.start(videoEle, url) : videoEle.src = url;
+        isLive
+            ? streamPlayerRef.current.start(videoEle, url)
+            : videoPlayerRef.current.start(videoEle, url);
 
         forceUpdate();
 
-        videoUsefulTimerRef.current = setTimeout(
-            () => {
-                if (videoEle.networkState === 0 || videoEle.networkState === 3) {
-                    console.error('Video is not loaded');
-                    setLoading(false);
-                } else {
-                    clearTimeout(videoUsefulTimerRef.current as NodeJS.Timer);
-                }
-            },
-            3000
-        );
+        // videoUsefulTimerRef.current = setTimeout(
+        //     () => {
+        //         if (videoEle.networkState === 0 || videoEle.networkState === 3) {
+        //             console.error('Video is not loaded');
+        //             setLoading(false);
+        //         } else {
+        //             clearTimeout(videoUsefulTimerRef.current as NodeJS.Timer);
+        //         }
+        //     },
+        //     3000
+        // );
 
         videoEle.addEventListener('waiting', waitingListener);
         videoEle.addEventListener('playing', playingListener);
@@ -159,10 +167,20 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
                 crossOrigin={'anonymous'}
             />
             {
-                ((loading && playing) || (networkState === 2 && readyState <= 1)) &&
+                (
+                    (loading && playing)
+                    ||
+                    (networkState === 2 && readyState <= 1)
+                    ||
+                    (videoModel.downloading)
+                )
+                &&
                 <div className={classes(cn, 'loading')}>
                     <Icon name={'loading'} size={24}/>
-                    <p>正在加载中...</p>
+                    <p>
+                        正在加载中
+                        {videoModel.downloading ? ` ${videoModel.percentComplete}%` : '...'}
+                    </p>
                 </div>
             }
             <VideoContext.Provider value={videoContextValue}>

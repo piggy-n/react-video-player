@@ -1,7 +1,7 @@
 import { useVideoModel } from '@/utils/hooks/useVideoModel';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { LayoutContext } from '@/utils/hooks/useLayoutContext';
-import { StreamH265Player } from '@/utils/methods/h265Player';
+import { StreamPlayer } from '@/utils/methods/streamPlayer';
 import { useVideo } from '@/utils/hooks/useVideo';
 import useMandatoryUpdate from '@/utils/hooks/useMandatoryUpdate';
 import { classes } from '@/utils/methods/classes';
@@ -20,7 +20,7 @@ const PipPlayer = ({ isLive = true, url = '' }: { isLive: boolean, url: string }
     const videoContainerRef = useRef<HTMLDivElement>(null);
     const videoRef = useRef<HTMLVideoElement>(null);
     const videoUsefulTimerRef = useRef<NodeJS.Timer | null>(null);
-    const H265PlayerRef = useRef<any>(new StreamH265Player({ dispatch }));
+    const streamPlayerRef = useRef<any>(new StreamPlayer({ dispatch }));
 
     const [loading, setLoading] = useState<boolean>(false);
 
@@ -47,10 +47,10 @@ const PipPlayer = ({ isLive = true, url = '' }: { isLive: boolean, url: string }
         const videoEle = videoRef.current as HTMLVideoElement;
 
         if (!videoEle.paused) {
-            H265PlayerRef.current.stop();
+            streamPlayerRef.current.stop();
         }
 
-        isLive ? H265PlayerRef.current.start(videoEle, url) : videoEle.src = url;
+        isLive ? streamPlayerRef.current.start(videoEle, url) : videoEle.src = url;
 
         forceUpdate();
 

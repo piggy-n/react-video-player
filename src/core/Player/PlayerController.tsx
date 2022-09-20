@@ -22,10 +22,11 @@ const PlayerController: PlayerControllerInterface = () => {
         videoEle,
         videoContainerEle,
         isLive,
-        H265Player,
+        streamPlayer,
         videoModel: {
             waiting,
-            error
+            error,
+            downloading
         }
     } = useContext(VideoContext);
 
@@ -108,7 +109,7 @@ const PlayerController: PlayerControllerInterface = () => {
         if (waiting) return;
 
         if (isLive) {
-            playing ? H265Player.stop() : H265Player.start();
+            playing ? streamPlayer.stop() : streamPlayer.start();
         }
 
         changePlayStatusHandler && changePlayStatusHandler();
@@ -193,7 +194,7 @@ const PlayerController: PlayerControllerInterface = () => {
                 onClick={pauseOrReplayBtnClickHandler}
             >
                 {
-                    !playing && !ended && !waiting &&
+                    !playing && !ended && !waiting && !downloading &&
                     <Icon name={'player'} size={55} title={'播放'}/>
                 }
             </div>

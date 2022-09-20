@@ -6,7 +6,7 @@ interface Options {
     dispatch: Dispatch<MergeActionType>;
 }
 
-export class StreamH265Player {
+export class StreamPlayer {
     ws?: WebSocket;
     ele?: HTMLVideoElement;
     url?: string;

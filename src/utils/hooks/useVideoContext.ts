@@ -10,7 +10,7 @@ export interface VideoContextType extends Partial<PlayerProps> {
     videoModel: VideoModelState;
     videoEle: HTMLVideoElement | null;
     videoContainerEle: HTMLElement | null;
-    H265Player: any;
+    streamPlayer: Record<string, any>;
     videoAttributes: VideoAttributes;
 }
 

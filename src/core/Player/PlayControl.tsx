@@ -12,7 +12,7 @@ const PlayControl = () => {
     const {
         videoEle,
         isLive,
-        H265Player,
+        streamPlayer,
         videoModel: {
             waiting
         }
@@ -30,7 +30,7 @@ const PlayControl = () => {
         if (waiting) return;
 
         if (isLive) {
-            playing ? H265Player.stop() : H265Player.start();
+            playing ? streamPlayer.stop() : streamPlayer.start();
         }
 
         changePlayStatusHandler && changePlayStatusHandler();

@@ -173,9 +173,10 @@ const WsVideoPlayer = ({ id }: { id: string }) => {
                             <Header/>
                             <div className={'ws-player-wrapper'}>
                                 <Player
-                                    isLive
-                                    url={controllerModel.urlList[0] ?? ''}
+                                    isLive={false}
+                                    // url={controllerModel.urlList[0] ?? ''}
                                     // url={'https://gs-files.oss-cn-hongkong.aliyuncs.com/okr/test/file/2021/07/01/haiwang.mp4'}
+                                    url={'https://gs-files.oss-cn-hongkong.aliyuncs.com/okr/prod/file/2021/08/31/540p.mp4'}
                                 />
                                 {
                                     controllerModel.isDoubleGrid &&

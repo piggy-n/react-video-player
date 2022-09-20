@@ -11,7 +11,7 @@ const ReloadControl = () => {
     const {
         isLive,
         videoEle,
-        H265Player,
+        streamPlayer,
         videoModel: {
             waiting
         }
@@ -20,7 +20,7 @@ const ReloadControl = () => {
     const clickHandler = () => {
         if (waiting) return;
 
-        isLive ? H265Player.reload() : videoEle?.load();
+        isLive ? streamPlayer.reload() : videoEle?.load();
     };
 
     return (
