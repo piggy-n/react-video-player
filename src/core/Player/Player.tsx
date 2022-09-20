@@ -28,17 +28,27 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
     },
     ref
 ) => {
-    const { videoModel, dispatch } = useVideoModel();
-
     const { onMouseOver } = useContext(LayoutContext);
 
-    const videoContainerRef = useRef<HTMLDivElement>(null);
+    const { videoModel, dispatch } = useVideoModel();
+
     const videoRef = useRef<HTMLVideoElement>(null);
-    const videoUsefulTimerRef = useRef<NodeJS.Timer | null>(null);
-    const streamPlayerRef = useRef<Record<string, any>>(new StreamPlayer({ dispatch }));
+    const videoContainerRef = useRef<HTMLDivElement>(null);
     const videoPlayerRef = useRef<Record<string, any>>(new VideoPlayer({ dispatch }));
+    const streamPlayerRef = useRef<Record<string, any>>(new StreamPlayer({ dispatch }));
 
     const [loading, setLoading] = useState<boolean>(false);
+    const [buffering, setBuffering] = useState<boolean>(false);
+
+    const forceUpdate = useMandatoryUpdate();
+
+    const waitingListener = () => {
+        setBuffering(true);
+    };
+
+    const playingListener = () => {
+        setBuffering(false);
+    };
 
     const {
         videoAttributes,
@@ -55,7 +65,12 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
         streamPlayerRef.current,
         url,
         isLive,
-        [videoRef.current, streamPlayerRef.current, url, isLive]
+        [
+            videoRef.current,
+            streamPlayerRef.current,
+            url,
+            isLive
+        ]
     );
 
     const videoContextValue = useMemo(
@@ -75,22 +90,17 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
                 }
             );
         },
-        [videoModel, dispatch]
+        [
+            videoModel,
+            dispatch
+        ]
     );
-
-    const forceUpdate = useMandatoryUpdate();
-
-    const waitingListener = () => {
-        setLoading(true);
-    };
-
-    const playingListener = () => {
-        setLoading(false);
-    };
 
     useVideoCallback(
         videoAttributes,
-        { ...rest }
+        {
+            ...rest
+        }
     );
 
     useImperativeHandle(
@@ -102,58 +112,82 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
         }),
     );
 
-    useEffect(() => {
-        const videoContainerEle = videoContainerRef.current;
-        if (!videoContainerEle) return;
+    useEffect(
+        () => {
+            if (
+                (buffering && playing)
+                ||
+                (networkState === 2 && readyState <= 1)
+                ||
+                (videoModel.downloading)
+            ) {
+                setLoading(true);
+            } else {
+                setLoading(false);
+            }
+        },
+        [
+            buffering,
+            playing,
+            networkState,
+            readyState,
+            videoModel.downloading
+        ]
+    );
 
-        if (width) {
-            videoContainerEle.style.width = `${width}px`;
-            videoContainerEle.style.minWidth = `${width}px`;
-        }
+    useEffect(
+        () => {
+            const videoContainerEle = videoContainerRef.current;
+            if (!videoContainerEle) return;
 
-        if (height) {
-            videoContainerEle.style.height = `${height}px`;
-            videoContainerEle.style.minHeight = `${height}px`;
-        }
-    }, [videoContainerRef.current, width, height]);
+            if (width) {
+                videoContainerEle.style.width = `${width}px`;
+                videoContainerEle.style.minWidth = `${width}px`;
+            }
 
-    useEffect(() => {
-        if (!videoRef.current) return;
+            if (height) {
+                videoContainerEle.style.height = `${height}px`;
+                videoContainerEle.style.minHeight = `${height}px`;
+            }
+        },
+        [
+            videoContainerRef.current,
+            width,
+            height
+        ]
+    );
 
-        const videoEle = videoRef.current;
+    useEffect(
+        () => {
+            if (!videoRef.current) return;
 
-        if (!videoEle.paused && isLive) {
-            streamPlayerRef.current.stop();
-        }
+            const videoEle = videoRef.current;
+            const streamPlayer = streamPlayerRef.current;
+            const videoPlayer = videoPlayerRef.current;
 
-        isLive
-            ? streamPlayerRef.current.start(videoEle, url)
-            : videoPlayerRef.current.start(videoEle, url);
+            if (isLive) {
+                streamPlayer.stop();
+                streamPlayer.start(videoEle, url);
+            } else {
+                videoPlayer.start(videoEle, url);
+            }
 
-        forceUpdate();
+            forceUpdate();
 
-        // videoUsefulTimerRef.current = setTimeout(
-        //     () => {
-        //         if (videoEle.networkState === 0 || videoEle.networkState === 3) {
-        //             console.error('Video is not loaded');
-        //             setLoading(false);
-        //         } else {
-        //             clearTimeout(videoUsefulTimerRef.current as NodeJS.Timer);
-        //         }
-        //     },
-        //     3000
-        // );
+            videoEle.addEventListener('waiting', waitingListener);
+            videoEle.addEventListener('playing', playingListener);
 
-        videoEle.addEventListener('waiting', waitingListener);
-        videoEle.addEventListener('playing', playingListener);
-
-        return () => {
-            videoEle.removeEventListener('waiting', waitingListener);
-            videoEle.removeEventListener('playing', playingListener);
-
-            videoUsefulTimerRef.current && clearTimeout(videoUsefulTimerRef.current as NodeJS.Timer);
-        };
-    }, [videoRef.current, url, isLive]);
+            return () => {
+                videoEle.removeEventListener('waiting', waitingListener);
+                videoEle.removeEventListener('playing', playingListener);
+            };
+        },
+        [
+            videoRef.current,
+            url,
+            isLive
+        ]
+    );
 
     return (
         <div
@@ -168,14 +202,7 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
                 crossOrigin={'anonymous'}
             />
             {
-                (
-                    (loading && playing)
-                    ||
-                    (networkState === 2 && readyState <= 1)
-                    ||
-                    (videoModel.downloading)
-                )
-                &&
+                loading &&
                 <div className={classes(cn, 'loading')}>
                     <Icon name={'loading'} size={24}/>
                     <p>

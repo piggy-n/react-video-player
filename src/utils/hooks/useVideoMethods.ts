@@ -5,7 +5,7 @@ import type { VideoMethods } from '@/types/video';
 
 export const useVideoMethods = (
     ele: HTMLVideoElement,
-    player: any,
+    player: Record<string, any>,
     url: string,
     isLive: boolean,
     dep: DependencyList = []
