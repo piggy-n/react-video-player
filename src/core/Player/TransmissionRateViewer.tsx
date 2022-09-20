@@ -21,8 +21,8 @@ const TransmissionRateViewer = () => {
                     ? <div className={classes(cn, '')}>
                         {
                             transmissionRate >= 1024
-                                ? `${(transmissionRate / 1024).toFixed(2)}Mbps`
-                                : `${transmissionRate.toFixed(2)}Kbps`
+                                ? `${(transmissionRate / 1024).toFixed(2)}MBps`
+                                : `${transmissionRate.toFixed(2)}KBps`
                         }
                     </div>
                     : null

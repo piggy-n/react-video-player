@@ -16,7 +16,10 @@ const cn = 'Setting-Control';
 const SettingControl = () => {
     const {
         videoModel: {
-            controlled
+            controlled,
+            waiting,
+            downloading,
+            error
         },
         videoEle,
         videoContainerEle,
@@ -40,8 +43,9 @@ const SettingControl = () => {
     const [recorded, setRecorded] = useState<boolean>(false);
 
     const screenshotHandler = () => {
-        setIsScreenshot(true);
+        if (waiting || downloading || error) return;
 
+        setIsScreenshot(true);
         screenshotCanvasRef.current = capture(videoEle as HTMLVideoElement);
     };
 

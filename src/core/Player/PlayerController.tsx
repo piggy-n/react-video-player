@@ -172,7 +172,7 @@ const PlayerController: PlayerControllerInterface = () => {
 
         dispatch({
             type: 'error',
-            payload: networkState === 3 || networkState === 0
+            payload: networkState === 3 || networkState === 0 || readyState === 0
         });
     }, [networkState, readyState]);
 
