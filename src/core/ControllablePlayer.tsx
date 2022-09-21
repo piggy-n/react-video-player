@@ -16,6 +16,7 @@ import { useCtrPlayerModel } from '@/utils/hooks/useCtrPlayerModel';
 // import type { DeviceStream } from '@/types/video';
 import type { Size, Stream, Service } from '@/types/ctrPlayer';
 import { obtainDeviceService, obtainDeviceStream } from '@/services/device';
+import { useUpdateEffect } from 'ahooks';
 
 const Draggable = require('react-draggable');
 
@@ -167,33 +168,19 @@ const ControllablePlayer = ({ id }: { id: string }) => {
     //     }
     // }, [controllerModel.controllerVisible]);
     //
-    // useUpdateEffect(() => {
-    //     if (controllerModel.isDoubleGrid) {
-    //         if (size && minSize) {
-    //             setSize({
-    //                 ...size,
-    //                 width: size.width * 2,
-    //             });
-    //
-    //             setMinSize({
-    //                 ...minSize,
-    //                 width: minSize.width * 2
-    //             });
-    //         }
-    //     } else {
-    //         if (size && minSize) {
-    //             setSize({
-    //                 ...size,
-    //                 width: size.width / 2,
-    //             });
-    //
-    //             setMinSize({
-    //                 ...minSize,
-    //                 width: minSize.width / 2
-    //             });
-    //         }
-    //     }
-    // }, [controllerModel.isDoubleGrid]);
+    useUpdateEffect(() => {
+        if (size && minSize) {
+            setSize({
+                ...size,
+                width: ctrPlayerModel.doubleGrid ? size.width * 2 : size.width / 2,
+            });
+
+            setMinSize({
+                ...minSize,
+                width: ctrPlayerModel.doubleGrid ? minSize.width * 2 : minSize.width / 2
+            });
+        }
+    }, [ctrPlayerModel.doubleGrid]);
 
     return (
         <CtrPlayerContext.Provider value={ctrPlayerContextValue}>
@@ -228,6 +215,20 @@ const ControllablePlayer = ({ id }: { id: string }) => {
                                 url={'https://gs-files.oss-cn-hongkong.aliyuncs.com/okr/test/file/2021/07/01/haiwang.mp4'}
                                 // url={'https://gs-files.oss-cn-hongkong.aliyuncs.com/okr/prod/file/2021/08/31/540p.mp4'}
                             />
+                            {
+                                ctrPlayerModel.doubleGrid &&
+                                <Player
+                                    isLive={false}
+                                    videoContainerStyle={{
+                                        minHeight: '270px',
+                                        minWidth: '480px',
+                                    }}
+                                    // url={'wss://lzz.enbo12119.com/live/1560452005253799937/101.live.mp4?token=1477fabe-4fab-4b65-8c32-a915558859dc'}
+                                    url={'https://gs-files.oss-cn-hongkong.aliyuncs.com/okr/test/file/2021/07/01/haiwang.mp4'}
+                                    // url={'https://gs-files.oss-cn-hongkong.aliyuncs.com/okr/prod/file/2021/08/31/540p.mp4'}
+                                />
+
+                            }
                             {/*{*/}
                             {/*    controllerModel.isDoubleGrid &&*/}
                             {/*    <Player*/}

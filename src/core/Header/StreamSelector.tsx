@@ -7,17 +7,24 @@ const StreamSelector = () => {
     const {
         ctrPlayerModel: {
             streams,
+            singleGrid,
             streamUrlList
         },
         setCtrPlayerModelData
     } = useContext(CtrPlayerContext);
 
     const selectorChangeHandler = (arg: string[]) => {
-        if (arg.length === 0 || arg.length > 2 || !setCtrPlayerModelData) return;
+        if (arg.length === 0 || !setCtrPlayerModelData) return;
+
+        const newStreamUrlList = singleGrid
+            ? arg.filter(item => !streamUrlList.includes(item))
+            : arg.filter((item, index) => index !== 1);
 
         setCtrPlayerModelData({
             type: 'streamUrlList',
-            payload: arg
+            payload: singleGrid
+                ? newStreamUrlList
+                : (arg.length > 2 ? newStreamUrlList : arg)
         });
     };
 
