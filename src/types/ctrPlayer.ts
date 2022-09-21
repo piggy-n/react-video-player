@@ -13,3 +13,18 @@ export type Feature = {
     control: boolean,
     record: boolean,
 }
+
+export type Stream = {
+    url: string,
+    streamTypeCode: string,
+    streamTypeDesc: string,
+    channelDesc: string,
+    channelCode: string,
+    value: string,
+    label: string,
+}
+
+export type Service = {
+    serviceCode: string,
+    serviceDesc: string,
+}

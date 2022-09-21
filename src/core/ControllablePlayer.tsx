@@ -14,8 +14,8 @@ import { useCtrPlayerModel } from '@/utils/hooks/useCtrPlayerModel';
 // import { useControllerModel } from '@/utils/hooks/useControllerModel';
 // import { ControllerContext } from '@/utils/hooks/useControllerContext';
 // import type { DeviceStream } from '@/types/video';
-import type { Size } from '@/types/ctrPlayer';
-import { obtainDeviceStream } from '@/services/device';
+import type { Size, Stream, Service } from '@/types/ctrPlayer';
+import { obtainDeviceService, obtainDeviceStream } from '@/services/device';
 
 const Draggable = require('react-draggable');
 
@@ -81,13 +81,78 @@ const ControllablePlayer = ({ id }: { id: string }) => {
     }, [playerContainerRef.current]);
 
     useEffect(() => {
-        console.log(process.env.NODE_ENV);
+        const streams: Stream[] = [];
+        const token = `?token=${localStorage.getItem('accessToken')}`;
+        const prev = location.protocol.includes('https') ? 'wss:' : 'ws:';
+        const wsUrl = `${prev}//${window.location.host}`;
 
-        console.log(location.protocol,window.location);
         obtainDeviceStream({ id }).then(res => {
-            console.log(res);
+            if (!res?.success) {
+                setCtrPlayerModelData({
+                    type: 'streams',
+                    payload: streams,
+                });
+                return;
+            }
+
+            const list = res.list as Stream[] || [];
+            list.forEach(item => {
+                item.value = `${wsUrl}${item.url}${token}`;
+                item.value = `wss://lzz.enbo12119.com${item.url}${token}`;
+
+                if (item.streamTypeCode === '1') {
+                    item.label = `${item.channelDesc}（主）`;
+                }
+
+                if (item.streamTypeCode === '2') {
+                    item.label = `${item.channelDesc}（辅）`;
+                }
+
+                streams.push(item);
+            });
+
+            setCtrPlayerModelData({
+                type: 'streams',
+                payload: streams,
+            });
         });
 
+        obtainDeviceService({ id }).then(res => {
+            const feature = {
+                stream: false,
+                control: false,
+                record: false,
+            };
+
+            if (!res?.success) {
+                setCtrPlayerModelData({
+                    type: 'feature',
+                    payload: feature,
+                });
+                return;
+            }
+
+            const list = res.list as Service[] || [];
+
+            list.forEach(item => {
+                if (item.serviceCode.includes('stream')) {
+                    feature.stream = true;
+                }
+
+                if (item.serviceCode.includes('ptz')) {
+                    feature.control = true;
+                }
+
+                if (item.serviceCode.includes('videoRecord')) {
+                    feature.record = true;
+                }
+            });
+
+            setCtrPlayerModelData({
+                type: 'feature',
+                payload: feature,
+            });
+        });
     }, [id]);
 
     // useUpdateEffect(() => {

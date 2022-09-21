@@ -1,12 +1,14 @@
 import type { Feature, Position } from '@/types/ctrPlayer';
 import type { ResizeHandle } from 'react-resizable';
 import { useReducer } from 'react';
+import type { Stream } from '@/types/ctrPlayer';
 
 export interface CtrPlayerModelState {
     disableDrag: boolean;
     position: Position | null;
     resizeHandlesArr: ResizeHandle[];
     feature: Feature;
+    streams: Stream[];
 }
 
 export const initialState: CtrPlayerModelState = {
@@ -14,10 +16,11 @@ export const initialState: CtrPlayerModelState = {
     position: null,
     resizeHandlesArr: ['se', 'e', 's'],
     feature: {
-        stream: true,
-        control: true,
-        record: true,
-    }
+        stream: false,
+        control: false,
+        record: false,
+    },
+    streams: [],
 };
 
 export interface DisableDragActionType {
@@ -40,11 +43,17 @@ export interface FeatureActionType {
     payload: CtrPlayerModelState['feature'];
 }
 
+export interface StreamsActionType {
+    type: 'streams';
+    payload: CtrPlayerModelState['streams'];
+}
+
 export type MergeActionType =
     | DisableDragActionType
     | PositionActionType
     | ResizeHandlesArrActionType
-    | FeatureActionType;
+    | FeatureActionType
+    | StreamsActionType;
 
 export const useCtrPlayerModel = () => {
     const reducer = (state: CtrPlayerModelState, action: MergeActionType) => {
@@ -59,6 +68,8 @@ export const useCtrPlayerModel = () => {
                 return { ...state, resizeHandlesArr: payload };
             case 'feature':
                 return { ...state, feature: payload };
+            case 'streams':
+                return { ...state, streams: payload };
             default:
                 return state;
         }
