@@ -5,8 +5,7 @@ export type PlayerRef = VideoAttributes & VideoMethods & { video: HTMLVideoEleme
 
 export interface PlayerProps extends Partial<VideoCallBack> {
     url: string;
-    width?: number;
-    height?: number;
+    videoContainerStyle?: CSSProperties;
     isLive?: boolean;
     screenshot?: boolean;
     recording?: boolean;

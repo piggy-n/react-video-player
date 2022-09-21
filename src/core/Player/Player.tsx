@@ -23,8 +23,7 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
     {
         isLive = true,
         url = '',
-        width,
-        height,
+        videoContainerStyle = {},
         ...rest
     },
     ref
@@ -141,28 +140,6 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
 
     useEffect(
         () => {
-            const videoContainerEle = videoContainerRef.current;
-            if (!videoContainerEle) return;
-
-            if (width) {
-                videoContainerEle.style.width = `${width}px`;
-                videoContainerEle.style.minWidth = `${width}px`;
-            }
-
-            if (height) {
-                videoContainerEle.style.height = `${height}px`;
-                videoContainerEle.style.minHeight = `${height}px`;
-            }
-        },
-        [
-            videoContainerRef.current,
-            width,
-            height
-        ]
-    );
-
-    useEffect(
-        () => {
             if (!videoRef.current) return;
 
             const videoEle = videoRef.current;
@@ -221,6 +198,7 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
         <div
             ref={videoContainerRef}
             className={classes(cn, '')}
+            style={{ ...videoContainerStyle }}
             onMouseOver={() => onMouseOver && onMouseOver(true)}
         >
             <video

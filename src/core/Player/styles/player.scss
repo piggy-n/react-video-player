@@ -2,7 +2,6 @@
 
 .ws-player {
   @include ps(relative);
-  @include mwh(480px, 270px);
   @include fr(center);
   flex: 1;
   height: 100%;
