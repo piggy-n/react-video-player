@@ -206,25 +206,27 @@ const ControllablePlayer = ({ id }: { id: string }) => {
                         <Header/>
                         <div className={'ws-player-wrapper'}>
                             <Player
-                                isLive={false}
+                                isLive
                                 videoContainerStyle={{
                                     minHeight: '270px',
                                     minWidth: '480px',
                                 }}
+                                url={ctrPlayerModel.streamUrlList[0] ?? ''}
                                 // url={'wss://lzz.enbo12119.com/live/1560452005253799937/101.live.mp4?token=1477fabe-4fab-4b65-8c32-a915558859dc'}
-                                url={'https://gs-files.oss-cn-hongkong.aliyuncs.com/okr/test/file/2021/07/01/haiwang.mp4'}
+                                // url={'https://gs-files.oss-cn-hongkong.aliyuncs.com/okr/test/file/2021/07/01/haiwang.mp4'}
                                 // url={'https://gs-files.oss-cn-hongkong.aliyuncs.com/okr/prod/file/2021/08/31/540p.mp4'}
                             />
                             {
                                 ctrPlayerModel.doubleGrid &&
                                 <Player
-                                    isLive={false}
+                                    isLive
                                     videoContainerStyle={{
                                         minHeight: '270px',
                                         minWidth: '480px',
                                     }}
+                                    url={ctrPlayerModel.streamUrlList[1] ?? ''}
                                     // url={'wss://lzz.enbo12119.com/live/1560452005253799937/101.live.mp4?token=1477fabe-4fab-4b65-8c32-a915558859dc'}
-                                    url={'https://gs-files.oss-cn-hongkong.aliyuncs.com/okr/test/file/2021/07/01/haiwang.mp4'}
+                                    // url={'https://gs-files.oss-cn-hongkong.aliyuncs.com/okr/test/file/2021/07/01/haiwang.mp4'}
                                     // url={'https://gs-files.oss-cn-hongkong.aliyuncs.com/okr/prod/file/2021/08/31/540p.mp4'}
                                 />
 

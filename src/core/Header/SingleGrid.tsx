@@ -7,6 +7,7 @@ const SingleGrid = () => {
     const {
         ctrPlayerModel: {
             singleGrid,
+            streamUrlList
         },
         setCtrPlayerModelData
     } = useContext(CtrPlayerContext);
@@ -28,6 +29,11 @@ const SingleGrid = () => {
             setCtrPlayerModelData({
                 type: 'pictureInPicture',
                 payload: false
+            });
+
+            setCtrPlayerModelData({
+                type: 'streamUrlList',
+                payload: [streamUrlList[0]]
             });
         }
     };

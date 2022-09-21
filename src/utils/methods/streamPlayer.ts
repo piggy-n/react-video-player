@@ -152,6 +152,13 @@ export class StreamPlayer {
             this.url = url;
         }
 
+        if (url === '') {
+            this.ele = undefined;
+            this.url = undefined;
+            this.stop();
+            return;
+        }
+
         if (!this.ele || !this.url) return;
 
         this.mediaSource = new MediaSource();
