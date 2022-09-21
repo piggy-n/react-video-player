@@ -74,12 +74,19 @@ const ControllablePlayer = ({ id }: { id: string }) => {
                     type: 'streams',
                     payload: streams,
                 });
+
+                setCtrPlayerModelData({
+                    type: 'streamUrlList',
+                    payload: []
+                });
+
                 return;
             }
 
             const list = res.list as Stream[] || [];
+
             list.forEach(item => {
-                item.value = `${wsUrl}${item.url}${token}`;
+                item.value = `${wsUrl}${item.url}${token}`; // todo
                 item.value = `wss://lzz.enbo12119.com${item.url}${token}`;
 
                 if (item.streamTypeCode === '1') {
@@ -93,9 +100,16 @@ const ControllablePlayer = ({ id }: { id: string }) => {
                 streams.push(item);
             });
 
+            const mainStream = streams.find(item => item.channelCode === '1' && item.streamTypeCode === '1');
+
             setCtrPlayerModelData({
                 type: 'streams',
                 payload: streams,
+            });
+
+            setCtrPlayerModelData({
+                type: 'streamUrlList',
+                payload: mainStream ? [mainStream.value] : []
             });
         });
 

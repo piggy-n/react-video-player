@@ -37,6 +37,7 @@
     padding: 6px;
     font-size: 12px;
     border-radius: 4px;
+    min-width: 115px !important;
   }
 
   .ant-select-selection-placeholder {
@@ -122,7 +123,7 @@
     background: transparent;
     border: 0;
     cursor: pointer !important;
-    padding: 0 12px 0 24px;
+    padding: 0 6px 0 24px;
   }
 
   .ant-select-focused:not(.ant-select-disabled).ant-select:not(.ant-select-customize-input) .ant-select-selector {

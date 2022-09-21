@@ -14,6 +14,7 @@ export interface CtrPlayerModelState {
     singleGrid: boolean;
     doubleGrid: boolean;
     pictureInPicture: boolean;
+    streamUrlList: string[];
 }
 
 export const initialState: CtrPlayerModelState = {
@@ -29,6 +30,7 @@ export const initialState: CtrPlayerModelState = {
     singleGrid: true,
     doubleGrid: false,
     pictureInPicture: false,
+    streamUrlList: [],
 };
 
 export interface DisableDragActionType {
@@ -71,6 +73,11 @@ export interface PictureInPictureActionType {
     payload: CtrPlayerModelState['pictureInPicture'];
 }
 
+export interface StreamUrlListActionType {
+    type: 'streamUrlList';
+    payload: CtrPlayerModelState['streamUrlList'];
+}
+
 export type MergeActionType =
     | DisableDragActionType
     | PositionActionType
@@ -79,7 +86,8 @@ export type MergeActionType =
     | StreamsActionType
     | SingleGridActionType
     | DoubleGridActionType
-    | PictureInPictureActionType;
+    | PictureInPictureActionType
+    | StreamUrlListActionType;
 
 export const useCtrPlayerModel = () => {
     const reducer = (state: CtrPlayerModelState, action: MergeActionType) => {
@@ -102,6 +110,8 @@ export const useCtrPlayerModel = () => {
                 return { ...state, doubleGrid: payload };
             case 'pictureInPicture':
                 return { ...state, pictureInPicture: payload };
+            case 'streamUrlList':
+                return { ...state, streamUrlList: payload };
             default:
                 return state;
         }

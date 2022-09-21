@@ -10,6 +10,7 @@ import DoubleGrid from '@/core/Header/DoubleGrid';
 import PictureInPicture from '@/core/Header/PictureInPicture';
 import { CtrPlayerContext } from '@/utils/hooks/useCtrPlayerContext';
 import { isFullscreen } from 'screenfull';
+import StreamSelector from '@/core/Header/StreamSelector';
 
 const cn = 'Controller-Toolbar';
 
@@ -28,14 +29,7 @@ const ControllerToolbar: FC<ControllerToolbarProps> = () => {
 
     return (
         <div className={classes(cn, '')}>
-            {/*{*/}
-            {/*    deviceStreamList.length > 1 &&*/}
-            {/*    <Selector*/}
-            {/*        value={urlList}*/}
-            {/*        onChange={selectorChangeHandler}*/}
-            {/*        options={deviceStreamList}*/}
-            {/*    />*/}
-            {/*}*/}
+            <StreamSelector/>
             <SingleGrid/>
             <DoubleGrid/>
             <PictureInPicture/>
