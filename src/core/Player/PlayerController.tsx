@@ -8,13 +8,10 @@ import { VideoContext } from '@/utils/hooks/useVideoContext';
 import Icon from '@/components/Icon';
 import { useVideo } from '@/utils/hooks/useVideo';
 import type { PlayerControllerInterface } from '@/core/Player/type';
-import { ControllerContext } from '@/utils/hooks/useControllerContext';
 
 const cn = 'Player-Controller';
 
 const PlayerController: PlayerControllerInterface = () => {
-    const controllerContext = useContext(ControllerContext);
-
     const {
         dispatch,
         videoEle,
@@ -125,21 +122,7 @@ const PlayerController: PlayerControllerInterface = () => {
                 }
 
                 if (mouseState.mouseClickCount === 2) {
-                    const {
-                        controllerModel: {
-                            isPip,
-                            urlList
-                        }
-                    } = controllerContext;
-
-                    if (isPip) {
-                        controllerContext.dispatch({
-                            type: 'urlList',
-                            payload: [urlList[1], urlList[0]],
-                        });
-                    }
-
-                    if (screenfull.isEnabled && !isPip) {
+                    if (screenfull.isEnabled) {
                         screenfull.toggle(videoContainerEle as HTMLDivElement);
                         screenfull.on('change', () => {
                             dispatch({

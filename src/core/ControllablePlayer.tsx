@@ -17,6 +17,7 @@ import { useCtrPlayerModel } from '@/utils/hooks/useCtrPlayerModel';
 import type { Size, Stream, Service } from '@/types/ctrPlayer';
 import { obtainDeviceService, obtainDeviceStream } from '@/services/device';
 import { useUpdateEffect } from 'ahooks';
+import PipPlayer from '@/core/Player/pipPlayer';
 
 const Draggable = require('react-draggable');
 
@@ -45,6 +46,13 @@ const ControllablePlayer = ({ id }: { id: string }) => {
         setCtrPlayerModelData({
             type: 'disableDrag',
             payload: true
+        });
+    };
+
+    const pipClickHandler = () => {
+        setCtrPlayerModelData({
+            type: 'streamUrlList',
+            payload: [ctrPlayerModel.streamUrlList[1] ?? '', ctrPlayerModel.streamUrlList[0]]
         });
     };
 
@@ -229,24 +237,21 @@ const ControllablePlayer = ({ id }: { id: string }) => {
                                     // url={'https://gs-files.oss-cn-hongkong.aliyuncs.com/okr/test/file/2021/07/01/haiwang.mp4'}
                                     // url={'https://gs-files.oss-cn-hongkong.aliyuncs.com/okr/prod/file/2021/08/31/540p.mp4'}
                                 />
-
                             }
-                            {/*{*/}
-                            {/*    controllerModel.isDoubleGrid &&*/}
-                            {/*    <Player*/}
-                            {/*        isLive*/}
-                            {/*        url={controllerModel.urlList[1] ?? ''}*/}
-                            {/*    />*/}
-                            {/*}*/}
-                            {/*{*/}
-                            {/*    controllerModel.isPip &&*/}
-                            {/*    <div className={'ws-pip-container'}>*/}
-                            {/*        <PipPlayer*/}
-                            {/*            isLive*/}
-                            {/*            url={controllerModel.urlList[1] ?? ''}*/}
-                            {/*        />*/}
-                            {/*    </div>*/}
-                            {/*}*/}
+                            {
+                                ctrPlayerModel.pictureInPicture &&
+                                <Draggable bounds={'parent'}>
+                                    <div
+                                        className={'ws-pip-container'}
+                                        onClick={pipClickHandler}
+                                    >
+                                        <PipPlayer
+                                            isLive
+                                            url={ctrPlayerModel.streamUrlList[1] ?? ''}
+                                        />
+                                    </div>
+                                </Draggable>
+                            }
                             <Controller/>
                         </div>
                     </div>
