@@ -1,4 +1,4 @@
-import type { Position } from '@/types/video';
+import type { Feature, Position } from '@/types/ctrPlayer';
 import type { ResizeHandle } from 'react-resizable';
 import { useReducer } from 'react';
 
@@ -6,12 +6,18 @@ export interface CtrPlayerModelState {
     disableDrag: boolean;
     position: Position | null;
     resizeHandlesArr: ResizeHandle[];
+    feature: Feature;
 }
 
 export const initialState: CtrPlayerModelState = {
     disableDrag: true,
     position: null,
     resizeHandlesArr: ['se', 'e', 's'],
+    feature: {
+        stream: true,
+        control: true,
+        record: true,
+    }
 };
 
 export interface DisableDragActionType {
@@ -29,10 +35,16 @@ export interface ResizeHandlesArrActionType {
     payload: CtrPlayerModelState['resizeHandlesArr'];
 }
 
+export interface FeatureActionType {
+    type: 'feature';
+    payload: CtrPlayerModelState['feature'];
+}
+
 export type MergeActionType =
     | DisableDragActionType
     | PositionActionType
-    | ResizeHandlesArrActionType;
+    | ResizeHandlesArrActionType
+    | FeatureActionType;
 
 export const useCtrPlayerModel = () => {
     const reducer = (state: CtrPlayerModelState, action: MergeActionType) => {
@@ -45,6 +57,8 @@ export const useCtrPlayerModel = () => {
                 return { ...state, position: payload };
             case 'resizeHandlesArr':
                 return { ...state, resizeHandlesArr: payload };
+            case 'feature':
+                return { ...state, feature: payload };
             default:
                 return state;
         }

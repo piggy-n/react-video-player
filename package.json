@@ -5,7 +5,7 @@
   "main": "dist/src/index.js",
   "types": "dist/src/index",
   "scripts": {
-    "start": "cross-env NODE_ENV=development webpack-dev-server --config webpack.config.dev.js",
+    "start": "cross-env NODE_ENV=development PROXY=https://lzz.enbo12119.com webpack-dev-server --config webpack.config.dev.js",
     "build": "cross-env NODE_ENV=production webpack --config webpack.config.prod.js"
   },
   "keywords": [],

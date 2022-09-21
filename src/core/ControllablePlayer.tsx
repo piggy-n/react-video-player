@@ -14,7 +14,8 @@ import { useCtrPlayerModel } from '@/utils/hooks/useCtrPlayerModel';
 // import { useControllerModel } from '@/utils/hooks/useControllerModel';
 // import { ControllerContext } from '@/utils/hooks/useControllerContext';
 import type { DeviceStream } from '@/types/video';
-import type { Size } from '@/types/video';
+import type { Size } from '@/types/ctrPlayer';
+import { obtainDeviceStream } from '@/services/device';
 
 const Draggable = require('react-draggable');
 
@@ -78,6 +79,16 @@ const ControllablePlayer = ({ id }: { id: string }) => {
             playerContainerRef.current.style.height = '100%';
         }
     }, [playerContainerRef.current]);
+
+    useEffect(() => {
+        console.log(process.env.NODE_ENV);
+
+        console.log(location.protocol,window.location);
+        obtainDeviceStream({ id }).then(res => {
+            console.log(res);
+        });
+
+    }, [id]);
 
     // useUpdateEffect(() => {
     //     const { controllerVisible } = controllerModel;

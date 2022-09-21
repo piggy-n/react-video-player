@@ -12,3 +12,15 @@ export const obtainDeviceStream: (params: {
         method: 'GET',
     });
 };
+
+export const obtainDeviceService: (params: {
+    id: string;
+}) => Promise<Response | undefined> = (
+    {
+        id
+    }
+) => {
+    return request(`/resource/device/${id}/services`, {
+        method: 'GET',
+    });
+};

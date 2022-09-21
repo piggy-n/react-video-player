@@ -1,7 +1,7 @@
 const base = require('./webpack.config');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const LOCALHOST = 'https://lzz.enbo12119.com';
-// const LOCALHOST = 'http://192.168.9.148';
+// 'https://lzz.enbo12119.com';
+// 'http://192.168.9.148';
 
 module.exports = Object.assign({}, base, {
     mode: 'development',
@@ -14,11 +14,11 @@ module.exports = Object.assign({}, base, {
     devServer: {
         proxy: {
             '/prod-api': {
-                target: LOCALHOST,
+                target: process.env.PROXY,
                 changeOrigin: true,
             },
             '/proxy': {
-                target: LOCALHOST,
+                target: process.env.PROXY,
                 changeOrigin: true,
                 pathRewrite: { '^/proxy': '' },
             },
