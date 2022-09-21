@@ -7,6 +7,7 @@ const PictureInPicture = () => {
     const {
         ctrPlayerModel: {
             pictureInPicture,
+            streams
         },
         setCtrPlayerModelData
     } = useContext(CtrPlayerContext);
@@ -32,13 +33,13 @@ const PictureInPicture = () => {
         }
     };
 
-    return (
-        <Icon
+    return streams.length > 1
+        ? <Icon
             name={pictureInPicture ? 'pip-active' : 'pip'}
             title={'画中画'}
             onClick={clickHandler}
         />
-    );
+        : null;
 };
 
 export default PictureInPicture;

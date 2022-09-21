@@ -7,6 +7,7 @@ const DoubleGrid = () => {
     const {
         ctrPlayerModel: {
             doubleGrid,
+            streams
         },
         setCtrPlayerModelData
     } = useContext(CtrPlayerContext);
@@ -32,13 +33,13 @@ const DoubleGrid = () => {
         }
     };
 
-    return (
-        <Icon
+    return streams.length > 1
+        ? <Icon
             name={doubleGrid ? 'double-grid-active' : 'double-grid'}
             title={'双宫'}
             onClick={clickHandler}
         />
-    );
+        : null;
 };
 
 export default DoubleGrid;

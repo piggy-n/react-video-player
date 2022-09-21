@@ -14,12 +14,12 @@ import { isFullscreen } from 'screenfull';
 const cn = 'Controller-Toolbar';
 
 const ControllerToolbar: FC<ControllerToolbarProps> = () => {
-    const {
-        ctrPlayerModel: {
-            streams
-        },
-        setCtrPlayerModelData
-    } = useContext(CtrPlayerContext);
+    // const {
+    //     ctrPlayerModel: {
+    //         streams
+    //     },
+    //     setCtrPlayerModelData
+    // } = useContext(CtrPlayerContext);
 
     const [panelStatus, setPanelStatus] = useState<Record<string, boolean>>({
         isController: false,
@@ -37,13 +37,8 @@ const ControllerToolbar: FC<ControllerToolbarProps> = () => {
             {/*    />*/}
             {/*}*/}
             <SingleGrid/>
-            {
-                streams.length > 1 &&
-                <>
-                    <DoubleGrid/>
-                    <PictureInPicture/>
-                </>
-            }
+            <DoubleGrid/>
+            <PictureInPicture/>
             <Icon
                 name={panelStatus['screenshot'] ? 'screenshot-active' : 'screenshot'}
                 title={'截图'}
