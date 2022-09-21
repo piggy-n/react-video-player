@@ -5,15 +5,29 @@ import screenfull from 'screenfull';
 import './styles/webFullScreenControl.scss';
 import { useContext, useEffect, useState } from 'react';
 import { VideoContext } from '@/utils/hooks/useVideoContext';
-import { LayoutContext } from '@/utils/hooks/useLayoutContext';
+import { CtrPlayerContext } from '@/utils/hooks/useCtrPlayerContext';
 
 const cn = 'Web-Full-Screen-Control';
 
 const WebFullScreenControl = () => {
-    const { onWebFullScreen } = useContext(LayoutContext);
+    const { setCtrPlayerModelData } = useContext(CtrPlayerContext);
     const { videoContainerEle, videoModel, dispatch } = useContext(VideoContext);
 
     const [webIsFullscreen, setWebIsFullscreen] = useState(false);
+
+    const webFullScreenHandler = (arg: boolean) => {
+        if (setCtrPlayerModelData) {
+            setCtrPlayerModelData({
+                type: 'position',
+                payload: arg ? { x: 0, y: 0 } : null
+            });
+
+            setCtrPlayerModelData({
+                type: 'resizeHandlesArr',
+                payload: arg ? [] : ['se', 'e', 's']
+            });
+        }
+    };
 
     const clickHandler = () => {
         if (videoModel.isFullscreen && screenfull.isEnabled) {
@@ -28,12 +42,12 @@ const WebFullScreenControl = () => {
         if (videoContainerEle?.classList.contains('ws-web-full-screen')) {
             videoContainerEle?.classList.remove('ws-web-full-screen');
 
-            onWebFullScreen && onWebFullScreen(false);
+            webFullScreenHandler(false);
             setWebIsFullscreen(false);
         } else {
             videoContainerEle?.classList.add('ws-web-full-screen');
 
-            onWebFullScreen && onWebFullScreen(true);
+            webFullScreenHandler(true);
             setWebIsFullscreen(true);
         }
     };
@@ -42,7 +56,7 @@ const WebFullScreenControl = () => {
         if (screenfull.isEnabled && videoModel.isFullscreen && webIsFullscreen) {
             videoContainerEle?.classList.remove('ws-web-full-screen');
 
-            onWebFullScreen && onWebFullScreen(false);
+            webFullScreenHandler(false);
             setWebIsFullscreen(false);
         }
     }, [videoModel.isFullscreen, webIsFullscreen]);

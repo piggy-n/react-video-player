@@ -2,7 +2,7 @@ import * as React from 'react';
 import { classes } from '@/utils/methods/classes';
 import './styles/controller.scss';
 import { useContext } from 'react';
-import { LayoutContext } from '@/utils/hooks/useLayoutContext';
+import { CtrPlayerContext } from '@/utils/hooks/useCtrPlayerContext';
 import { ControllerContext } from '@/utils/hooks/useControllerContext';
 import { useUpdateEffect } from 'ahooks';
 import { releaseControlAccess } from '@/services/controller';
@@ -10,7 +10,7 @@ import { releaseControlAccess } from '@/services/controller';
 const cn = 'Controller';
 
 const Controller = () => {
-    const { onMouseOver } = useContext(LayoutContext);
+    const { setCtrPlayerModelData } = useContext(CtrPlayerContext);
     const {
         controllerModel: {
             isController,
@@ -18,6 +18,15 @@ const Controller = () => {
         },
         id
     } = useContext(ControllerContext);
+
+    const mouseOverHandler = () => {
+        if (setCtrPlayerModelData) {
+            setCtrPlayerModelData({
+                type: 'disableDrag',
+                payload: true
+            });
+        }
+    };
 
     useUpdateEffect(() => {
         if (!isController) {
@@ -34,7 +43,7 @@ const Controller = () => {
                 isController || isVideoList ?
                     <div
                         className={classes(cn, '')}
-                        onMouseOver={() => onMouseOver && onMouseOver(true)}
+                        onMouseOver={mouseOverHandler}
                     >
                         {isController && <Controller.VideoControlPanel/>}
                         {isVideoList && <Controller.VideoListPanel/>}

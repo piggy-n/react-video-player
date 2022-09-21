@@ -1,6 +1,6 @@
 import { useVideoModel } from '@/utils/hooks/useVideoModel';
 import { useContext, useEffect, useRef, useState } from 'react';
-import { LayoutContext } from '@/utils/hooks/useLayoutContext';
+import { LayoutContext } from '@/utils/hooks/useCtrPlayerContext';
 import { StreamPlayer } from '@/utils/methods/streamPlayer';
 import { useVideo } from '@/utils/hooks/useVideo';
 import useMandatoryUpdate from '@/utils/hooks/useMandatoryUpdate';

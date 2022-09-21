@@ -4,19 +4,22 @@ import { classes } from '@/utils/methods/classes';
 import type { MouseEventHandler } from 'react';
 import type { HeaderInterface } from '@/core/Header/type';
 import { useContext } from 'react';
-import { LayoutContext } from '@/utils/hooks/useLayoutContext';
+import { CtrPlayerContext } from '@/utils/hooks/useCtrPlayerContext';
 
 const cn = 'Header';
 
 const Header: HeaderInterface = () => {
-    const { onMouseOver } = useContext(LayoutContext);
+    const { setCtrPlayerModelData } = useContext(CtrPlayerContext);
 
     const mouseOverHandler: MouseEventHandler = (e) => {
         const { target } = e;
         const targetEleName = (target as Record<string, any>)?.tagName;
 
-        if (onMouseOver) {
-            onMouseOver(targetEleName !== 'DIV');
+        if (setCtrPlayerModelData) {
+            setCtrPlayerModelData({
+                type: 'disableDrag',
+                payload: targetEleName !== 'DIV'
+            });
         }
     };
 
@@ -26,7 +29,7 @@ const Header: HeaderInterface = () => {
             onMouseOver={mouseOverHandler}
         >
             <Header.Equipment name={'监控设备'}/>
-            <Header.ControllerToolbar/>
+            {/*<Header.ControllerToolbar/>*/}
         </div>
     );
 };

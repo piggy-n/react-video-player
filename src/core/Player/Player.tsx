@@ -8,7 +8,7 @@ import './styles/player.scss';
 import Icon from '@/components/Icon';
 import { useVideo } from '@/utils/hooks/useVideo';
 import { useVideoModel } from '@/utils/hooks/useVideoModel';
-import { LayoutContext } from '@/utils/hooks/useLayoutContext';
+import { CtrPlayerContext } from '@/utils/hooks/useCtrPlayerContext';
 import { VideoContext } from '@/utils/hooks/useVideoContext';
 import { useVideoMethods } from '@/utils/hooks/useVideoMethods';
 import useVideoCallback from '@/utils/hooks/useVideoCallBack';
@@ -28,7 +28,7 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
     },
     ref
 ) => {
-    const { onMouseOver } = useContext(LayoutContext);
+    const { setCtrPlayerModelData } = useContext(CtrPlayerContext);
 
     const { videoModel, dispatch } = useVideoModel();
 
@@ -51,6 +51,15 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
 
     const playingListener = () => {
         setBuffering(false);
+    };
+
+    const mouseOverHandler = () => {
+        if (setCtrPlayerModelData) {
+            setCtrPlayerModelData({
+                type: 'disableDrag',
+                payload: true
+            });
+        }
     };
 
     const {
@@ -199,7 +208,7 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
             ref={videoContainerRef}
             className={classes(cn, '')}
             style={{ ...videoContainerStyle }}
-            onMouseOver={() => onMouseOver && onMouseOver(true)}
+            onMouseOver={mouseOverHandler}
         >
             <video
                 ref={videoRef}
