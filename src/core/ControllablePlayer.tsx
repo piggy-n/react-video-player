@@ -39,7 +39,6 @@ const ControllablePlayer = ({ id }: { id: string }) => {
 
     const [size, setSize] = useState<Size | null>(null);
     const [minSize, setMinSize] = useState<Size | null>(null);
-    // const [deviceStreamList, setDeviceStreamList] = useState<DeviceStream[]>([]);
 
     const mouseLeaveHandler = () => {
         setCtrPlayerModelData({
@@ -47,23 +46,6 @@ const ControllablePlayer = ({ id }: { id: string }) => {
             payload: true
         });
     };
-    // const { controllerModel, dispatch } = useControllerModel();
-    //
-    // const controllerContextValue = useMemo(
-    //     () => {
-    //         return Object.assign(
-    //             {},
-    //             {
-    //                 controllerModel,
-    //                 dispatch,
-    //                 id,
-    //                 deviceStreamList,
-    //                 playerContainerEle: playerContainerRef.current,
-    //             }
-    //         );
-    //     },
-    //     [controllerModel, dispatch, id, deviceStreamList]
-    // );
 
     useEffect(() => {
         const {

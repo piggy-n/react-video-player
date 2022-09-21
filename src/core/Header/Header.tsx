@@ -29,7 +29,7 @@ const Header: HeaderInterface = () => {
             onMouseOver={mouseOverHandler}
         >
             <Header.Equipment name={'监控设备'}/>
-            {/*<Header.ControllerToolbar/>*/}
+            <Header.ControllerToolbar/>
         </div>
     );
 };
