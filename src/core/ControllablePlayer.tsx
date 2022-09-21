@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Header from '@/core/Header';
 import Player from '@/core/Player';
-import PipPlayer from '@/core/Player/pipPlayer';
+// import PipPlayer from '@/core/Player/pipPlayer';
 import Controller from '@/core/Controller';
 import { ResizableBox } from 'react-resizable';
 import { useEffect, useMemo, useRef, useState } from 'react';
@@ -13,7 +13,7 @@ import { useCtrPlayerModel } from '@/utils/hooks/useCtrPlayerModel';
 // import { useUpdateEffect } from 'ahooks';
 // import { useControllerModel } from '@/utils/hooks/useControllerModel';
 // import { ControllerContext } from '@/utils/hooks/useControllerContext';
-import type { DeviceStream } from '@/types/video';
+// import type { DeviceStream } from '@/types/video';
 import type { Size } from '@/types/ctrPlayer';
 import { obtainDeviceStream } from '@/services/device';
 
