@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { classes } from '@/utils/methods/classes';
 import './styles/playerController.scss';
-import { useContext, useEffect, useRef } from 'react';
-import { useRafInterval, useReactive } from 'ahooks';
+import { useContext, useEffect, useRef, useState } from 'react';
+import { useDebounceEffect, useRafInterval, useReactive } from 'ahooks';
 import screenfull from 'screenfull';
 import { VideoContext } from '@/utils/hooks/useVideoContext';
 import Icon from '@/components/Icon';
@@ -28,6 +28,8 @@ const PlayerController: PlayerControllerInterface = () => {
 
     const inactivityTimeoutRef = useRef<NodeJS.Timeout | null>(null);
     const clickTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+    const [playBtnVisible, setPlayBtnVisible] = useState<boolean>(false);
 
     const mouseState = useReactive({
         mouseIsMoving: false,
@@ -146,17 +148,54 @@ const PlayerController: PlayerControllerInterface = () => {
         }
     );
 
-    useEffect(() => {
-        dispatch({
-            type: 'waiting',
-            payload: networkState === 2 && readyState <= 1
-        });
+    useEffect(
+        () => {
+            dispatch({
+                type: 'waiting',
+                payload: networkState === 2 && readyState <= 1
+            });
 
-        dispatch({
-            type: 'error',
-            payload: networkState === 3 || networkState === 0 || readyState === 0
-        });
-    }, [networkState, readyState]);
+            dispatch({
+                type: 'error',
+                payload: networkState === 3 || networkState === 0 || readyState === 0
+            });
+        },
+        [
+            networkState,
+            readyState
+        ]
+    );
+
+    useEffect(
+        () => {
+            if (playing || ended || waiting || downloading) {
+                setPlayBtnVisible(false);
+            }
+        },
+        [
+            playing,
+            ended,
+            waiting,
+            downloading
+        ]
+    );
+
+    useDebounceEffect(
+        () => {
+            if (!playing && !ended && !waiting && !downloading) {
+                setPlayBtnVisible(true);
+            }
+        },
+        [
+            playing,
+            ended,
+            waiting,
+            downloading
+        ],
+        {
+            wait: 100,
+        }
+    );
 
     return (
         <div
@@ -176,7 +215,7 @@ const PlayerController: PlayerControllerInterface = () => {
                 onClick={pauseOrReplayBtnClickHandler}
             >
                 {
-                    !playing && !ended && !waiting && !downloading &&
+                    playBtnVisible &&
                     <Icon name={'player'} size={55} title={'播放'}/>
                 }
             </div>

@@ -15,7 +15,7 @@ import useVideoCallback from '@/utils/hooks/useVideoCallBack';
 import useMandatoryUpdate from '@/utils/hooks/useMandatoryUpdate';
 import { StreamPlayer } from '@/utils/methods/streamPlayer';
 import { VideoPlayer } from '@/utils/methods/videoPlayer';
-import { useSize } from 'ahooks';
+import { useDebounceEffect, useSize } from 'ahooks';
 
 const cn = 'Player';
 
@@ -124,7 +124,7 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
         }),
     );
 
-    useEffect(
+    useDebounceEffect(
         () => {
             if (
                 (buffering && playing)
@@ -144,7 +144,10 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
             networkState,
             readyState,
             videoModel.downloading
-        ]
+        ],
+        {
+            wait: 100
+        }
     );
 
     useEffect(
