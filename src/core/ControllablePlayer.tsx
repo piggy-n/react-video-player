@@ -17,6 +17,9 @@ const Draggable = require('react-draggable');
 const ControllablePlayer = ({ id }: { id: string }) => {
     const playerContainerRef = useRef<HTMLDivElement>(null);
 
+    const [size, setSize] = useState<Size | null>(null);
+    const [minSize, setMinSize] = useState<Size | null>(null);
+
     const { ctrPlayerModel, setCtrPlayerModelData } = useCtrPlayerModel();
 
     const ctrPlayerContextValue = useMemo(
@@ -31,9 +34,6 @@ const ControllablePlayer = ({ id }: { id: string }) => {
         },
         [ctrPlayerModel]
     );
-
-    const [size, setSize] = useState<Size | null>(null);
-    const [minSize, setMinSize] = useState<Size | null>(null);
 
     const mouseLeaveHandler = () => {
         setCtrPlayerModelData({

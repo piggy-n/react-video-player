@@ -13,6 +13,8 @@ const Selector: FC<SelectorProps> = (
         options = [],
         onChange,
         value,
+        open,
+        onDropdownVisibleChange
     }
 ) => {
     return (
@@ -23,11 +25,13 @@ const Selector: FC<SelectorProps> = (
             <Select
                 value={value}
                 size={'small'}
+                open={open}
                 placeholder={'请选择'}
                 mode={'multiple'}
                 showArrow
                 onChange={onChange}
                 suffixIcon={<Icon name={'point'} size={12}/>}
+                onDropdownVisibleChange={onDropdownVisibleChange}
                 getPopupContainer={() => document.getElementById('ws-selector') as HTMLElement}
             >
                 {

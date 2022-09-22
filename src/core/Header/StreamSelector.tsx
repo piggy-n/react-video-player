@@ -13,6 +13,8 @@ const StreamSelector = () => {
         setCtrPlayerModelData
     } = useContext(CtrPlayerContext);
 
+    const [open, setOpen] = React.useState<boolean>(false);
+
     const selectorChangeHandler = (arg: string[]) => {
         if (arg.length === 0 || !setCtrPlayerModelData) return;
 
@@ -26,6 +28,8 @@ const StreamSelector = () => {
                 ? newStreamUrlList
                 : (arg.length > 2 ? newStreamUrlList : arg)
         });
+
+        setOpen(false);
     };
 
     return streams.length > 0
@@ -33,6 +37,8 @@ const StreamSelector = () => {
             value={streamUrlList.filter(item => item !== '')}
             onChange={selectorChangeHandler}
             options={streams}
+            open={open}
+            onDropdownVisibleChange={val => setOpen(val)}
         />
         : null;
 };

@@ -8,4 +8,6 @@ export interface SelectorProps {
     value?: string[];
     onChange?: (value: string[]) => void;
     options?: Option[];
+    open?: boolean;
+    onDropdownVisibleChange?: (open: boolean) => void;
 }
