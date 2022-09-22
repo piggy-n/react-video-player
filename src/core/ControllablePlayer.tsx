@@ -14,7 +14,7 @@ import CompositePlayer from '@/core/CompositePlayer';
 
 const Draggable = require('react-draggable');
 
-const ControllablePlayer = ({ id }: { id: string }) => {
+const ControllablePlayer = ({ deviceId }: { deviceId: string }) => {
     const playerContainerRef = useRef<HTMLDivElement>(null);
 
     const [size, setSize] = useState<Size | null>(null);
@@ -28,11 +28,15 @@ const ControllablePlayer = ({ id }: { id: string }) => {
                 {},
                 {
                     ctrPlayerModel,
-                    setCtrPlayerModelData
+                    setCtrPlayerModelData,
+                    deviceId,
                 }
             );
         },
-        [ctrPlayerModel]
+        [
+            ctrPlayerModel,
+            deviceId
+        ]
     );
 
     const mouseLeaveHandler = () => {
@@ -63,7 +67,7 @@ const ControllablePlayer = ({ id }: { id: string }) => {
         const prev = location.protocol.includes('https') ? 'wss:' : 'ws:';
         const wsUrl = `${prev}//${window.location.host}`;
 
-        obtainDeviceStream({ id }).then(res => {
+        obtainDeviceStream({ id: deviceId }).then(res => {
             if (!res?.success) {
                 setCtrPlayerModelData({
                     type: 'streams',
@@ -108,7 +112,7 @@ const ControllablePlayer = ({ id }: { id: string }) => {
             });
         });
 
-        obtainDeviceService({ id }).then(res => {
+        obtainDeviceService({ id: deviceId }).then(res => {
             const feature = {
                 stream: false,
                 control: false,
@@ -144,7 +148,7 @@ const ControllablePlayer = ({ id }: { id: string }) => {
                 payload: feature,
             });
         });
-    }, [id]);
+    }, [deviceId]);
 
     // useUpdateEffect(() => {
     //     const { controllerVisible } = controllerModel;

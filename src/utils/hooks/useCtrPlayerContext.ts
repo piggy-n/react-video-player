@@ -6,6 +6,7 @@ import { initialState } from '@/utils/hooks/useCtrPlayerModel';
 export interface CtrPlayerContextType {
     ctrPlayerModel: CtrPlayerModelState;
     setCtrPlayerModelData?: Dispatch<MergeActionType>;
+    deviceId: string;
 }
 
 export const defaultValue: Partial<CtrPlayerContextType> = {

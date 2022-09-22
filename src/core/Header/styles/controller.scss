@@ -1,0 +1,54 @@
+@import 'src/assets/styles/mixin.scss';
+
+.ws-controller-dialog {
+  @include ps(absolute);
+  @include wh(100%, 100%);
+  z-index: 10;
+
+  &-wrapper {
+    @include ps(fixed, 50%, 0, 0, 50%);
+    @include wh(253px, 108px);
+    @include fd(space-between, flex-end);
+    background: rgba(6, 23, 30, 0.5);
+    border-radius: 3px;
+    padding: 27px 16px 16px 16px;
+    transform: translate(-50%, -50%);
+  }
+
+  &-content {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: rgba(234, 234, 234, 1);
+    font-family: Alibaba-PuHuiTi-Regular;
+
+    label {
+      margin-left: 8px;
+    }
+  }
+
+  &-btn {
+    display: flex;
+    justify-content: flex-end;
+    font-size: 12px;
+  }
+
+  &-normal {
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    background: rgba(22, 174, 224, 1);
+    border-radius: 2px;
+    width: 56px;
+    height: 24px;
+    margin: 0 8px;
+    text-align: center;
+    font-size: 12px;
+  }
+
+  .cancel {
+    margin-right: 12px;
+    color: rgba(22, 174, 224, 1);
+    background-color: rgba(255, 255, 255, 0) !important;
+    border: 1px solid #16AEE0;
+  }
+}

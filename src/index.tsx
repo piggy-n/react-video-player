@@ -21,7 +21,7 @@ ReactDOM.render(
     <div style={{ ...styles }}>
         {/*1561636627632099330*/}
         {/*1560452003676741634*/}
-        <ControllablePlayer id={'1560452004075200514'}/>
+        <ControllablePlayer deviceId={'1560452004075200514'}/>
         {/* 雨花线上 */}
         {/*<ControllablePlayer id={'1529803008839823362'}/>*/}
         {/*<div style={{ ...styles2 }}>*/}
