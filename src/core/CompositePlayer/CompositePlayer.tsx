@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { classes } from '@/utils/methods/classes';
 import './styles/compositePlayer.scss';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { CtrPlayerContext } from '@/utils/hooks/useCtrPlayerContext';
 import PipPlayer from '@/core/CompositePlayer/pipPlayer';
 import Controller from '@/core/Controller';
@@ -23,11 +23,25 @@ const CompositePlayer = () => {
             doubleGrid,
             pictureInPicture
         },
-        // setCtrPlayerModelData
+        setCtrPlayerModelData
     } = useContext(CtrPlayerContext);
 
+    const playerWrapperRef = React.useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if (playerWrapperRef.current && setCtrPlayerModelData) {
+            setCtrPlayerModelData({
+                type: 'playerWrapperEle',
+                payload: playerWrapperRef.current
+            });
+        }
+    }, [playerWrapperRef.current]);
+
     return (
-        <div className={classes(cn, '')}>
+        <div
+            className={classes(cn, '')}
+            ref={playerWrapperRef}
+        >
             <Player
                 isLive
                 videoContainerStyle={playerStyle}
