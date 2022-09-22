@@ -14,6 +14,7 @@ const Icon: FC<IconProps> = (
         size,
         style,
         title,
+        useStyles,
         ...rest
     },
 ) => {
@@ -31,7 +32,10 @@ const Icon: FC<IconProps> = (
                 title &&
                 <title>{title}</title>
             }
-            <use xlinkHref={`#${name}`}/>
+            <use
+                xlinkHref={`#${name}`}
+                style={useStyles}
+            />
         </svg>
     );
 };

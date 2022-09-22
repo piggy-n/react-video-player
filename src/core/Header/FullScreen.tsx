@@ -16,7 +16,7 @@ const FullScreen = () => {
     const [isDoubleGrid, setIsDoubleGrid] = useState<boolean>(false);
 
     const clickHandler = () => {
-        if (!playerWrapperEle || !setCtrPlayerModelData) return;
+        if (!playerWrapperEle) return;
 
         if (screenfull.isEnabled) {
             screenfull.toggle(playerWrapperEle);
