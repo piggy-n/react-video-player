@@ -9,18 +9,24 @@
   overflow: hidden;
   user-select: none;
 
+  &-mask {
+    @include ps(absolute);
+    @include wh(100%, 100%);
+    background-color: rgba(84, 84, 84, 1);
+    z-index: 1;
+  }
+
   & > video {
     @include ps(absolute, 0, auto, auto, 0);
     @include wh(100%, 100%);
     pointer-events: none;
     object-fit: fill;
-    background-color: rgba(84, 84, 84, 1);
   }
 
   &-loading {
     @include fd(center);
     @include style(12px, rgba(239, 242, 246, 1));
-    z-index: 1;
+    z-index: 2;
 
     p {
       padding-top: 6px;

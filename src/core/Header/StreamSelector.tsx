@@ -30,7 +30,7 @@ const StreamSelector = () => {
 
     return streams.length > 0
         ? <Selector
-            value={streamUrlList}
+            value={streamUrlList.filter(item => item !== '')}
             onChange={selectorChangeHandler}
             options={streams}
         />

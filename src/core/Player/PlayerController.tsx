@@ -105,6 +105,7 @@ const PlayerController: PlayerControllerInterface = () => {
 
     const pauseOrReplayBtnClickHandler = () => {
         if (waiting || downloading) return;
+        if (isLive && ended) return;
 
         if (isLive) {
             playing ? streamPlayer.stop() : streamPlayer.start();

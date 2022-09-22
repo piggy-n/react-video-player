@@ -9,7 +9,7 @@ import Icon from '@/components/Icon';
 import * as React from 'react';
 import './styles/pipPlayer.scss';
 import { VideoPlayer } from '@/utils/methods/videoPlayer';
-import { useReactive } from 'ahooks';
+import { useDebounceEffect, useReactive } from 'ahooks';
 
 const cn = 'Pip-Player';
 
@@ -84,7 +84,7 @@ const PipPlayer = ({ isLive = true, url = '' }: { isLive: boolean, url: string }
         [videoRef.current]
     );
 
-    useEffect(
+    useDebounceEffect(
         () => {
             if (
                 (buffering && playing)
@@ -104,7 +104,10 @@ const PipPlayer = ({ isLive = true, url = '' }: { isLive: boolean, url: string }
             networkState,
             readyState,
             videoModel.downloading
-        ]
+        ],
+        {
+            wait: 100
+        }
     );
 
     useEffect(
@@ -146,6 +149,10 @@ const PipPlayer = ({ isLive = true, url = '' }: { isLive: boolean, url: string }
             onMouseOver={mouseOverHandler}
             onClick={clickHandler}
         >
+            {
+                !playing &&
+                <div className={classes(cn, 'mask')}/>
+            }
             <video
                 ref={videoRef}
                 muted
@@ -155,11 +162,7 @@ const PipPlayer = ({ isLive = true, url = '' }: { isLive: boolean, url: string }
             {
                 loading &&
                 <div className={classes(cn, 'loading')}>
-                    <Icon name={'loading'} size={24}/>
-                    <p>
-                        正在加载中
-                        {videoModel.downloading ? ` ${videoModel.percentComplete}%` : '...'}
-                    </p>
+                    <Icon name={'loading'}/>
                 </div>
             }
         </div>
