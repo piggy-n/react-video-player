@@ -2,7 +2,7 @@
 
 .ws-header {
   @include fr(flex-start, center);
-  @include wh(100%, 40px);
+  @include wh(100%, 36px);
   background: rgba(7, 30, 39, 0.75);
   cursor: move;
 
