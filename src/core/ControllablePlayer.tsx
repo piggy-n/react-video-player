@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Header from '@/core/Header';
 import Player from '@/core/Player';
-// import PipPlayer from '@/core/Player/pipPlayer';
 import Controller from '@/core/Controller';
 import { ResizableBox } from 'react-resizable';
 import { useEffect, useMemo, useRef, useState } from 'react';
@@ -10,10 +9,6 @@ import '@/assets/styles/global.scss';
 import '@/assets/styles/resizableBox.css';
 import { CtrPlayerContext } from '@/utils/hooks/useCtrPlayerContext';
 import { useCtrPlayerModel } from '@/utils/hooks/useCtrPlayerModel';
-// import { useUpdateEffect } from 'ahooks';
-// import { useControllerModel } from '@/utils/hooks/useControllerModel';
-// import { ControllerContext } from '@/utils/hooks/useControllerContext';
-// import type { DeviceStream } from '@/types/video';
 import type { Size, Stream, Service } from '@/types/ctrPlayer';
 import { obtainDeviceService, obtainDeviceStream } from '@/services/device';
 import { useUpdateEffect } from 'ahooks';
@@ -46,13 +41,6 @@ const ControllablePlayer = ({ id }: { id: string }) => {
         setCtrPlayerModelData({
             type: 'disableDrag',
             payload: true
-        });
-    };
-
-    const pipClickHandler = () => {
-        setCtrPlayerModelData({
-            type: 'streamUrlList',
-            payload: [ctrPlayerModel.streamUrlList[1] ?? '', ctrPlayerModel.streamUrlList[0]]
         });
     };
 
@@ -241,10 +229,7 @@ const ControllablePlayer = ({ id }: { id: string }) => {
                             {
                                 ctrPlayerModel.pictureInPicture &&
                                 <Draggable bounds={'parent'}>
-                                    <div
-                                        className={'ws-pip-container'}
-                                        onClick={pipClickHandler}
-                                    >
+                                    <div className={'ws-pip-container'}>
                                         <PipPlayer
                                             isLive
                                             url={ctrPlayerModel.streamUrlList[1] ?? ''}

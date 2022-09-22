@@ -1,0 +1,33 @@
+@import 'src/assets/styles/mixin.scss';
+
+.ws-pip-player {
+  @include ps(relative);
+  @include fr(center);
+  @include wh(100%, 100%);
+  flex: 1;
+  height: 100%;
+  overflow: hidden;
+  user-select: none;
+
+  & > video {
+    @include ps(absolute, 0, auto, auto, 0);
+    @include wh(100%, 100%);
+    pointer-events: none;
+    object-fit: fill;
+    background-color: rgba(84, 84, 84, 1);
+  }
+
+  &-loading {
+    @include fd(center);
+    @include style(12px, rgba(239, 242, 246, 1));
+    z-index: 1;
+
+    p {
+      padding-top: 6px;
+    }
+
+    svg {
+      animation: loading 1.5s linear infinite;
+    }
+  }
+}

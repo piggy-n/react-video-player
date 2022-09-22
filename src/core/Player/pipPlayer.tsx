@@ -7,13 +7,19 @@ import useMandatoryUpdate from '@/utils/hooks/useMandatoryUpdate';
 import { classes } from '@/utils/methods/classes';
 import Icon from '@/components/Icon';
 import * as React from 'react';
-import './styles/player.scss';
+import './styles/pipPlayer.scss';
 import { VideoPlayer } from '@/utils/methods/videoPlayer';
+import { useReactive } from 'ahooks';
 
-const cn = 'Player';
+const cn = 'Pip-Player';
 
 const PipPlayer = ({ isLive = true, url = '' }: { isLive: boolean, url: string }) => {
-    const { setCtrPlayerModelData } = useContext(CtrPlayerContext);
+    const {
+        ctrPlayerModel: {
+            streamUrlList
+        },
+        setCtrPlayerModelData
+    } = useContext(CtrPlayerContext);
 
     const { videoModel, dispatch } = useVideoModel();
 
@@ -21,9 +27,14 @@ const PipPlayer = ({ isLive = true, url = '' }: { isLive: boolean, url: string }
     const videoContainerRef = useRef<HTMLDivElement>(null);
     const videoPlayerRef = useRef<Record<string, any>>(new VideoPlayer({ dispatch }));
     const streamPlayerRef = useRef<Record<string, any>>(new StreamPlayer({ dispatch }));
+    const clickTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
     const [loading, setLoading] = useState<boolean>(false);
     const [buffering, setBuffering] = useState<boolean>(false);
+
+    const mouseState = useReactive({
+        mouseClickCount: 0,
+    });
 
     const forceUpdate = useMandatoryUpdate();
 
@@ -42,6 +53,26 @@ const PipPlayer = ({ isLive = true, url = '' }: { isLive: boolean, url: string }
                 payload: true
             });
         }
+    };
+
+    const clickHandler = () => {
+        mouseState.mouseClickCount += 1;
+
+        clickTimeoutRef.current && clearTimeout(clickTimeoutRef.current);
+        clickTimeoutRef.current = setTimeout(
+            () => {
+                if (mouseState.mouseClickCount === 2) {
+                    if (setCtrPlayerModelData) {
+                        setCtrPlayerModelData({
+                            type: 'streamUrlList',
+                            payload: [streamUrlList[1] ?? '', streamUrlList[0]]
+                        });
+                    }
+                }
+
+                mouseState.mouseClickCount = 0;
+            },
+            300);
     };
 
     const {
@@ -113,12 +144,7 @@ const PipPlayer = ({ isLive = true, url = '' }: { isLive: boolean, url: string }
             ref={videoContainerRef}
             className={classes(cn, '')}
             onMouseOver={mouseOverHandler}
-            style={{
-                width: '100%',
-                height: '100%',
-                minWidth: 'auto',
-                minHeight: 'auto',
-            }}
+            onClick={clickHandler}
         >
             <video
                 ref={videoRef}
