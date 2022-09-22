@@ -7,7 +7,10 @@ const VideoList = () => {
     const {
         ctrPlayerModel: {
             isVideoList,
-            isController
+            isController,
+            feature: {
+                record
+            }
         },
         setCtrPlayerModelData
     } = useContext(CtrPlayerContext);
@@ -34,11 +37,13 @@ const VideoList = () => {
     };
 
     return (
-        <Icon
-            name={isVideoList ? 'recording-active' : 'recording'}
-            title={'查看录像'}
-            onClick={clickHandler}
-        />
+        record
+            ? <Icon
+                name={isVideoList ? 'recording-active' : 'recording'}
+                title={'查看录像'}
+                onClick={clickHandler}
+            />
+            : null
     );
 };
 

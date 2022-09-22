@@ -16,6 +16,9 @@ const Controller = () => {
             isController,
             isVideoList,
             playerWrapperEle,
+            feature: {
+                control
+            }
         },
         deviceId,
         setCtrPlayerModelData
@@ -64,55 +67,57 @@ const Controller = () => {
                 });
 
                 setCtrPlayerModelData!({
-                   type: 'panelVisible',
-                     payload: true
+                    type: 'panelVisible',
+                    payload: true
                 });
             }
         });
     };
 
     return (
-        <>
-            <Icon
-                name={isController ? 'control-active' : 'control'}
-                title={'控制面板'}
-                onClick={clickHandler}
-                style={{ cursor: isVideoList ? 'not-allowed' : 'pointer' }}
-                useStyles={{ cursor: isVideoList ? 'not-allowed' : 'pointer' }}
-            />
-            {
-                dialogVisible && playerWrapperEle &&
-                createPortal(
-                    <div className={classes(cn, '')}>
-                        <div className={classes(cn, 'wrapper')}>
-                            <div className={classes(cn, 'content')}>
-                                <Icon name={'tip'}/>
-                                <label>当前无控制权限，是否获取权限</label>
-                            </div>
-                            <div className={classes(cn, 'btn')}>
-                                <Button
-                                    className={classes(cn, 'normal', ['cancel'])}
-                                    size={'small'}
-                                    type={'default'}
-                                    onClick={() => setDialogVisible(false)}
-                                >
-                                    取消
-                                </Button>
-                                <Button
-                                    className={classes(cn, 'normal')}
-                                    size={'small'}
-                                    type={'primary'}
-                                    onClick={controlAccessHandler}
-                                >
-                                    确认
-                                </Button>
+        control ?
+            <>
+                <Icon
+                    name={isController ? 'control-active' : 'control'}
+                    title={'控制面板'}
+                    onClick={clickHandler}
+                    style={{ cursor: isVideoList ? 'not-allowed' : 'pointer' }}
+                    useStyles={{ cursor: isVideoList ? 'not-allowed' : 'pointer' }}
+                />
+                {
+                    dialogVisible && playerWrapperEle &&
+                    createPortal(
+                        <div className={classes(cn, '')}>
+                            <div className={classes(cn, 'wrapper')}>
+                                <div className={classes(cn, 'content')}>
+                                    <Icon name={'tip'}/>
+                                    <label>当前无控制权限，是否获取权限</label>
+                                </div>
+                                <div className={classes(cn, 'btn')}>
+                                    <Button
+                                        className={classes(cn, 'normal', ['cancel'])}
+                                        size={'small'}
+                                        type={'default'}
+                                        onClick={() => setDialogVisible(false)}
+                                    >
+                                        取消
+                                    </Button>
+                                    <Button
+                                        className={classes(cn, 'normal')}
+                                        size={'small'}
+                                        type={'primary'}
+                                        onClick={controlAccessHandler}
+                                    >
+                                        确认
+                                    </Button>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    , playerWrapperEle
-                )
-            }
-        </>
+                        , playerWrapperEle
+                    )
+                }
+            </>
+            : null
     );
 };
 

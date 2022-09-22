@@ -4,19 +4,19 @@ import './styles/directionController.scss';
 import Icon from '@/components/Icon';
 import { pushControlCommands } from '@/services/controller';
 import { useContext } from 'react';
-import { ControllerContext } from '@/utils/hooks/useControllerContext';
 import { useReactive } from 'ahooks';
+import { CtrPlayerContext } from '@/utils/hooks/useCtrPlayerContext';
 
 const cn = 'Direction-Controller';
 
 const DirectionController = () => {
     const {
-        controllerModel: {
+        ctrPlayerModel: {
             speed
         },
-        dispatch,
-        id
-    } = useContext(ControllerContext);
+        deviceId,
+        setCtrPlayerModelData
+    } = useContext(CtrPlayerContext);
 
     const hoverState = useReactive({
         topLeft: false,
@@ -30,26 +30,26 @@ const DirectionController = () => {
     });
 
     const increaseSpeedHandler = () => {
-        if (speed >= 100) return;
+        if (speed >= 100 || !setCtrPlayerModelData) return;
 
-        dispatch({
+        setCtrPlayerModelData({
             type: 'speed',
             payload: speed + 10,
         });
     };
 
     const decreaseSpeedHandler = () => {
-        if (speed <= 10) return;
+        if (speed <= 10 || !setCtrPlayerModelData) return;
 
-        dispatch({
+        setCtrPlayerModelData({
             type: 'speed',
             payload: speed - 10,
         });
     };
 
-    const move = (operation: string) => {
-        pushControlCommands({
-            id,
+    const move = async (operation: string) => {
+        await pushControlCommands({
+            id: deviceId,
             operation,
             speed,
         }).then(res => {
@@ -70,8 +70,8 @@ const DirectionController = () => {
                         className={'ws-ctr-pointer-top'}
                         onMouseEnter={() => hoverState.top = true}
                         onMouseLeave={() => hoverState.top = false}
-                        onMouseDown={() => move('up')}
-                        onMouseUp={() => move('stop')}
+                        onMouseDown={async () => move('up')}
+                        onMouseUp={async () => move('stop')}
                     />
                     <Icon
                         name={hoverState.top ? 'arrow-hover' : 'arrow'}
@@ -85,8 +85,8 @@ const DirectionController = () => {
                         className={'ws-ctr-pointer-bottom'}
                         onMouseEnter={() => hoverState.bottom = true}
                         onMouseLeave={() => hoverState.bottom = false}
-                        onMouseDown={() => move('down')}
-                        onMouseUp={() => move('stop')}
+                        onMouseDown={async () => move('down')}
+                        onMouseUp={async () => move('stop')}
                     />
                     <Icon
                         name={hoverState.bottom ? 'arrow-hover' : 'arrow'}
@@ -100,8 +100,8 @@ const DirectionController = () => {
                         className={'ws-ctr-pointer-left'}
                         onMouseEnter={() => hoverState.left = true}
                         onMouseLeave={() => hoverState.left = false}
-                        onMouseDown={() => move('left')}
-                        onMouseUp={() => move('stop')}
+                        onMouseDown={async () => move('left')}
+                        onMouseUp={async () => move('stop')}
                     />
                     <Icon
                         name={hoverState.left ? 'arrow-hover' : 'arrow'}
@@ -115,8 +115,8 @@ const DirectionController = () => {
                         className={'ws-ctr-pointer-right'}
                         onMouseEnter={() => hoverState.right = true}
                         onMouseLeave={() => hoverState.right = false}
-                        onMouseDown={() => move('right')}
-                        onMouseUp={() => move('stop')}
+                        onMouseDown={async () => move('right')}
+                        onMouseUp={async () => move('stop')}
                     />
                     <Icon
                         name={hoverState.right ? 'arrow-hover' : 'arrow'}
@@ -129,8 +129,8 @@ const DirectionController = () => {
                         className={'ws-ctr-pointer-top-left'}
                         onMouseEnter={() => hoverState.topLeft = true}
                         onMouseLeave={() => hoverState.topLeft = false}
-                        onMouseDown={() => move('upleft')}
-                        onMouseUp={() => move('stop')}
+                        onMouseDown={async () => move('upleft')}
+                        onMouseUp={async () => move('stop')}
                     />
                     <Icon
                         name={hoverState.topLeft ? 'arrow-hover' : 'arrow'}
@@ -144,8 +144,8 @@ const DirectionController = () => {
                         className={'ws-ctr-pointer-top-right'}
                         onMouseEnter={() => hoverState.topRight = true}
                         onMouseLeave={() => hoverState.topRight = false}
-                        onMouseDown={() => move('upright')}
-                        onMouseUp={() => move('stop')}
+                        onMouseDown={async () => move('upright')}
+                        onMouseUp={async () => move('stop')}
                     />
                     <Icon
                         name={hoverState.topRight ? 'arrow-hover' : 'arrow'}
@@ -159,8 +159,8 @@ const DirectionController = () => {
                         className={'ws-ctr-pointer-bottom-left'}
                         onMouseEnter={() => hoverState.bottomLeft = true}
                         onMouseLeave={() => hoverState.bottomLeft = false}
-                        onMouseDown={() => move('downleft')}
-                        onMouseUp={() => move('stop')}
+                        onMouseDown={async () => move('downleft')}
+                        onMouseUp={async () => move('stop')}
                     />
                     <Icon
                         name={hoverState.bottomLeft ? 'arrow-hover' : 'arrow'}
@@ -174,8 +174,8 @@ const DirectionController = () => {
                         className={'ws-ctr-pointer-bottom-right'}
                         onMouseEnter={() => hoverState.bottomRight = true}
                         onMouseLeave={() => hoverState.bottomRight = false}
-                        onMouseDown={() => move('downright')}
-                        onMouseUp={() => move('stop')}
+                        onMouseDown={async () => move('downright')}
+                        onMouseUp={async () => move('stop')}
                     />
                     <Icon
                         name={hoverState.bottomRight ? 'arrow-hover' : 'arrow'}
