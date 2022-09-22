@@ -3,21 +3,21 @@ import { classes } from '@/utils/methods/classes';
 import './styles/zoomController.scss';
 import { pushControlCommands } from '@/services/controller';
 import { useContext } from 'react';
-import { ControllerContext } from '@/utils/hooks/useControllerContext';
+import { CtrPlayerContext } from '@/utils/hooks/useCtrPlayerContext';
 
 const cn = 'Zoom-Controller';
 
 const ZoomController = () => {
     const {
-        controllerModel: {
+        ctrPlayerModel: {
             speed
         },
-        id
-    } = useContext(ControllerContext);
+        deviceId,
+    } = useContext(CtrPlayerContext);
 
-    const move = (operation: string) => {
-        pushControlCommands({
-            id,
+    const move = async (operation: string) => {
+        await pushControlCommands({
+            id: deviceId,
             operation,
             speed,
         }).then(res => {
@@ -30,29 +30,29 @@ const ZoomController = () => {
         <div className={classes(cn, '')}>
             <div
                 className={classes(cn, 'btn')}
-                onMouseDown={() => move('zoom_in')}
-                onMouseUp={() => move('stop')}
+                onMouseDown={async () => move('zoom_in')}
+                onMouseUp={async () => move('stop')}
             >
                 放大
             </div>
             <div
                 className={classes(cn, 'btn')}
-                onMouseDown={() => move('zoom_out')}
-                onMouseUp={() => move('stop')}
+                onMouseDown={async () => move('zoom_out')}
+                onMouseUp={async () => move('stop')}
             >
                 缩小
             </div>
             <div
                 className={classes(cn, 'btn')}
-                onMouseDown={() => move('focus_near')}
-                onMouseUp={() => move('stop')}
+                onMouseDown={async () => move('focus_near')}
+                onMouseUp={async () => move('stop')}
             >
                 调焦+
             </div>
             <div
                 className={classes(cn, 'btn')}
-                onMouseDown={() => move('focus_far')}
-                onMouseUp={() => move('stop')}
+                onMouseDown={async () => move('focus_far')}
+                onMouseUp={async () => move('stop')}
             >
                 调焦-
             </div>

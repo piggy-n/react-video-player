@@ -8,7 +8,8 @@ const FullScreen = () => {
     const {
         ctrPlayerModel: {
             playerWrapperEle,
-            doubleGrid
+            doubleGrid,
+            panelVisible
         },
         setCtrPlayerModelData
     } = useContext(CtrPlayerContext);
@@ -51,7 +52,24 @@ const FullScreen = () => {
             });
             setIsDoubleGrid(false);
         }
-    }, [isFullscreen, isDoubleGrid, doubleGrid]);
+
+        if (isFullscreen && panelVisible) {
+            setCtrPlayerModelData({
+                type: 'panelVisible',
+                payload: false
+            });
+
+            setCtrPlayerModelData({
+                type: 'isController',
+                payload: false
+            });
+
+            setCtrPlayerModelData({
+                type: 'isVideoList',
+                payload: false
+            });
+        }
+    }, [isFullscreen, isDoubleGrid, doubleGrid, panelVisible]);
 
     return (
         <Icon

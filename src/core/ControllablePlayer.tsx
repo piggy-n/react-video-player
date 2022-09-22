@@ -11,6 +11,7 @@ import type { Size, Stream, Service } from '@/types/ctrPlayer';
 import { obtainDeviceService, obtainDeviceStream } from '@/services/device';
 import { useUpdateEffect } from 'ahooks';
 import CompositePlayer from '@/core/CompositePlayer';
+import { releaseControlAccess } from '@/services/controller';
 
 const Draggable = require('react-draggable');
 
@@ -179,6 +180,32 @@ const ControllablePlayer = ({ deviceId }: { deviceId: string }) => {
             });
         }
     }, [ctrPlayerModel.doubleGrid]);
+
+    useUpdateEffect(() => {
+        const { isController, isVideoList } = ctrPlayerModel;
+
+        if (!isController) {
+            releaseControlAccess({
+                id: deviceId
+            }).then(res => {
+                if (!res?.success) return;
+
+                if (res.success) {
+                    setCtrPlayerModelData!({
+                        type: 'isController',
+                        payload: false
+                    });
+
+                    if (!isVideoList) {
+                        setCtrPlayerModelData!({
+                            type: 'panelVisible',
+                            payload: false
+                        });
+                    }
+                }
+            });
+        }
+    }, [ctrPlayerModel.isController, ctrPlayerModel.isVideoList]);
 
     return (
         <CtrPlayerContext.Provider value={ctrPlayerContextValue}>

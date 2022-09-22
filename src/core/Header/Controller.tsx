@@ -6,7 +6,7 @@ import { createPortal } from 'react-dom';
 import { Button } from 'antd';
 import { classes } from '@/utils/methods/classes';
 import './styles/controller.scss';
-import { obtainControlAccess, releaseControlAccess } from '@/services/controller';
+import { obtainControlAccess } from '@/services/controller';
 
 const cn = 'Controller-Dialog';
 
@@ -31,24 +31,6 @@ const Controller = () => {
 
         if (!isController) {
             setDialogVisible(true);
-        } else {
-            releaseControlAccess({
-                id: deviceId
-            }).then(res => {
-                if (!res?.success) return;
-
-                if (res.success) {
-                    setCtrPlayerModelData!({
-                        type: 'isController',
-                        payload: false
-                    });
-
-                    setCtrPlayerModelData!({
-                        type: 'panelVisible',
-                        payload: false
-                    });
-                }
-            });
         }
     };
 

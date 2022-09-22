@@ -3,7 +3,7 @@ import { classes } from '@/utils/methods/classes';
 import './styles/compositePlayer.scss';
 import { useContext, useEffect } from 'react';
 import { CtrPlayerContext } from '@/utils/hooks/useCtrPlayerContext';
-import PipPlayer from '@/core/CompositePlayer/pipPlayer';
+import PipPlayer from '@/core/CompositePlayer/PipPlayer';
 import Controller from '@/core/Controller';
 import Player from '@/core/Player';
 // url={'wss://lzz.enbo12119.com/live/1560452005253799937/101.live.mp4?token=1477fabe-4fab-4b65-8c32-a915558859dc'}
