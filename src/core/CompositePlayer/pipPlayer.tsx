@@ -56,23 +56,24 @@ const PipPlayer = ({ isLive = true, url = '' }: { isLive: boolean, url: string }
     };
 
     const clickHandler = () => {
+        if (!setCtrPlayerModelData) return;
+
         mouseState.mouseClickCount += 1;
 
         clickTimeoutRef.current && clearTimeout(clickTimeoutRef.current);
         clickTimeoutRef.current = setTimeout(
             () => {
                 if (mouseState.mouseClickCount === 2) {
-                    if (setCtrPlayerModelData) {
-                        setCtrPlayerModelData({
-                            type: 'streamUrlList',
-                            payload: [streamUrlList[1] ?? '', streamUrlList[0]]
-                        });
-                    }
+                    setCtrPlayerModelData({
+                        type: 'streamUrlList',
+                        payload: [streamUrlList[1] ?? '', streamUrlList[0]]
+                    });
                 }
 
                 mouseState.mouseClickCount = 0;
             },
-            300);
+            300
+        );
     };
 
     const {
