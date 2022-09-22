@@ -18,6 +18,7 @@ export interface CtrPlayerModelState {
     playerWrapperEle: HTMLDivElement | null;
     isController: boolean,
     isVideoList: boolean,
+    panelVisible: boolean,
 }
 
 export const initialState: CtrPlayerModelState = {
@@ -37,6 +38,7 @@ export const initialState: CtrPlayerModelState = {
     playerWrapperEle: null,
     isController: false,
     isVideoList: false,
+    panelVisible: false,
 };
 
 export interface DisableDragActionType {
@@ -99,6 +101,11 @@ export interface IsVideoListActionType {
     payload: CtrPlayerModelState['isVideoList'];
 }
 
+export interface PanelVisibleActionType {
+    type: 'panelVisible';
+    payload: CtrPlayerModelState['panelVisible'];
+}
+
 export type MergeActionType =
     | DisableDragActionType
     | PositionActionType
@@ -111,7 +118,8 @@ export type MergeActionType =
     | StreamUrlListActionType
     | PlayerWrapperEleActionType
     | IsControllerActionType
-    | IsVideoListActionType;
+    | IsVideoListActionType
+    | PanelVisibleActionType;
 
 export const useCtrPlayerModel = () => {
     const reducer = (state: CtrPlayerModelState, action: MergeActionType) => {
@@ -142,6 +150,8 @@ export const useCtrPlayerModel = () => {
                 return { ...state, isController: payload };
             case 'isVideoList':
                 return { ...state, isVideoList: payload };
+            case 'panelVisible':
+                return { ...state, panelVisible: payload };
             default:
                 return state;
         }

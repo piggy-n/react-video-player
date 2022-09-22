@@ -150,22 +150,22 @@ const ControllablePlayer = ({ deviceId }: { deviceId: string }) => {
         });
     }, [deviceId]);
 
-    // useUpdateEffect(() => {
-    //     const { controllerVisible } = controllerModel;
-    //
-    //     if (size && minSize) {
-    //         setSize({
-    //             ...size,
-    //             width: controllerVisible ? size.width + 180 : size.width - 180,
-    //         });
-    //
-    //         setMinSize({
-    //             ...minSize,
-    //             width: controllerVisible ? minSize.width + 180 : minSize.width - 180
-    //         });
-    //     }
-    // }, [controllerModel.controllerVisible]);
-    //
+    useUpdateEffect(() => {
+        const { panelVisible } = ctrPlayerModel;
+
+        if (size && minSize) {
+            setSize({
+                ...size,
+                width: panelVisible ? size.width + 180 : size.width - 180,
+            });
+
+            setMinSize({
+                ...minSize,
+                width: panelVisible ? minSize.width + 180 : minSize.width - 180
+            });
+        }
+    }, [ctrPlayerModel.panelVisible]);
+
     useUpdateEffect(() => {
         if (size && minSize) {
             setSize({

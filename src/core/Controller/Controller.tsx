@@ -3,21 +3,17 @@ import { classes } from '@/utils/methods/classes';
 import './styles/controller.scss';
 import { useContext } from 'react';
 import { CtrPlayerContext } from '@/utils/hooks/useCtrPlayerContext';
-import { ControllerContext } from '@/utils/hooks/useControllerContext';
-import { useUpdateEffect } from 'ahooks';
-import { releaseControlAccess } from '@/services/controller';
 
 const cn = 'Controller';
 
 const Controller = () => {
-    const { setCtrPlayerModelData } = useContext(CtrPlayerContext);
     const {
-        controllerModel: {
-            isController,
-            isVideoList
+        ctrPlayerModel: {
+            isVideoList,
+            isController
         },
-        id
-    } = useContext(ControllerContext);
+        setCtrPlayerModelData
+    } = useContext(CtrPlayerContext);
 
     const mouseOverHandler = () => {
         if (setCtrPlayerModelData) {
@@ -27,15 +23,6 @@ const Controller = () => {
             });
         }
     };
-
-    useUpdateEffect(() => {
-        if (!isController) {
-            releaseControlAccess({ id }).then(res => {
-                if (!res?.success) return;
-                console.log(res);
-            });
-        }
-    }, [isController]);
 
     return (
         <>

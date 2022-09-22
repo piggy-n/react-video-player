@@ -39,6 +39,11 @@ const Controller = () => {
                         type: 'isController',
                         payload: false
                     });
+
+                    setCtrPlayerModelData!({
+                        type: 'panelVisible',
+                        payload: false
+                    });
                 }
             });
         }
@@ -56,6 +61,11 @@ const Controller = () => {
                 setCtrPlayerModelData!({
                     type: 'isController',
                     payload: true
+                });
+
+                setCtrPlayerModelData!({
+                   type: 'panelVisible',
+                     payload: true
                 });
             }
         });

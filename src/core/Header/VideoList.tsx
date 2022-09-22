@@ -26,6 +26,11 @@ const VideoList = () => {
             type: 'isVideoList',
             payload: !isVideoList
         });
+
+        setCtrPlayerModelData!({
+            type: 'panelVisible',
+            payload: !isVideoList
+        });
     };
 
     return (
