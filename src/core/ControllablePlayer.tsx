@@ -1,7 +1,5 @@
 import * as React from 'react';
 import Header from '@/core/Header';
-import Player from '@/core/Player';
-import Controller from '@/core/Controller';
 import { ResizableBox } from 'react-resizable';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import './controllablePlayer.scss';
@@ -12,7 +10,7 @@ import { useCtrPlayerModel } from '@/utils/hooks/useCtrPlayerModel';
 import type { Size, Stream, Service } from '@/types/ctrPlayer';
 import { obtainDeviceService, obtainDeviceStream } from '@/services/device';
 import { useUpdateEffect } from 'ahooks';
-import PipPlayer from '@/core/Player/pipPlayer';
+import CompositePlayer from '@/core/CompositePlayer';
 
 const Draggable = require('react-draggable');
 
@@ -200,45 +198,7 @@ const ControllablePlayer = ({ id }: { id: string }) => {
                         onMouseLeave={mouseLeaveHandler}
                     >
                         <Header/>
-                        <div className={'ws-player-wrapper'}>
-                            <Player
-                                isLive
-                                videoContainerStyle={{
-                                    minHeight: '270px',
-                                    minWidth: '480px',
-                                }}
-                                url={ctrPlayerModel.streamUrlList[0] ?? ''}
-                                // url={'wss://lzz.enbo12119.com/live/1560452005253799937/101.live.mp4?token=1477fabe-4fab-4b65-8c32-a915558859dc'}
-                                // url={'https://gs-files.oss-cn-hongkong.aliyuncs.com/okr/test/file/2021/07/01/haiwang.mp4'}
-                                // url={'https://gs-files.oss-cn-hongkong.aliyuncs.com/okr/prod/file/2021/08/31/540p.mp4'}
-                            />
-                            {
-                                ctrPlayerModel.doubleGrid &&
-                                <Player
-                                    isLive
-                                    videoContainerStyle={{
-                                        minHeight: '270px',
-                                        minWidth: '480px',
-                                    }}
-                                    url={ctrPlayerModel.streamUrlList[1] ?? ''}
-                                    // url={'wss://lzz.enbo12119.com/live/1560452005253799937/101.live.mp4?token=1477fabe-4fab-4b65-8c32-a915558859dc'}
-                                    // url={'https://gs-files.oss-cn-hongkong.aliyuncs.com/okr/test/file/2021/07/01/haiwang.mp4'}
-                                    // url={'https://gs-files.oss-cn-hongkong.aliyuncs.com/okr/prod/file/2021/08/31/540p.mp4'}
-                                />
-                            }
-                            {
-                                ctrPlayerModel.pictureInPicture &&
-                                <Draggable bounds={'parent'}>
-                                    <div className={'ws-pip-container'}>
-                                        <PipPlayer
-                                            isLive
-                                            url={ctrPlayerModel.streamUrlList[1] ?? ''}
-                                        />
-                                    </div>
-                                </Draggable>
-                            }
-                            <Controller/>
-                        </div>
+                        <CompositePlayer/>
                     </div>
                 </ResizableBox>
             </Draggable>

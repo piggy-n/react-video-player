@@ -7,23 +7,5 @@
   user-select: none;
   margin: 0;
   z-index: 1;
-
-  .ws-player-wrapper {
-    @include ps(relative);
-    @include fr(flex-start, flex-start);
-    flex-wrap: nowrap;
-    width: 100%;
-    flex: 1;
-  }
-
-  .ws-pip-container {
-    @include wh(35%, 35%);
-    position: absolute;
-    top: 0;
-    left: 0;
-    border: 1px solid #16aee0;
-    z-index: 1;
-    cursor: move;
-  }
 }
 

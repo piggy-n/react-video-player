@@ -1,0 +1,19 @@
+@import 'src/assets/styles/mixin.scss';
+
+.ws-composite-player {
+  @include ps(relative);
+  @include fr(flex-start, flex-start);
+  flex-wrap: nowrap;
+  width: 100%;
+  flex: 1;
+
+  &-pip {
+    @include wh(35%, 35%);
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: 1px solid #16aee0;
+    z-index: 1;
+    cursor: move;
+  }
+}
