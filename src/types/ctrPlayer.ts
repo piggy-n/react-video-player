@@ -28,3 +28,5 @@ export type Service = {
     serviceCode: string,
     serviceDesc: string,
 }
+
+export type Mode = 'single' | 'double' | 'pip';

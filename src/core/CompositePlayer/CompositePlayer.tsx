@@ -1,19 +1,33 @@
 import * as React from 'react';
 import { classes } from '@/utils/methods/classes';
 import './styles/compositePlayer.scss';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { CtrPlayerContext } from '@/utils/hooks/useCtrPlayerContext';
-import PipPlayer from '@/core/CompositePlayer/PipPlayer';
 import Controller from '@/core/Controller';
 import Player from '@/core/Player';
-// url={'wss://lzz.enbo12119.com/live/1560452005253799937/101.live.mp4?token=1477fabe-4fab-4b65-8c32-a915558859dc'}
-// url={'https://gs-files.oss-cn-hongkong.aliyuncs.com/okr/test/file/2021/07/01/haiwang.mp4'}
-// url={'https://gs-files.oss-cn-hongkong.aliyuncs.com/okr/prod/file/2021/08/31/540p.mp4'}
+import type { Mode, Position } from '@/types/ctrPlayer';
+import type { DraggableData, DraggableEvent } from 'react-draggable';
+import { usePrevious } from 'ahooks';
+
 const Draggable = require('react-draggable');
 const cn = 'Composite-Player';
-const playerStyle = {
-    minHeight: '270px',
+const defaultPlayerStyle = {
     minWidth: '480px',
+    minHeight: '270px',
+};
+
+const doublePlayerStyle = {
+    width: '50%',
+    height: '100%',
+    minWidth: '480px',
+    minHeight: '270px',
+};
+
+const pipPlayerStyle = {
+    width: '100%',
+    height: '100%',
+    minWidth: 'auto',
+    minHeight: 'auto',
 };
 
 const CompositePlayer = () => {
@@ -28,6 +42,17 @@ const CompositePlayer = () => {
 
     const playerWrapperRef = React.useRef<HTMLDivElement>(null);
 
+    const [mode, setMode] = useState<Mode>('single');
+    const [position, setPosition] = useState<Position>({ x: 0, y: 0 });
+
+    const prevMode = usePrevious(mode);
+
+    const draggingHandler = (e: DraggableEvent, data: DraggableData) => {
+        const { x, y } = data;
+
+        setPosition({ x, y });
+    };
+
     useEffect(() => {
         if (playerWrapperRef.current && setCtrPlayerModelData) {
             setCtrPlayerModelData({
@@ -37,6 +62,38 @@ const CompositePlayer = () => {
         }
     }, [playerWrapperRef.current]);
 
+    useEffect(() => {
+        if (streamUrlList.length > 1 && streamUrlList[1] !== '') {
+            if (doubleGrid) {
+                setMode('double');
+            }
+
+            if (pictureInPicture) {
+                setMode('pip');
+            }
+        }
+
+        if (!doubleGrid && !pictureInPicture) {
+            setMode('single');
+        }
+    }, [streamUrlList, doubleGrid, pictureInPicture]);
+
+    useEffect(() => {
+        if (setCtrPlayerModelData) {
+            setCtrPlayerModelData({
+                type: 'mode',
+                payload: mode
+            });
+
+            setCtrPlayerModelData({
+                type: 'prevMode',
+                payload: prevMode as Mode
+            });
+        }
+
+        setPosition({ x: 0, y: 0 });
+    }, [mode, prevMode]);
+
     return (
         <div
             className={classes(cn, '')}
@@ -44,22 +101,26 @@ const CompositePlayer = () => {
         >
             <Player
                 isLive
-                videoContainerStyle={playerStyle}
+                videoContainerStyle={defaultPlayerStyle}
                 url={streamUrlList[0] ?? ''}
             />
             {
-                doubleGrid &&
-                <Player
-                    isLive
-                    videoContainerStyle={playerStyle}
-                    url={streamUrlList[1] ?? ''}
-                />
-            }
-            {
-                pictureInPicture &&
-                <Draggable bounds={'parent'}>
-                    <div className={classes(cn, 'pip')}>
-                        <PipPlayer isLive url={streamUrlList[1] ?? ''}/>
+                mode !== 'single' &&
+                <Draggable
+                    bounds={'parent'}
+                    disabled={mode !== 'pip'}
+                    onDrag={draggingHandler}
+                    position={position}
+                >
+                    <div
+                        className={classes(cn, [mode])}
+                        style={mode === 'double' ? doublePlayerStyle : {}}
+                    >
+                        <Player
+                            isLive
+                            videoContainerStyle={mode === 'pip' ? pipPlayerStyle : {}}
+                            url={streamUrlList[1] ?? ''}
+                        />
                     </div>
                 </Draggable>
             }
