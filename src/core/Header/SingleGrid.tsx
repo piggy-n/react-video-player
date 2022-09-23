@@ -6,28 +6,28 @@ import { CtrPlayerContext } from '@/utils/hooks/useCtrPlayerContext';
 const SingleGrid = () => {
     const {
         ctrPlayerModel: {
-            singleGrid,
+            sgModeApplied,
             streamUrlList
         },
         setCtrPlayerModelData
     } = useContext(CtrPlayerContext);
 
     const clickHandler = () => {
-        if (singleGrid) return;
+        if (sgModeApplied) return;
 
         if (setCtrPlayerModelData) {
             setCtrPlayerModelData({
-                type: 'singleGrid',
+                type: 'sgModeApplied',
                 payload: true
             });
 
             setCtrPlayerModelData({
-                type: 'doubleGrid',
+                type: 'dbModeApplied',
                 payload: false
             });
 
             setCtrPlayerModelData({
-                type: 'pictureInPicture',
+                type: 'pipModeApplied',
                 payload: false
             });
 
@@ -40,7 +40,7 @@ const SingleGrid = () => {
 
     return (
         <Icon
-            name={singleGrid ? 'single-grid-active' : 'single-grid'}
+            name={sgModeApplied ? 'single-grid-active' : 'single-grid'}
             title={'单宫'}
             onClick={clickHandler}
         />

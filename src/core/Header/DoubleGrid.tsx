@@ -6,28 +6,28 @@ import { CtrPlayerContext } from '@/utils/hooks/useCtrPlayerContext';
 const DoubleGrid = () => {
     const {
         ctrPlayerModel: {
-            doubleGrid,
+            dbModeApplied,
             streams
         },
         setCtrPlayerModelData
     } = useContext(CtrPlayerContext);
 
     const clickHandler = () => {
-        if (doubleGrid) return;
+        if (dbModeApplied) return;
 
         if (setCtrPlayerModelData) {
             setCtrPlayerModelData({
-                type: 'singleGrid',
+                type: 'sgModeApplied',
                 payload: false
             });
 
             setCtrPlayerModelData({
-                type: 'doubleGrid',
+                type: 'dbModeApplied',
                 payload: true
             });
 
             setCtrPlayerModelData({
-                type: 'pictureInPicture',
+                type: 'pipModeApplied',
                 payload: false
             });
         }
@@ -35,7 +35,7 @@ const DoubleGrid = () => {
 
     return streams.length > 1
         ? <Icon
-            name={doubleGrid ? 'double-grid-active' : 'double-grid'}
+            name={dbModeApplied ? 'double-grid-active' : 'double-grid'}
             title={'双宫'}
             onClick={clickHandler}
         />

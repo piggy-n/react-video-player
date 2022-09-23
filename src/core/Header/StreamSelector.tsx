@@ -7,7 +7,7 @@ const StreamSelector = () => {
     const {
         ctrPlayerModel: {
             streams,
-            singleGrid,
+            sgModeApplied,
             streamUrlList
         },
         setCtrPlayerModelData
@@ -18,13 +18,13 @@ const StreamSelector = () => {
     const selectorChangeHandler = (arg: string[]) => {
         if (arg.length === 0 || !setCtrPlayerModelData) return;
 
-        const newStreamUrlList = singleGrid
+        const newStreamUrlList = sgModeApplied
             ? arg.filter(item => !streamUrlList.includes(item))
             : arg.filter((item, index) => index !== 1);
 
         setCtrPlayerModelData({
             type: 'streamUrlList',
-            payload: singleGrid
+            payload: sgModeApplied
                 ? newStreamUrlList
                 : (arg.length > 2 ? newStreamUrlList : arg)
         });

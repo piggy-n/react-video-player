@@ -34,8 +34,8 @@ const CompositePlayer = () => {
     const {
         ctrPlayerModel: {
             streamUrlList,
-            doubleGrid,
-            pictureInPicture
+            dbModeApplied,
+            pipModeApplied
         },
         setCtrPlayerModelData
     } = useContext(CtrPlayerContext);
@@ -64,19 +64,19 @@ const CompositePlayer = () => {
 
     useEffect(() => {
         if (streamUrlList.length > 1 && streamUrlList[1] !== '') {
-            if (doubleGrid) {
+            if (dbModeApplied) {
                 setMode('double');
             }
 
-            if (pictureInPicture) {
+            if (pipModeApplied) {
                 setMode('pip');
             }
         }
 
-        if (!doubleGrid && !pictureInPicture) {
+        if (!dbModeApplied && !pipModeApplied) {
             setMode('single');
         }
-    }, [streamUrlList, doubleGrid, pictureInPicture]);
+    }, [streamUrlList, dbModeApplied, pipModeApplied]);
 
     useEffect(() => {
         if (setCtrPlayerModelData) {

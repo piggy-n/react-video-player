@@ -8,7 +8,7 @@ const FullScreen = () => {
     const {
         ctrPlayerModel: {
             playerWrapperEle,
-            doubleGrid,
+            dbModeApplied,
             panelVisible
         },
         setCtrPlayerModelData
@@ -27,14 +27,14 @@ const FullScreen = () => {
     useEffect(() => {
         if (!setCtrPlayerModelData) return;
 
-        if (isFullscreen && doubleGrid) {
+        if (isFullscreen && dbModeApplied) {
             setCtrPlayerModelData({
-                type: 'doubleGrid',
+                type: 'dbModeApplied',
                 payload: false
             });
 
             setCtrPlayerModelData({
-                type: 'pictureInPicture',
+                type: 'pipModeApplied',
                 payload: true
             });
             setIsDoubleGrid(true);
@@ -42,12 +42,12 @@ const FullScreen = () => {
 
         if (!isFullscreen && isDoubleGrid) {
             setCtrPlayerModelData({
-                type: 'doubleGrid',
+                type: 'dbModeApplied',
                 payload: true
             });
 
             setCtrPlayerModelData({
-                type: 'pictureInPicture',
+                type: 'pipModeApplied',
                 payload: false
             });
             setIsDoubleGrid(false);
@@ -69,7 +69,7 @@ const FullScreen = () => {
                 payload: false
             });
         }
-    }, [isFullscreen, isDoubleGrid, doubleGrid, panelVisible]);
+    }, [isFullscreen, isDoubleGrid, dbModeApplied, panelVisible]);
 
     return (
         <Icon

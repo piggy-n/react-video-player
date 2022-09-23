@@ -6,28 +6,28 @@ import * as React from 'react';
 const PictureInPicture = () => {
     const {
         ctrPlayerModel: {
-            pictureInPicture,
+            pipModeApplied,
             streams
         },
         setCtrPlayerModelData
     } = useContext(CtrPlayerContext);
 
     const clickHandler = () => {
-        if (pictureInPicture) return;
+        if (pipModeApplied) return;
 
         if (setCtrPlayerModelData) {
             setCtrPlayerModelData({
-                type: 'singleGrid',
+                type: 'sgModeApplied',
                 payload: false
             });
 
             setCtrPlayerModelData({
-                type: 'doubleGrid',
+                type: 'dbModeApplied',
                 payload: false
             });
 
             setCtrPlayerModelData({
-                type: 'pictureInPicture',
+                type: 'pipModeApplied',
                 payload: true
             });
         }
@@ -35,7 +35,7 @@ const PictureInPicture = () => {
 
     return streams.length > 1
         ? <Icon
-            name={pictureInPicture ? 'pip-active' : 'pip'}
+            name={pipModeApplied ? 'pip-active' : 'pip'}
             title={'画中画'}
             onClick={clickHandler}
         />

@@ -11,9 +11,9 @@ export interface CtrPlayerModelState {
     feature: Feature;
     streams: Stream[];
 
-    singleGrid: boolean;
-    doubleGrid: boolean;
-    pictureInPicture: boolean;
+    sgModeApplied: boolean;
+    dbModeApplied: boolean;
+    pipModeApplied: boolean;
     streamUrlList: string[];
     playerWrapperEle: HTMLDivElement | null;
     isController: boolean,
@@ -35,9 +35,9 @@ export const initialState: CtrPlayerModelState = {
         record: false,
     },
     streams: [],
-    singleGrid: true,
-    doubleGrid: false,
-    pictureInPicture: false,
+    sgModeApplied: true,
+    dbModeApplied: false,
+    pipModeApplied: false,
     streamUrlList: [],
     playerWrapperEle: null,
     isController: false,
@@ -73,19 +73,19 @@ export interface StreamsActionType {
     payload: CtrPlayerModelState['streams'];
 }
 
-export interface SingleGridActionType {
-    type: 'singleGrid';
-    payload: CtrPlayerModelState['singleGrid'];
+export interface SgModeAppliedActionType {
+    type: 'sgModeApplied';
+    payload: CtrPlayerModelState['sgModeApplied'];
 }
 
-export interface DoubleGridActionType {
-    type: 'doubleGrid';
-    payload: CtrPlayerModelState['doubleGrid'];
+export interface DbModeAppliedActionType {
+    type: 'dbModeApplied';
+    payload: CtrPlayerModelState['dbModeApplied'];
 }
 
-export interface PictureInPictureActionType {
-    type: 'pictureInPicture';
-    payload: CtrPlayerModelState['pictureInPicture'];
+export interface PipModeAppliedActionType {
+    type: 'pipModeApplied';
+    payload: CtrPlayerModelState['pipModeApplied'];
 }
 
 export interface StreamUrlListActionType {
@@ -134,9 +134,9 @@ export type MergeActionType =
     | ResizeHandlesArrActionType
     | FeatureActionType
     | StreamsActionType
-    | SingleGridActionType
-    | DoubleGridActionType
-    | PictureInPictureActionType
+    | SgModeAppliedActionType
+    | DbModeAppliedActionType
+    | PipModeAppliedActionType
     | StreamUrlListActionType
     | PlayerWrapperEleActionType
     | IsControllerActionType
@@ -161,12 +161,12 @@ export const useCtrPlayerModel = () => {
                 return { ...state, feature: payload };
             case 'streams':
                 return { ...state, streams: payload };
-            case 'singleGrid':
-                return { ...state, singleGrid: payload };
-            case 'doubleGrid':
-                return { ...state, doubleGrid: payload };
-            case 'pictureInPicture':
-                return { ...state, pictureInPicture: payload };
+            case 'sgModeApplied':
+                return { ...state, sgModeApplied: payload };
+            case 'dbModeApplied':
+                return { ...state, dbModeApplied: payload };
+            case 'pipModeApplied':
+                return { ...state, pipModeApplied: payload };
             case 'streamUrlList':
                 return { ...state, streamUrlList: payload };
             case 'playerWrapperEle':
