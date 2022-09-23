@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import type { CSSProperties, FC } from 'react';
 import type { VideoAttributes, VideoCallBack, VideoMethods } from '@/types/video';
 
 export type PlayerRef = VideoAttributes & VideoMethods & { video: HTMLVideoElement };
@@ -9,6 +9,7 @@ export interface PlayerProps extends Partial<VideoCallBack> {
     isLive?: boolean;
     screenshot?: boolean;
     recording?: boolean;
+    controllable?: boolean;
 }
 
 export interface PlayerControllerInterface extends FC<PlayerControllerProps> {

@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { classes } from '@/utils/methods/classes';
 import './styles/compositePlayer.scss';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { CtrPlayerContext } from '@/utils/hooks/useCtrPlayerContext';
 import Controller from '@/core/Controller';
 import Player from '@/core/Player';
 import type { Mode, Position } from '@/types/ctrPlayer';
 import type { DraggableData, DraggableEvent } from 'react-draggable';
-import { usePrevious } from 'ahooks';
+import { usePrevious, useReactive } from 'ahooks';
 
 const Draggable = require('react-draggable');
 const cn = 'Composite-Player';
@@ -33,7 +33,11 @@ const pipPlayerStyle = {
 const CompositePlayer = () => {
     const {
         ctrPlayerModel: {
-            streamUrlList,
+            streamUrlList: [
+                mainPlayerUrl,
+                subPlayerUrl
+            ],
+            sgModeApplied,
             dbModeApplied,
             pipModeApplied
         },
@@ -41,17 +45,18 @@ const CompositePlayer = () => {
     } = useContext(CtrPlayerContext);
 
     const playerWrapperRef = React.useRef<HTMLDivElement>(null);
+    const clickTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
     const [mode, setMode] = useState<Mode>('single');
+    const [playerIsExchange, setPlayerIsExchange] = useState<boolean>(false);
     const [position, setPosition] = useState<Position>({ x: 0, y: 0 });
 
     const prevMode = usePrevious(mode);
 
-    const draggingHandler = (e: DraggableEvent, data: DraggableData) => {
-        const { x, y } = data;
+    const mouseState = useReactive({
+        mouseClickCount: 0,
+    });
 
-        setPosition({ x, y });
-    };
 
     useEffect(() => {
         if (playerWrapperRef.current && setCtrPlayerModelData) {
@@ -62,21 +67,21 @@ const CompositePlayer = () => {
         }
     }, [playerWrapperRef.current]);
 
-    useEffect(() => {
-        if (streamUrlList.length > 1 && streamUrlList[1] !== '') {
-            if (dbModeApplied) {
-                setMode('double');
-            }
-
-            if (pipModeApplied) {
-                setMode('pip');
-            }
-        }
-
-        if (!dbModeApplied && !pipModeApplied) {
-            setMode('single');
-        }
-    }, [streamUrlList, dbModeApplied, pipModeApplied]);
+    // useEffect(() => {
+    //     if (streamUrlList.length > 1 && streamUrlList[1] !== '') {
+    //         if (dbModeApplied) {
+    //             setMode('double');
+    //         }
+    //
+    //         if (pipModeApplied) {
+    //             setMode('pip');
+    //         }
+    //     }
+    //
+    //     if (!dbModeApplied && !pipModeApplied) {
+    //         setMode('single');
+    //     }
+    // }, [streamUrlList, dbModeApplied, pipModeApplied]);
 
     useEffect(() => {
         if (setCtrPlayerModelData) {
@@ -94,32 +99,124 @@ const CompositePlayer = () => {
         setPosition({ x: 0, y: 0 });
     }, [mode, prevMode]);
 
+    const mainPlayerWrapperClassNameHandler = (): string[] => {
+        const classNameArr = [];
+
+        if (!playerIsExchange) {
+            if (
+                sgModeApplied
+                ||
+                (dbModeApplied && !subPlayerUrl)
+                ||
+                pipModeApplied
+            ) {
+                classNameArr.push(`sg-mode`);
+            }
+
+            if (dbModeApplied && subPlayerUrl) {
+                classNameArr.push(`db-mode`);
+            }
+        }
+
+        if (playerIsExchange && subPlayerUrl && pipModeApplied) {
+            classNameArr.push(`pip-mode`);
+        }
+
+        return classNameArr;
+    };
+
+    const subPlayerWrapperClassNameHandler = (): string[] => {
+        const classNameArr = [];
+
+        if (dbModeApplied) {
+            classNameArr.push(`db-mode`);
+        }
+
+        if (pipModeApplied) {
+            playerIsExchange ? classNameArr.push(`sg-mode`) : classNameArr.push(`pip-mode`);
+        }
+
+        return classNameArr;
+    };
+
+    const exchangePlayerHandler = () => {
+        mouseState.mouseClickCount += 1;
+
+        clickTimeoutRef.current && clearTimeout(clickTimeoutRef.current);
+        clickTimeoutRef.current = setTimeout(
+            () => {
+                if (mouseState.mouseClickCount === 2) {
+                    setPlayerIsExchange(!playerIsExchange);
+                }
+
+                mouseState.mouseClickCount = 0;
+            },
+            300
+        );
+    };
+
+    useEffect(() => {
+        if (!subPlayerUrl && playerIsExchange) {
+            setPlayerIsExchange(false);
+        }
+    }, [subPlayerUrl, playerIsExchange]);
+
     return (
         <div
             className={classes(cn, '')}
             ref={playerWrapperRef}
         >
-            <Player
-                isLive
-                videoContainerStyle={defaultPlayerStyle}
-                url={streamUrlList[0] ?? ''}
-            />
+            <Draggable
+                bounds={'parent'}
+                disabled={!playerIsExchange}
+                position={playerIsExchange ? position : { x: 0, y: 0 }}
+                onDrag={(e: DraggableEvent, data: DraggableData) => setPosition({ x: data.x, y: data.y })}
+            >
+                <div className={classes(
+                    cn,
+                    'main-wrapper',
+                    mainPlayerWrapperClassNameHandler(),
+                )}
+                >
+                    {
+                        playerIsExchange && pipModeApplied &&
+                        <div
+                            className={classes(cn, 'exchange-mask')}
+                            onClick={exchangePlayerHandler}
+                        />
+                    }
+                    <Player
+                        isLive
+                        url={mainPlayerUrl}
+                        controllable={!playerIsExchange}
+                    />
+                </div>
+            </Draggable>
             {
-                mode !== 'single' &&
+                subPlayerUrl &&
                 <Draggable
                     bounds={'parent'}
-                    disabled={mode !== 'pip'}
-                    onDrag={draggingHandler}
-                    position={position}
+                    disabled={playerIsExchange || dbModeApplied}
+                    position={playerIsExchange ? { x: 0, y: 0 } : position}
+                    onDrag={(e: DraggableEvent, data: DraggableData) => setPosition({ x: data.x, y: data.y })}
                 >
-                    <div
-                        className={classes(cn, [mode])}
-                        style={mode === 'double' ? doublePlayerStyle : {}}
+                    <div className={classes(
+                        cn,
+                        'sub-wrapper',
+                        subPlayerWrapperClassNameHandler(),
+                    )}
                     >
+                        {
+                            !playerIsExchange && pipModeApplied &&
+                            <div
+                                className={classes(cn, 'exchange-mask')}
+                                onClick={exchangePlayerHandler}
+                            />
+                        }
                         <Player
                             isLive
-                            videoContainerStyle={mode === 'pip' ? pipPlayerStyle : {}}
-                            url={streamUrlList[1] ?? ''}
+                            url={subPlayerUrl}
+                            controllable={playerIsExchange || dbModeApplied}
                         />
                     </div>
                 </Draggable>

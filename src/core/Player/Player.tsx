@@ -23,6 +23,7 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
     {
         isLive = true,
         url = '',
+        controllable,
         videoContainerStyle = {},
         ...rest
     },
@@ -222,16 +223,22 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
             {
                 loading &&
                 <div className={classes(cn, 'loading')}>
-                    <Icon name={'loading'} size={24}/>
-                    <p>
-                        正在加载中
-                        {videoModel.downloading ? ` ${videoModel.percentComplete}%` : '...'}
-                    </p>
+                    <Icon name={'loading'} size={!controllable ? 16 : 24}/>
+                    {
+                        controllable &&
+                        <p>
+                            正在加载中
+                            {videoModel.downloading ? ` ${videoModel.percentComplete}%` : '...'}
+                        </p>
+                    }
                 </div>
             }
-            <VideoContext.Provider value={videoContextValue}>
-                <PlayerController/>
-            </VideoContext.Provider>
+            {
+                controllable &&
+                <VideoContext.Provider value={videoContextValue}>
+                    <PlayerController/>
+                </VideoContext.Provider>
+            }
         </div>
     );
 };

@@ -7,11 +7,34 @@
   width: 100%;
   flex: 1;
 
-  .pip {
+  &-exchange-mask{
+    @include ps(absolute);
+    @include wh(100%, 100%);
+    z-index: 1;
+  }
+
+  &-main-wrapper,
+  &-sub-wrapper {
+    height: 100%;
+    min-width: 480px;
+    min-height: 270px;
+  }
+
+  &-main-wrapper.sg-mode,
+  &-sub-wrapper.sg-mode {
+    width: 100%;
+  }
+
+  &-main-wrapper.db-mode,
+  &-sub-wrapper.db-mode {
+    width: 50%;
+  }
+
+  &-main-wrapper.pip-mode,
+  &-sub-wrapper.pip-mode {
     @include wh(35%, 35%);
-    position: absolute;
-    top: 0;
-    left: 0;
+    @include mwh(auto, auto);
+    @include ps(absolute, 0, auto, auto, 0);
     border: 1px solid #16aee0;
     z-index: 1;
     cursor: move;
