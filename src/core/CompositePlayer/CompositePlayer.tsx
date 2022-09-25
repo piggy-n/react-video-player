@@ -5,9 +5,9 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import { CtrPlayerContext } from '@/utils/hooks/useCtrPlayerContext';
 import Controller from '@/core/Controller';
 import Player from '@/core/Player';
-import type { PlayerOpts, Position } from '@/types/ctrPlayer';
+import type { Mode, PlayerOpts, Position } from '@/types/ctrPlayer';
 import type { DraggableData, DraggableEvent } from 'react-draggable';
-import { useReactive } from 'ahooks';
+import { usePrevious, useReactive } from 'ahooks';
 
 const Draggable = require('react-draggable');
 const cn = 'Composite-Player';
@@ -26,16 +26,51 @@ const CompositePlayer = () => {
     const playerWrapperRef = useRef<HTMLDivElement>(null);
     const clickTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
+    const [mode, setMode] = useState<Mode>('single');
     const [position, setPosition] = useState<Position>({ x: 0, y: 0 });
     const [playerOpts, setPlayerOpts] = useState<PlayerOpts>({
         isMainPlayer: 'plyO',
         isPipModePlayer: 'neither'
     });
 
+    const prevMode = usePrevious(mode);
+
     const mouseState = useReactive({
         mouseClickCount: 0,
     });
 
+    useEffect(() => {
+        const [, streamTwoUrl] = streamUrlList;
+
+        if (streamTwoUrl) {
+            if (dbModeApplied) {
+                setMode('double');
+            }
+
+            if (pipModeApplied) {
+                setMode('pip');
+            }
+        }
+
+        if (!dbModeApplied && !pipModeApplied) {
+            setMode('single');
+        }
+    }, [streamUrlList, dbModeApplied, pipModeApplied]);
+
+    useEffect(() => {
+        if (setCtrPlayerModelData) {
+            setCtrPlayerModelData({
+                type: 'mode',
+                payload: mode
+            });
+
+            setCtrPlayerModelData({
+                type: 'prevMode',
+                payload: prevMode as Mode
+            });
+        }
+        setPosition({ x: 0, y: 0 });
+    }, [mode, prevMode]);
     const playerWrapperClassNameHandler = (ply: 'plyO' | 'plyT'): string[] => {
         const classNameArr = [];
         const {
