@@ -168,22 +168,26 @@ const ControllablePlayer = ({ deviceId }: { deviceId: string }) => {
     }, [ctrPlayerModel.panelVisible]);
 
     useUpdateEffect(() => {
-        const { mode, prevMode } = ctrPlayerModel;
-
-        if (mode !== 'double' && prevMode !== 'double') return;
+        const {
+            dbModeApplied,
+            streamUrlList:[
+                ,
+                ...rest
+            ]
+        } = ctrPlayerModel;
 
         if (size && minSize) {
             setSize({
                 ...size,
-                width: mode === 'double' ? size.width * 2 : size.width / 2,
+                width: dbModeApplied && rest? size.width * 2 : size.width / 2,
             });
 
             setMinSize({
                 ...minSize,
-                width: mode === 'double' ? minSize.width * 2 : minSize.width / 2
+                width: dbModeApplied && rest? minSize.width * 2 : minSize.width / 2
             });
         }
-    }, [ctrPlayerModel.mode]);
+    }, [ctrPlayerModel.dbModeApplied,ctrPlayerModel.streamUrlList]);
 
     useUpdateEffect(() => {
         const { isController, isVideoList } = ctrPlayerModel;

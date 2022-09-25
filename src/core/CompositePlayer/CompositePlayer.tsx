@@ -5,9 +5,9 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import { CtrPlayerContext } from '@/utils/hooks/useCtrPlayerContext';
 import Controller from '@/core/Controller';
 import Player from '@/core/Player';
-import type { Mode, PlayerOpts, Position } from '@/types/ctrPlayer';
+import type { PlayerOpts, Position } from '@/types/ctrPlayer';
 import type { DraggableData, DraggableEvent } from 'react-draggable';
-import { usePrevious, useReactive } from 'ahooks';
+import { useReactive } from 'ahooks';
 
 const Draggable = require('react-draggable');
 const cn = 'Composite-Player';
@@ -26,66 +26,21 @@ const CompositePlayer = () => {
     const playerWrapperRef = useRef<HTMLDivElement>(null);
     const clickTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-    const [mode, setMode] = useState<Mode>('single');
     const [position, setPosition] = useState<Position>({ x: 0, y: 0 });
     const [playerOpts, setPlayerOpts] = useState<PlayerOpts>({
         isMainPlayer: 'plyO',
         isPipModePlayer: 'neither'
     });
 
-    const prevMode = usePrevious(mode);
-
     const mouseState = useReactive({
         mouseClickCount: 0,
     });
-
-    useEffect(() => {
-        if (playerWrapperRef.current && setCtrPlayerModelData) {
-            setCtrPlayerModelData({
-                type: 'playerWrapperEle',
-                payload: playerWrapperRef.current
-            });
-        }
-    }, [playerWrapperRef.current]);
-
-    // useEffect(() => {
-    //     if (streamUrlList.length > 1 && streamUrlList[1] !== '') {
-    //         if (dbModeApplied) {
-    //             setMode('double');
-    //         }
-    //
-    //         if (pipModeApplied) {
-    //             setMode('pip');
-    //         }
-    //     }
-    //
-    //     if (!dbModeApplied && !pipModeApplied) {
-    //         setMode('single');
-    //     }
-    // }, [streamUrlList, dbModeApplied, pipModeApplied]);
-
-    useEffect(() => {
-        if (setCtrPlayerModelData) {
-            setCtrPlayerModelData({
-                type: 'mode',
-                payload: mode
-            });
-
-            setCtrPlayerModelData({
-                type: 'prevMode',
-                payload: prevMode as Mode
-            });
-        }
-
-        setPosition({ x: 0, y: 0 });
-    }, [mode, prevMode]);
 
     const playerWrapperClassNameHandler = (ply: 'plyO' | 'plyT'): string[] => {
         const classNameArr = [];
         const {
             playerOneUrl,
             playerTwoUrl,
-            isMainPlayer,
             isPipModePlayer
         } = playerOpts;
 
@@ -128,6 +83,8 @@ const CompositePlayer = () => {
 
     const exchangePlayerHandler = () => {
         if (!setCtrPlayerModelData) return;
+
+        const [streamOneUrl, streamTwoUrl] = streamUrlList;
         const { isMainPlayer, isPipModePlayer } = playerOpts;
 
         mouseState.mouseClickCount += 1;
@@ -143,7 +100,7 @@ const CompositePlayer = () => {
 
                     setCtrPlayerModelData({
                         type: 'streamUrlList',
-                        payload: [streamUrlList[1], streamUrlList[0]]
+                        payload: [streamTwoUrl, streamOneUrl]
                     });
                 }
 
@@ -152,6 +109,15 @@ const CompositePlayer = () => {
             300
         );
     };
+
+    useEffect(() => {
+        if (playerWrapperRef.current && setCtrPlayerModelData) {
+            setCtrPlayerModelData({
+                type: 'playerWrapperEle',
+                payload: playerWrapperRef.current
+            });
+        }
+    }, [playerWrapperRef.current]);
 
     useEffect(() => {
         const [streamOneUrl, streamTwoUrl] = streamUrlList;
@@ -233,19 +199,37 @@ const CompositePlayer = () => {
     }, [streamUrlList]);
 
     useEffect(() => {
-        console.log('playerOpts', { ...playerOpts });
-    }, [playerOpts]);
+        const [, streamTwoUrl] = streamUrlList;
+        const { isMainPlayer, isPipModePlayer } = playerOpts;
+
+        if (!setCtrPlayerModelData) return;
+
+        if (dbModeApplied && streamTwoUrl && isPipModePlayer !== 'neither') {
+            setPlayerOpts({
+                ...playerOpts,
+                isPipModePlayer: 'neither'
+            });
+        }
+
+        if (pipModeApplied && streamTwoUrl && isPipModePlayer === 'neither') {
+            setPlayerOpts({
+                ...playerOpts,
+                isPipModePlayer: isMainPlayer === 'plyO' ? 'plyT' : 'plyO'
+            });
+        }
+    }, [dbModeApplied, pipModeApplied]);
 
     return (
         <div
-            className={classes(cn, '')}
             ref={playerWrapperRef}
+            className={classes(cn, '')}
+            style={{ flexDirection: playerOpts.isMainPlayer === 'plyO' ? 'row' : 'row-reverse' }}
         >
             {
                 (playerOpts.isMainPlayer === 'plyO' || playerOpts.playerOneUrl) &&
                 <Draggable
                     bounds={'parent'}
-                    disabled={playerOpts.isPipModePlayer === 'plyO'}
+                    disabled={playerOpts.isPipModePlayer !== 'plyO'}
                     position={playerOpts.isPipModePlayer === 'plyO' ? position : { x: 0, y: 0 }}
                     onDrag={(e: DraggableEvent, data: DraggableData) => setPosition({ x: data.x, y: data.y })}
                 >
@@ -274,7 +258,7 @@ const CompositePlayer = () => {
                 (playerOpts.isMainPlayer === 'plyT' || playerOpts.playerTwoUrl) &&
                 <Draggable
                     bounds={'parent'}
-                    disabled={playerOpts.isPipModePlayer === 'plyT'}
+                    disabled={playerOpts.isPipModePlayer !== 'plyT'}
                     position={playerOpts.isPipModePlayer === 'plyT' ? position : { x: 0, y: 0 }}
                     onDrag={(e: DraggableEvent, data: DraggableData) => setPosition({ x: data.x, y: data.y })}
                 >
@@ -299,35 +283,6 @@ const CompositePlayer = () => {
                     </div>
                 </Draggable>
             }
-            {/*{*/}
-            {/*    subPlayerUrl &&*/}
-            {/*    <Draggable*/}
-            {/*        bounds={'parent'}*/}
-            {/*        disabled={playerIsExchange || dbModeApplied}*/}
-            {/*        position={playerIsExchange ? { x: 0, y: 0 } : position}*/}
-            {/*        onDrag={(e: DraggableEvent, data: DraggableData) => setPosition({ x: data.x, y: data.y })}*/}
-            {/*    >*/}
-            {/*        <div className={classes(*/}
-            {/*            cn,*/}
-            {/*            'sub-wrapper',*/}
-            {/*            subPlayerWrapperClassNameHandler(),*/}
-            {/*        )}*/}
-            {/*        >*/}
-            {/*            {*/}
-            {/*                !playerIsExchange && pipModeApplied &&*/}
-            {/*                <div*/}
-            {/*                    className={classes(cn, 'exchange-mask')}*/}
-            {/*                    onClick={exchangePlayerHandler}*/}
-            {/*                />*/}
-            {/*            }*/}
-            {/*            <Player*/}
-            {/*                isLive*/}
-            {/*                url={subPlayerUrl}*/}
-            {/*                controllable={playerIsExchange || dbModeApplied}*/}
-            {/*            />*/}
-            {/*        </div>*/}
-            {/*    </Draggable>*/}
-            {/*}*/}
             <Controller/>
         </div>
     );

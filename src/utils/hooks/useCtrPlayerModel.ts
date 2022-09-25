@@ -1,4 +1,4 @@
-import type { Feature, Mode, Position } from '@/types/ctrPlayer';
+import type { Feature, Position } from '@/types/ctrPlayer';
 import type { ResizeHandle } from 'react-resizable';
 import { useReducer } from 'react';
 import type { Stream } from '@/types/ctrPlayer';
@@ -21,8 +21,6 @@ export interface CtrPlayerModelState {
     panelVisible: boolean,
 
     speed: number;
-    mode: Mode;
-    prevMode: Mode;
 }
 
 export const initialState: CtrPlayerModelState = {
@@ -44,8 +42,6 @@ export const initialState: CtrPlayerModelState = {
     isVideoList: false,
     panelVisible: false,
     speed: 50,
-    mode: 'single',
-    prevMode: 'single',
 };
 
 export interface DisableDragActionType {
@@ -118,16 +114,6 @@ export interface SpeedActionType {
     payload: CtrPlayerModelState['speed'];
 }
 
-export interface ModeActionType {
-    type: 'mode';
-    payload: CtrPlayerModelState['mode'];
-}
-
-export interface PrevModeActionType {
-    type: 'prevMode';
-    payload: CtrPlayerModelState['prevMode'];
-}
-
 export type MergeActionType =
     | DisableDragActionType
     | PositionActionType
@@ -142,9 +128,7 @@ export type MergeActionType =
     | IsControllerActionType
     | IsVideoListActionType
     | PanelVisibleActionType
-    | SpeedActionType
-    | ModeActionType
-    | PrevModeActionType;
+    | SpeedActionType;
 
 export const useCtrPlayerModel = () => {
     const reducer = (state: CtrPlayerModelState, action: MergeActionType) => {
@@ -179,10 +163,6 @@ export const useCtrPlayerModel = () => {
                 return { ...state, panelVisible: payload };
             case 'speed':
                 return { ...state, speed: payload };
-            case 'mode':
-                return { ...state, mode: payload };
-            case 'prevMode':
-                return { ...state, prevMode: payload };
             default:
                 return state;
         }
