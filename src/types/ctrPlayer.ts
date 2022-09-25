@@ -30,3 +30,10 @@ export type Service = {
 }
 
 export type Mode = 'single' | 'double' | 'pip';
+
+export type PlayerOpts = {
+    playerOneUrl?: string,
+    playerTwoUrl?: string,
+    isMainPlayer: 'plyO' | 'plyT',
+    isPipModePlayer: 'neither' | 'plyO' | 'plyT',
+}

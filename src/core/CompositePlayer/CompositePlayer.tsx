@@ -5,38 +5,17 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import { CtrPlayerContext } from '@/utils/hooks/useCtrPlayerContext';
 import Controller from '@/core/Controller';
 import Player from '@/core/Player';
-import type { Mode, Position } from '@/types/ctrPlayer';
+import type { Mode, PlayerOpts, Position } from '@/types/ctrPlayer';
 import type { DraggableData, DraggableEvent } from 'react-draggable';
 import { usePrevious, useReactive } from 'ahooks';
 
 const Draggable = require('react-draggable');
 const cn = 'Composite-Player';
-const defaultPlayerStyle = {
-    minWidth: '480px',
-    minHeight: '270px',
-};
-
-const doublePlayerStyle = {
-    width: '50%',
-    height: '100%',
-    minWidth: '480px',
-    minHeight: '270px',
-};
-
-const pipPlayerStyle = {
-    width: '100%',
-    height: '100%',
-    minWidth: 'auto',
-    minHeight: 'auto',
-};
 
 const CompositePlayer = () => {
     const {
         ctrPlayerModel: {
-            streamUrlList: [
-                mainPlayerUrl,
-                subPlayerUrl
-            ],
+            streamUrlList,
             sgModeApplied,
             dbModeApplied,
             pipModeApplied
@@ -44,19 +23,21 @@ const CompositePlayer = () => {
         setCtrPlayerModelData
     } = useContext(CtrPlayerContext);
 
-    const playerWrapperRef = React.useRef<HTMLDivElement>(null);
+    const playerWrapperRef = useRef<HTMLDivElement>(null);
     const clickTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
     const [mode, setMode] = useState<Mode>('single');
-    const [playerIsExchange, setPlayerIsExchange] = useState<boolean>(false);
     const [position, setPosition] = useState<Position>({ x: 0, y: 0 });
+    const [playerOpts, setPlayerOpts] = useState<PlayerOpts>({
+        isMainPlayer: 'plyO',
+        isPipModePlayer: 'neither'
+    });
 
     const prevMode = usePrevious(mode);
 
     const mouseState = useReactive({
         mouseClickCount: 0,
     });
-
 
     useEffect(() => {
         if (playerWrapperRef.current && setCtrPlayerModelData) {
@@ -99,54 +80,71 @@ const CompositePlayer = () => {
         setPosition({ x: 0, y: 0 });
     }, [mode, prevMode]);
 
-    const mainPlayerWrapperClassNameHandler = (): string[] => {
+    const playerWrapperClassNameHandler = (ply: 'plyO' | 'plyT'): string[] => {
         const classNameArr = [];
+        const {
+            playerOneUrl,
+            playerTwoUrl,
+            isMainPlayer,
+            isPipModePlayer
+        } = playerOpts;
 
-        if (!playerIsExchange) {
+        if (isPipModePlayer === 'neither') {
             if (
                 sgModeApplied
                 ||
-                (dbModeApplied && !subPlayerUrl)
-                ||
                 pipModeApplied
+                ||
+                (
+                    dbModeApplied
+                    &&
+                    (
+                        (playerOneUrl && !playerTwoUrl)
+                        ||
+                        (!playerOneUrl && playerTwoUrl)
+                    )
+                )
             ) {
                 classNameArr.push(`sg-mode`);
             }
 
-            if (dbModeApplied && subPlayerUrl) {
+            if (dbModeApplied && playerOneUrl && playerTwoUrl) {
                 classNameArr.push(`db-mode`);
             }
         }
 
-        if (playerIsExchange && subPlayerUrl && pipModeApplied) {
-            classNameArr.push(`pip-mode`);
+        if (isPipModePlayer === 'plyO') {
+            ply === 'plyO' && classNameArr.push(`pip-mode`);
+            ply === 'plyT' && classNameArr.push(`sg-mode`);
         }
 
-        return classNameArr;
-    };
-
-    const subPlayerWrapperClassNameHandler = (): string[] => {
-        const classNameArr = [];
-
-        if (dbModeApplied) {
-            classNameArr.push(`db-mode`);
-        }
-
-        if (pipModeApplied) {
-            playerIsExchange ? classNameArr.push(`sg-mode`) : classNameArr.push(`pip-mode`);
+        if (isPipModePlayer === 'plyT') {
+            ply === 'plyO' && classNameArr.push(`sg-mode`);
+            ply === 'plyT' && classNameArr.push(`pip-mode`);
         }
 
         return classNameArr;
     };
 
     const exchangePlayerHandler = () => {
-        mouseState.mouseClickCount += 1;
+        if (!setCtrPlayerModelData) return;
+        const { isMainPlayer, isPipModePlayer } = playerOpts;
 
+        mouseState.mouseClickCount += 1;
         clickTimeoutRef.current && clearTimeout(clickTimeoutRef.current);
         clickTimeoutRef.current = setTimeout(
             () => {
                 if (mouseState.mouseClickCount === 2) {
-                    setPlayerIsExchange(!playerIsExchange);
+                    setPlayerOpts({
+                        ...playerOpts,
+                        isMainPlayer: isMainPlayer === 'plyO' ? 'plyT' : 'plyO',
+                        isPipModePlayer: isPipModePlayer === 'plyO' ? 'plyT' : 'plyO'
+                    });
+
+                    setCtrPlayerModelData({
+                        type: 'streamUrlList',
+                        payload: [streamUrlList[1], streamUrlList[0]]
+                    });
                 }
 
                 mouseState.mouseClickCount = 0;
@@ -156,58 +154,109 @@ const CompositePlayer = () => {
     };
 
     useEffect(() => {
-        if (!subPlayerUrl && playerIsExchange) {
-            setPlayerIsExchange(false);
+        const [streamOneUrl, streamTwoUrl] = streamUrlList;
+        const { playerOneUrl, playerTwoUrl, isMainPlayer } = playerOpts;
+
+        if (streamOneUrl && !streamTwoUrl) {
+            if (isMainPlayer === 'plyO' && !playerTwoUrl) {
+                setPlayerOpts({
+                    ...playerOpts,
+                    playerOneUrl: streamOneUrl,
+                    playerTwoUrl: undefined
+                });
+            }
+
+            if (isMainPlayer === 'plyT' && !playerOneUrl) {
+                setPlayerOpts({
+                    ...playerOpts,
+                    playerOneUrl: undefined,
+                    playerTwoUrl: streamOneUrl
+                });
+            }
+
+            if (isMainPlayer === 'plyO' && playerOneUrl === streamOneUrl) {
+                setPlayerOpts({
+                    ...playerOpts,
+                    playerOneUrl: streamOneUrl,
+                    playerTwoUrl: undefined,
+                    isPipModePlayer: 'neither'
+                });
+            }
+
+            if (isMainPlayer === 'plyT' && playerTwoUrl === streamOneUrl) {
+                setPlayerOpts({
+                    ...playerOpts,
+                    playerOneUrl: undefined,
+                    playerTwoUrl: streamOneUrl,
+                    isPipModePlayer: 'neither'
+                });
+            }
+
+            if (isMainPlayer === 'plyO' && playerTwoUrl === streamOneUrl) {
+                setPlayerOpts({
+                    playerOneUrl: undefined,
+                    playerTwoUrl: streamOneUrl,
+                    isMainPlayer: 'plyT',
+                    isPipModePlayer: 'neither'
+                });
+            }
+
+            if (isMainPlayer === 'plyT' && playerOneUrl === streamOneUrl) {
+                setPlayerOpts({
+                    playerOneUrl: streamOneUrl,
+                    playerTwoUrl: undefined,
+                    isMainPlayer: 'plyO',
+                    isPipModePlayer: 'neither'
+                });
+            }
         }
-    }, [subPlayerUrl, playerIsExchange]);
+
+        if (streamOneUrl && streamTwoUrl) {
+            if (streamOneUrl === playerTwoUrl && streamTwoUrl === playerOneUrl) return;
+
+            if (isMainPlayer === 'plyO' && streamTwoUrl !== playerTwoUrl) {
+                setPlayerOpts({
+                    ...playerOpts,
+                    playerTwoUrl: streamTwoUrl,
+                    isPipModePlayer: pipModeApplied ? 'plyT' : 'neither'
+                });
+            }
+
+            if (isMainPlayer === 'plyT' && streamTwoUrl !== playerOneUrl) {
+                setPlayerOpts({
+                    ...playerOpts,
+                    playerOneUrl: streamTwoUrl,
+                    isPipModePlayer: pipModeApplied ? 'plyO' : 'neither'
+                });
+            }
+        }
+    }, [streamUrlList]);
+
+    useEffect(() => {
+        console.log('playerOpts', { ...playerOpts });
+    }, [playerOpts]);
 
     return (
         <div
             className={classes(cn, '')}
             ref={playerWrapperRef}
         >
-            <Draggable
-                bounds={'parent'}
-                disabled={!playerIsExchange}
-                position={playerIsExchange ? position : { x: 0, y: 0 }}
-                onDrag={(e: DraggableEvent, data: DraggableData) => setPosition({ x: data.x, y: data.y })}
-            >
-                <div className={classes(
-                    cn,
-                    'main-wrapper',
-                    mainPlayerWrapperClassNameHandler(),
-                )}
-                >
-                    {
-                        playerIsExchange && pipModeApplied &&
-                        <div
-                            className={classes(cn, 'exchange-mask')}
-                            onClick={exchangePlayerHandler}
-                        />
-                    }
-                    <Player
-                        isLive
-                        url={mainPlayerUrl}
-                        controllable={!playerIsExchange}
-                    />
-                </div>
-            </Draggable>
             {
-                subPlayerUrl &&
+                (playerOpts.isMainPlayer === 'plyO' || playerOpts.playerOneUrl) &&
                 <Draggable
                     bounds={'parent'}
-                    disabled={playerIsExchange || dbModeApplied}
-                    position={playerIsExchange ? { x: 0, y: 0 } : position}
+                    disabled={playerOpts.isPipModePlayer === 'plyO'}
+                    position={playerOpts.isPipModePlayer === 'plyO' ? position : { x: 0, y: 0 }}
                     onDrag={(e: DraggableEvent, data: DraggableData) => setPosition({ x: data.x, y: data.y })}
                 >
                     <div className={classes(
                         cn,
-                        'sub-wrapper',
-                        subPlayerWrapperClassNameHandler(),
+                        'wrapper',
+                        playerWrapperClassNameHandler('plyO'),
                     )}
                     >
                         {
-                            !playerIsExchange && pipModeApplied &&
+                            playerOpts.isPipModePlayer === 'plyO' &&
                             <div
                                 className={classes(cn, 'exchange-mask')}
                                 onClick={exchangePlayerHandler}
@@ -215,12 +264,70 @@ const CompositePlayer = () => {
                         }
                         <Player
                             isLive
-                            url={subPlayerUrl}
-                            controllable={playerIsExchange || dbModeApplied}
+                            url={playerOpts.playerOneUrl ?? ''}
+                            controllable={playerOpts.isPipModePlayer !== 'plyO'}
                         />
                     </div>
                 </Draggable>
             }
+            {
+                (playerOpts.isMainPlayer === 'plyT' || playerOpts.playerTwoUrl) &&
+                <Draggable
+                    bounds={'parent'}
+                    disabled={playerOpts.isPipModePlayer === 'plyT'}
+                    position={playerOpts.isPipModePlayer === 'plyT' ? position : { x: 0, y: 0 }}
+                    onDrag={(e: DraggableEvent, data: DraggableData) => setPosition({ x: data.x, y: data.y })}
+                >
+                    <div className={classes(
+                        cn,
+                        'wrapper',
+                        playerWrapperClassNameHandler('plyT'),
+                    )}
+                    >
+                        {
+                            playerOpts.isPipModePlayer === 'plyT' &&
+                            <div
+                                className={classes(cn, 'exchange-mask')}
+                                onClick={exchangePlayerHandler}
+                            />
+                        }
+                        <Player
+                            isLive
+                            url={playerOpts.playerTwoUrl ?? ''}
+                            controllable={playerOpts.isPipModePlayer !== 'plyT'}
+                        />
+                    </div>
+                </Draggable>
+            }
+            {/*{*/}
+            {/*    subPlayerUrl &&*/}
+            {/*    <Draggable*/}
+            {/*        bounds={'parent'}*/}
+            {/*        disabled={playerIsExchange || dbModeApplied}*/}
+            {/*        position={playerIsExchange ? { x: 0, y: 0 } : position}*/}
+            {/*        onDrag={(e: DraggableEvent, data: DraggableData) => setPosition({ x: data.x, y: data.y })}*/}
+            {/*    >*/}
+            {/*        <div className={classes(*/}
+            {/*            cn,*/}
+            {/*            'sub-wrapper',*/}
+            {/*            subPlayerWrapperClassNameHandler(),*/}
+            {/*        )}*/}
+            {/*        >*/}
+            {/*            {*/}
+            {/*                !playerIsExchange && pipModeApplied &&*/}
+            {/*                <div*/}
+            {/*                    className={classes(cn, 'exchange-mask')}*/}
+            {/*                    onClick={exchangePlayerHandler}*/}
+            {/*                />*/}
+            {/*            }*/}
+            {/*            <Player*/}
+            {/*                isLive*/}
+            {/*                url={subPlayerUrl}*/}
+            {/*                controllable={playerIsExchange || dbModeApplied}*/}
+            {/*            />*/}
+            {/*        </div>*/}
+            {/*    </Draggable>*/}
+            {/*}*/}
             <Controller/>
         </div>
     );
