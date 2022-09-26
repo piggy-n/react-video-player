@@ -39,38 +39,6 @@ const CompositePlayer = () => {
         mouseClickCount: 0,
     });
 
-    useEffect(() => {
-        const [, streamTwoUrl] = streamUrlList;
-
-        if (streamTwoUrl) {
-            if (dbModeApplied) {
-                setMode('double');
-            }
-
-            if (pipModeApplied) {
-                setMode('pip');
-            }
-        }
-
-        if (!dbModeApplied && !pipModeApplied) {
-            setMode('single');
-        }
-    }, [streamUrlList, dbModeApplied, pipModeApplied]);
-
-    useEffect(() => {
-        if (setCtrPlayerModelData) {
-            setCtrPlayerModelData({
-                type: 'mode',
-                payload: mode
-            });
-
-            setCtrPlayerModelData({
-                type: 'prevMode',
-                payload: prevMode as Mode
-            });
-        }
-        setPosition({ x: 0, y: 0 });
-    }, [mode, prevMode]);
     const playerWrapperClassNameHandler = (ply: 'plyO' | 'plyT'): string[] => {
         const classNameArr = [];
         const {
@@ -153,6 +121,40 @@ const CompositePlayer = () => {
             });
         }
     }, [playerWrapperRef.current]);
+
+    useEffect(() => {
+        const [, streamTwoUrl] = streamUrlList;
+
+        if (streamTwoUrl) {
+            if (dbModeApplied) {
+                setMode('double');
+            }
+
+            if (pipModeApplied) {
+                setMode('pip');
+            }
+        }
+
+        if ((!dbModeApplied && !pipModeApplied) || (dbModeApplied && !streamTwoUrl)) {
+            setMode('single');
+        }
+    }, [streamUrlList, dbModeApplied, pipModeApplied]);
+
+    useEffect(() => {
+        if (setCtrPlayerModelData) {
+            setCtrPlayerModelData({
+                type: 'mode',
+                payload: mode
+            });
+
+            setCtrPlayerModelData({
+                type: 'prevMode',
+                payload: prevMode as Mode
+            });
+        }
+
+        setPosition({ x: 0, y: 0 });
+    }, [mode, prevMode]);
 
     useEffect(() => {
         const [streamOneUrl, streamTwoUrl] = streamUrlList;
