@@ -37,3 +37,8 @@ export type PlayerOpts = {
     isMainPlayer: 'plyO' | 'plyT',
     isPipModePlayer: 'neither' | 'plyO' | 'plyT',
 }
+
+export interface ControllablePlayerProps {
+    deviceId: string;
+    onClose?: () => void;
+}

@@ -7,6 +7,7 @@ export interface CtrPlayerContextType {
     ctrPlayerModel: CtrPlayerModelState;
     setCtrPlayerModelData?: Dispatch<MergeActionType>;
     deviceId: string;
+    onClose?: () => void;
 }
 
 export const defaultValue: Partial<CtrPlayerContextType> = {

@@ -1,13 +1,14 @@
 import * as React from 'react';
 import Header from '@/core/Header';
 import { ResizableBox } from 'react-resizable';
+import type { FC } from 'react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import './controllablePlayer.scss';
 import '@/assets/styles/global.scss';
 import '@/assets/styles/resizableBox.css';
 import { CtrPlayerContext } from '@/utils/hooks/useCtrPlayerContext';
 import { useCtrPlayerModel } from '@/utils/hooks/useCtrPlayerModel';
-import type { Size, Stream, Service } from '@/types/ctrPlayer';
+import type { Size, Stream, Service, ControllablePlayerProps } from '@/types/ctrPlayer';
 import { obtainDeviceService, obtainDeviceStream } from '@/services/device';
 import { useUpdateEffect } from 'ahooks';
 import CompositePlayer from '@/core/CompositePlayer';
@@ -15,7 +16,11 @@ import { releaseControlAccess } from '@/services/controller';
 
 const Draggable = require('react-draggable');
 
-const ControllablePlayer = ({ deviceId }: { deviceId: string }) => {
+const ControllablePlayer: FC<ControllablePlayerProps> = (
+    {
+        deviceId = '',
+        onClose
+    }) => {
     const playerContainerRef = useRef<HTMLDivElement>(null);
 
     const [size, setSize] = useState<Size | null>(null);
@@ -31,6 +36,7 @@ const ControllablePlayer = ({ deviceId }: { deviceId: string }) => {
                     ctrPlayerModel,
                     setCtrPlayerModelData,
                     deviceId,
+                    onClose
                 }
             );
         },
