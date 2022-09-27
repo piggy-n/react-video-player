@@ -23,7 +23,7 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
     {
         isLive = true,
         url = '',
-        controllable,
+        controllable = true,
         videoContainerStyle = {},
         ...rest
     },
