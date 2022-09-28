@@ -1,6 +1,7 @@
 @import 'src/assets/styles/mixin.scss';
 
 .ws-controller {
-  @include wh(180px, 100%);
+  min-width: 180px;
+  height: 100%;
   background: rgba(7, 30, 39, .9);
 }

@@ -1,5 +1,5 @@
 [class^=ws-] {
-  font-family: 'Alibaba-PuHuiTi-Regular', serif;
+  font-family: 'Alibaba-PuHuiTi-Regular';
   box-sizing: border-box;
 
   p {
@@ -12,9 +12,4 @@
     padding: 0;
     margin: 0;
   }
-}
-
-@font-face {
-  font-family: Alibaba-PuHuiTi-Regular;
-  src: url('../font/Alibaba-PuHuiTi-Regular.ttf') format('truetype');
 }

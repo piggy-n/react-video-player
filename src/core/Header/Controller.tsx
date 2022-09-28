@@ -32,6 +32,13 @@ const Controller = () => {
         if (!isController) {
             setDialogVisible(true);
         }
+
+        if (isController) {
+            setCtrPlayerModelData({
+                type: 'isController',
+                payload: false
+            });
+        }
     };
 
     const controlAccessHandler = () => {
