@@ -1,3 +1,6 @@
+import type { DraggableBounds } from 'react-draggable';
+import type { CSSProperties } from 'react';
+
 export type Position = {
     x: number;
     y: number;
@@ -41,4 +44,6 @@ export type PlayerOpts = {
 export interface ControllablePlayerProps {
     deviceId: string;
     onClose?: () => void;
+    bounds?: DraggableBounds | string | false,
+    style?: CSSProperties
 }

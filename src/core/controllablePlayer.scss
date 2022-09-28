@@ -1,5 +1,10 @@
 @import 'src/assets/styles/mixin.scss';
 
+.ws-crt-player-container {
+  @include ps(absolute);
+  z-index: 1;
+}
+
 .ws-video-player-container {
   @include ps(absolute);
   @include fd(flex-start);

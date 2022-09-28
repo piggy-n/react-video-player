@@ -48,6 +48,8 @@ const DirectionController = () => {
     };
 
     const move = async (operation: string) => {
+        if (deviceId === '') return;
+
         await pushControlCommands({
             id: deviceId,
             operation,

@@ -19,7 +19,9 @@ const Draggable = require('react-draggable');
 const ControllablePlayer: FC<ControllablePlayerProps> = (
     {
         deviceId = '',
-        onClose
+        onClose,
+        bounds = false,
+        style
     }) => {
     const playerContainerRef = useRef<HTMLDivElement>(null);
 
@@ -69,6 +71,8 @@ const ControllablePlayer: FC<ControllablePlayerProps> = (
     }, [playerContainerRef.current]);
 
     useEffect(() => {
+        if (deviceId === '') return;
+
         const streams: Stream[] = [];
         const token = `?token=${localStorage.getItem('accessToken')}`;
         const prev = location.protocol.includes('https') ? 'wss:' : 'ws:';
@@ -192,6 +196,8 @@ const ControllablePlayer: FC<ControllablePlayerProps> = (
     }, [ctrPlayerModel.mode]);
 
     useUpdateEffect(() => {
+        if (deviceId === '') return;
+
         const { isController, isVideoList } = ctrPlayerModel;
 
         if (!isController) {
@@ -218,32 +224,37 @@ const ControllablePlayer: FC<ControllablePlayerProps> = (
     }, [ctrPlayerModel.isController, ctrPlayerModel.isVideoList]);
 
     return (
-        <CtrPlayerContext.Provider value={ctrPlayerContextValue}>
-            <Draggable
-                bounds={'parent'}
-                position={ctrPlayerModel.position}
-                disabled={ctrPlayerModel.disableDrag}
-            >
-                <ResizableBox
-                    width={size?.width ?? 0}
-                    height={size?.height ?? 0}
-                    minConstraints={minSize ? [minSize.width, minSize.height] : undefined}
-                    maxConstraints={[innerWidth, innerHeight]}
-                    resizeHandles={ctrPlayerModel.resizeHandlesArr}
-                    lockAspectRatio
-                    onResize={(event, { size }) => setSize(size)}
+        <div
+            className={'ws-crt-player-container'}
+            style={{ ...style }}
+        >
+            <CtrPlayerContext.Provider value={ctrPlayerContextValue}>
+                <Draggable
+                    bounds={bounds}
+                    position={ctrPlayerModel.position}
+                    disabled={ctrPlayerModel.disableDrag}
                 >
-                    <div
-                        ref={playerContainerRef}
-                        className={'ws-video-player-container'}
-                        onMouseLeave={mouseLeaveHandler}
+                    <ResizableBox
+                        width={size?.width ?? 0}
+                        height={size?.height ?? 0}
+                        minConstraints={minSize ? [minSize.width, minSize.height] : undefined}
+                        maxConstraints={[innerWidth, innerHeight]}
+                        resizeHandles={ctrPlayerModel.resizeHandlesArr}
+                        lockAspectRatio
+                        onResize={(event, { size }) => setSize(size)}
                     >
-                        <Header/>
-                        <CompositePlayer/>
-                    </div>
-                </ResizableBox>
-            </Draggable>
-        </CtrPlayerContext.Provider>
+                        <div
+                            ref={playerContainerRef}
+                            className={'ws-video-player-container'}
+                            onMouseLeave={mouseLeaveHandler}
+                        >
+                            <Header/>
+                            <CompositePlayer/>
+                        </div>
+                    </ResizableBox>
+                </Draggable>
+            </CtrPlayerContext.Provider>
+        </div>
     );
 };
 

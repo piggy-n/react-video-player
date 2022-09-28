@@ -3,14 +3,17 @@ import { classes } from '@/utils/methods/classes';
 import './styles/videoListPanel.scss';
 import VideoDatePicker from '@/components/VideoDatePicker';
 import VideoTimePicker from '@/components/VideoTimePicker';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import type { Moment } from 'moment';
 import moment from 'moment';
 import { obtainDeviceRecordingsList } from '@/services/recording';
+import { CtrPlayerContext } from '@/utils/hooks/useCtrPlayerContext';
 
 const cn = 'Video-List-Panel';
 
 const VideoListPanel = () => {
+    const { deviceId } = useContext(CtrPlayerContext);
+
     const [dateValue, setDateValue] = useState<Moment>(moment());
     const [timeValue, setTimeValue] = useState<[Moment, Moment]>([
         moment('00:00', 'HH:mm'),
@@ -39,8 +42,10 @@ const VideoListPanel = () => {
     };
 
     useEffect(() => {
+        if (deviceId === '') return;
+
         obtainDeviceRecordingsList({
-            id: '1561636627632099330',
+            id: deviceId,
             startTime: startDateTime,
             endTime: endDateTime
         }).then(res => {
@@ -62,7 +67,6 @@ const VideoListPanel = () => {
                     />
                 </div>
             </div>
-
         </div>
     );
 };
