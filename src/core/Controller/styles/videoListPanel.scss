@@ -2,12 +2,12 @@
 
 .ws-video-list-panel {
   @include wh(100%, 100%);
-  @include fd(flex-start);
+  @include fd(flex-start, flex-start);
   padding: 8px;
   background: rgba(30, 96, 121, .35);
 
   &-item-wrapper {
-    @include wh(100%, auto);
+    @include wh(100%, 20px);
     @include fd(flex-start, flex-start);
     margin: 0 4px;
 
@@ -15,6 +15,40 @@
       @include style(12px, rgba(22, 174, 224, 1));
       line-height: 12px;
       margin-bottom: 8px;
+    }
+  }
+
+  &-list {
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    @include wh(100%, auto);
+    overflow: scroll;
+
+    .ws-video-list-panel-list-item,
+    .ws-video-list-panel-list-item-active {
+      @include wh(100%, 24px);
+      @include fr(space-between, center);
+      line-height: 12px;
+      padding: 4px 8px;
+      margin: 4px 0;
+      cursor: pointer;
+    }
+
+    .ws-video-list-panel-list-item {
+      @include style(12px, rgba(181, 216, 238, 1));
+      background: rgba(30, 96, 121, .3);
+
+      &:hover {
+        @include style(12px, rgba(22, 174, 224, 1));
+        background: rgba(30, 96, 121, .6);
+      }
+    }
+
+    .ws-video-list-panel-list-item-active {
+      @include style(12px, rgba(22, 174, 224, 1));
+      background: rgba(30, 96, 121, .6);
     }
   }
 }

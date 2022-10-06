@@ -225,6 +225,7 @@ const ControllablePlayer: FC<ControllablePlayerProps> = (
 
     return (
         <div
+            id={'ws-crt-player'}
             className={'ws-crt-player-container'}
             style={{ ...style }}
         >

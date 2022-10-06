@@ -3,16 +3,20 @@ import { classes } from '@/utils/methods/classes';
 import './styles/videoListPanel.scss';
 import VideoDatePicker from '@/components/VideoDatePicker';
 import VideoTimePicker from '@/components/VideoTimePicker';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import type { Moment } from 'moment';
 import moment from 'moment';
 import { obtainDeviceRecordingsList } from '@/services/recording';
 import { CtrPlayerContext } from '@/utils/hooks/useCtrPlayerContext';
+import type { VideoList } from '@/core/Controller/type';
+import { useSize } from 'ahooks';
 
 const cn = 'Video-List-Panel';
 
 const VideoListPanel = () => {
     const { deviceId } = useContext(CtrPlayerContext);
+
+    const containerHeight = useSize(document.getElementById('ws-crt-player'))?.height ?? 0;
 
     const [dateValue, setDateValue] = useState<Moment>(moment());
     const [timeValue, setTimeValue] = useState<[Moment, Moment]>([
@@ -23,11 +27,14 @@ const VideoListPanel = () => {
         .startOf('day')
         .format('YYYY-MM-DD HH:mm:ss')
     );
-
     const [endDateTime, setEndDateTime] = useState<string>(moment()
         .endOf('day')
         .format('YYYY-MM-DD HH:mm:ss')
     );
+    const [videoList, setVideoList] = useState<VideoList[]>([]);
+    const [resizing, setResizing] = useState<boolean>(false);
+
+    const videoResizingTimerRef = useRef<NodeJS.Timer | null>(null);
 
     const datePickerChangeHandler = (value: Moment, dateString: string) => {
         setDateValue(value);
@@ -49,9 +56,33 @@ const VideoListPanel = () => {
             startTime: startDateTime,
             endTime: endDateTime
         }).then(res => {
-            console.log(res);
+            if (!res?.success) {
+                setVideoList([]);
+                return;
+            }
+
+            const list = res.list as VideoList[] || [];
+            setVideoList(list);
         });
     }, [startDateTime, endDateTime]);
+
+    useEffect(
+        () => {
+            setResizing(true);
+
+            videoResizingTimerRef.current = setTimeout(
+                () => {
+                    setResizing(false);
+                },
+                300
+            );
+
+            return () => {
+                clearTimeout(videoResizingTimerRef.current as NodeJS.Timer);
+            };
+        },
+        [containerHeight]
+    );
 
     return (
         <div className={classes(cn, '')}>
@@ -66,6 +97,22 @@ const VideoListPanel = () => {
                         onChange={timePickerChangeHandler}
                     />
                 </div>
+            </div>
+            <div
+                className={classes(cn, 'list')}
+                style={{ maxHeight: containerHeight && !resizing ? containerHeight - 80 : 0 }}
+            >
+                {
+                    videoList.map((item, index) =>
+                        <div
+                            className={classes(cn, 'list-item')}
+                            key={index}
+                        >
+                            <span>00:00-01:00</span>
+                            <span>10min</span>
+                        </div>
+                    )
+                }
             </div>
         </div>
     );
