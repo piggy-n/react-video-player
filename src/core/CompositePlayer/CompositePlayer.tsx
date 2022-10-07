@@ -18,7 +18,8 @@ const CompositePlayer = () => {
             streamUrlList,
             sgModeApplied,
             dbModeApplied,
-            pipModeApplied
+            pipModeApplied,
+            playerLiveMode
         },
         setCtrPlayerModelData
     } = useContext(CtrPlayerContext);
@@ -160,6 +161,15 @@ const CompositePlayer = () => {
         const [streamOneUrl, streamTwoUrl] = streamUrlList;
         const { playerOneUrl, playerTwoUrl, isMainPlayer } = playerOpts;
 
+        if (!streamOneUrl) {
+            setPlayerOpts({
+                ...playerOpts,
+                playerOneUrl: undefined,
+                playerTwoUrl: undefined,
+                isPipModePlayer: 'neither'
+            });
+        }
+
         if (streamOneUrl && !streamTwoUrl) {
             if (isMainPlayer === 'plyO' && !playerTwoUrl) {
                 setPlayerOpts({
@@ -284,7 +294,7 @@ const CompositePlayer = () => {
                             />
                         }
                         <Player
-                            isLive
+                            isLive={playerLiveMode[0]}
                             url={playerOpts.playerOneUrl ?? ''}
                             controllable={playerOpts.isPipModePlayer !== 'plyO'}
                         />
@@ -313,7 +323,7 @@ const CompositePlayer = () => {
                             />
                         }
                         <Player
-                            isLive
+                            isLive={playerLiveMode[1]}
                             url={playerOpts.playerTwoUrl ?? ''}
                             controllable={playerOpts.isPipModePlayer !== 'plyT'}
                         />

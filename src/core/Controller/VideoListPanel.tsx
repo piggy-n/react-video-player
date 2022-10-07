@@ -16,7 +16,15 @@ import zhCN from 'antd/es/locale/zh_CN';
 const cn = 'Video-List-Panel';
 
 const VideoListPanel = () => {
-    const { deviceId } = useContext(CtrPlayerContext);
+    const {
+        ctrPlayerModel: {
+            streams,
+            sgModeApplied,
+            playerLiveMode
+        },
+        deviceId,
+        setCtrPlayerModelData
+    } = useContext(CtrPlayerContext);
 
     const containerHeight = useSize(document.getElementById('ws-crt-player'))?.height ?? 0;
 
@@ -36,6 +44,7 @@ const VideoListPanel = () => {
     const [videoList, setVideoList] = useState<VideoList[]>([]);
     const [resizing, setResizing] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(false);
+    const [selectedVideo, setSelectedVideo] = useState<number[]>([]);
 
     const videoResizingTimerRef = useRef<NodeJS.Timer | null>(null);
 
@@ -50,6 +59,61 @@ const VideoListPanel = () => {
         setStartDateTime(`${dateValue.format('YYYY-MM-DD')} ${value[0].format('HH:mm:ss')}`);
         setEndDateTime(`${dateValue.format('YYYY-MM-DD')} ${value[1].format('HH:mm:ss')}`);
     };
+
+    const clickHandler = (value: VideoList, index: number) => {
+        if (!setCtrPlayerModelData) return;
+
+        const { protocol, url } = value;
+        if (sgModeApplied) {
+            selectedVideo.includes(index)
+                ? setSelectedVideo(selectedVideo.filter(item => item !== index))
+                : setSelectedVideo([index]);
+
+            setCtrPlayerModelData({
+                type: 'streamUrlList',
+                payload: [url as string]
+            });
+
+            setCtrPlayerModelData({
+                type: 'playerLiveMode',
+                payload: [protocol !== 'stream', playerLiveMode[1]]
+            });
+        } else {
+            if (selectedVideo.includes(index)) {
+                setSelectedVideo(selectedVideo.filter(item => item !== index));
+            } else {
+                setSelectedVideo(
+                    selectedVideo.length >= 2
+                        ? [selectedVideo[0], index]
+                        : [...selectedVideo, index]
+                );
+            }
+        }
+    };
+
+    useEffect(() => {
+        if (setCtrPlayerModelData) {
+            setCtrPlayerModelData({
+                type: 'streamUrlList',
+                payload: []
+            });
+        }
+        return () => {
+            const mainStream = streams.find(item => item?.channelCode === '1' && item?.streamTypeCode === '1') || streams[0];
+
+            if (setCtrPlayerModelData) {
+                setCtrPlayerModelData({
+                    type: 'streamUrlList',
+                    payload: mainStream ? [mainStream.value] : []
+                });
+
+                setCtrPlayerModelData({
+                    type: 'playerLiveMode',
+                    payload: [true, true]
+                });
+            }
+        };
+    }, []);
 
     useEffect(() => {
         if (deviceId === '') return;
@@ -79,6 +143,7 @@ const VideoListPanel = () => {
                 }
                 item.startTime = item.startTime.slice(11, 16);
                 item.endTime = item.endTime.slice(11, 16);
+                item.url = 'https://gs-files.oss-cn-hongkong.aliyuncs.com/okr/prod/file/2021/08/31/540p.mp4';
             });
 
             setLoading(false);
@@ -135,7 +200,8 @@ const VideoListPanel = () => {
                 {
                     !loading && videoList.map((item, index) =>
                         <div
-                            className={classes(cn, 'list-item')}
+                            className={classes(cn, selectedVideo.includes(index) ? 'list-item-active' : 'list-item')}
+                            onClick={() => clickHandler(item, index)}
                             key={index}
                         >
                             <span>{`${item.startTime}-${item.endTime}`}</span>

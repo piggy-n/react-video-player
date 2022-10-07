@@ -81,10 +81,17 @@ export class VideoPlayer {
 
     start(ele?: HTMLVideoElement, url?: string) {
         this.stop();
-
+        console.log('start',url);
         if (ele && url) {
             this.ele = ele;
             this.url = url;
+        }
+
+        if (url === '') {
+            this.ele = undefined;
+            this.url = undefined;
+            this.stop();
+            return;
         }
 
         if (!this.ele || !this.url) return;
@@ -110,11 +117,14 @@ export class VideoPlayer {
     stop() {
         if (this.MP4BoxFile) {
             this.MP4BoxFile.stop();
+            this.MP4BoxFile = undefined;
         }
 
         if (this.mediaSource) {
             this.sourceOpenHandler && this.mediaSource.removeEventListener('sourceopen', this.sourceOpenHandler);
             this.mediaSource = undefined;
         }
+
+        this.mime = '';
     }
 }

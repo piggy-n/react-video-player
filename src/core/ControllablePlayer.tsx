@@ -110,7 +110,7 @@ const ControllablePlayer: FC<ControllablePlayerProps> = (
                 streams.push(item);
             });
 
-            const mainStream = streams.find(item => item.channelCode === '1' && item.streamTypeCode === '1');
+            const mainStream = streams.find(item => item?.channelCode === '1' && item?.streamTypeCode === '1') || streams[0];
 
             setCtrPlayerModelData({
                 type: 'streams',

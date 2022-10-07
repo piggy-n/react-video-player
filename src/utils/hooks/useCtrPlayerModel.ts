@@ -23,6 +23,7 @@ export interface CtrPlayerModelState {
     speed: number;
     mode: Mode;
     prevMode: Mode;
+    playerLiveMode: [boolean, boolean];
 }
 
 export const initialState: CtrPlayerModelState = {
@@ -46,6 +47,7 @@ export const initialState: CtrPlayerModelState = {
     speed: 50,
     mode: 'single',
     prevMode: 'single',
+    playerLiveMode: [true, true],
 };
 
 export interface DisableDragActionType {
@@ -128,6 +130,11 @@ export interface PrevModeActionType {
     payload: CtrPlayerModelState['prevMode'];
 }
 
+export interface PlayerLiveModeActionType {
+    type: 'playerLiveMode';
+    payload: CtrPlayerModelState['playerLiveMode'];
+}
+
 export type MergeActionType =
     | DisableDragActionType
     | PositionActionType
@@ -144,7 +151,8 @@ export type MergeActionType =
     | PanelVisibleActionType
     | SpeedActionType
     | ModeActionType
-    | PrevModeActionType;
+    | PrevModeActionType
+    | PlayerLiveModeActionType;
 
 export const useCtrPlayerModel = () => {
     const reducer = (state: CtrPlayerModelState, action: MergeActionType) => {
@@ -183,6 +191,8 @@ export const useCtrPlayerModel = () => {
                 return { ...state, mode: payload };
             case 'prevMode':
                 return { ...state, prevMode: payload };
+            case 'playerLiveMode':
+                return { ...state, playerLiveMode: payload };
             default:
                 return state;
         }

@@ -8,7 +8,8 @@ const StreamSelector = () => {
         ctrPlayerModel: {
             streams,
             sgModeApplied,
-            streamUrlList
+            streamUrlList,
+            isVideoList
         },
         setCtrPlayerModelData
     } = useContext(CtrPlayerContext);
@@ -32,7 +33,7 @@ const StreamSelector = () => {
         setOpen(false);
     };
 
-    return streams.length > 0
+    return streams.length > 0 && !isVideoList
         ? <Selector
             value={streamUrlList.filter(item => item !== '')}
             onChange={selectorChangeHandler}
