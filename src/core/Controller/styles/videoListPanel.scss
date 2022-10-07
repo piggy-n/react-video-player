@@ -1,10 +1,23 @@
 @import 'src/assets/styles/mixin.scss';
 
 .ws-video-list-panel {
+  @include ps(relative);
   @include wh(100%, 100%);
   @include fd(flex-start, flex-start);
   padding: 8px;
   background: rgba(30, 96, 121, .35);
+
+  &-loading {
+    @include ps(absolute, 50%, 0, 0, 50%);
+    transform: translate(-50%, -50%);
+  }
+
+  &-empty {
+    @include ps(absolute, 50%, auto, auto, 50%);
+    @include style(12px, #fff);
+    transform: translate(-50%, -50%);
+    margin: 0;
+  }
 
   &-item-wrapper {
     @include wh(100%, 20px);

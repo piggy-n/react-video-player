@@ -10,6 +10,8 @@ import { obtainDeviceRecordingsList } from '@/services/recording';
 import { CtrPlayerContext } from '@/utils/hooks/useCtrPlayerContext';
 import type { VideoList } from '@/core/Controller/type';
 import { useSize } from 'ahooks';
+import { ConfigProvider, Empty, Spin } from 'antd';
+import zhCN from 'antd/es/locale/zh_CN';
 
 const cn = 'Video-List-Panel';
 
@@ -33,6 +35,7 @@ const VideoListPanel = () => {
     );
     const [videoList, setVideoList] = useState<VideoList[]>([]);
     const [resizing, setResizing] = useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(false);
 
     const videoResizingTimerRef = useRef<NodeJS.Timer | null>(null);
 
@@ -51,17 +54,34 @@ const VideoListPanel = () => {
     useEffect(() => {
         if (deviceId === '') return;
 
+        setLoading(true);
         obtainDeviceRecordingsList({
             id: deviceId,
             startTime: startDateTime,
             endTime: endDateTime
         }).then(res => {
             if (!res?.success) {
+                setLoading(false);
                 setVideoList([]);
                 return;
             }
 
             const list = res.list as VideoList[] || [];
+            list.forEach(item => {
+                const duration = moment(item.endTime).diff(moment(item.startTime), 'minutes');
+                const hours = Math.floor(duration / 60);
+                const minutes = duration % 60;
+                if (hours === 0) {
+                    item.duration = `${minutes}min`;
+                }
+                if (hours !== 0) {
+                    item.duration = `${hours}h${minutes}min`;
+                }
+                item.startTime = item.startTime.slice(11, 16);
+                item.endTime = item.endTime.slice(11, 16);
+            });
+
+            setLoading(false);
             setVideoList(list);
         });
     }, [startDateTime, endDateTime]);
@@ -102,14 +122,24 @@ const VideoListPanel = () => {
                 className={classes(cn, 'list')}
                 style={{ maxHeight: containerHeight && !resizing ? containerHeight - 80 : 0 }}
             >
+                <Spin spinning={loading} className={classes(cn, 'loading')}/>
                 {
-                    videoList.map((item, index) =>
+                    videoList.length === 0 && !loading &&
+                    <ConfigProvider locale={zhCN}>
+                        <Empty
+                            className={classes(cn, 'empty')}
+                            imageStyle={{ height: '50px' }}
+                        />
+                    </ConfigProvider>
+                }
+                {
+                    !loading && videoList.map((item, index) =>
                         <div
                             className={classes(cn, 'list-item')}
                             key={index}
                         >
-                            <span>00:00-01:00</span>
-                            <span>10min</span>
+                            <span>{`${item.startTime}-${item.endTime}`}</span>
+                            <span>{item.duration}</span>
                         </div>
                     )
                 }
