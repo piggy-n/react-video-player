@@ -9,7 +9,7 @@ import moment from 'moment';
 import { obtainDeviceRecordingsList } from '@/services/recording';
 import { CtrPlayerContext } from '@/utils/hooks/useCtrPlayerContext';
 import type { VideoList } from '@/core/Controller/type';
-import { useSize } from 'ahooks';
+import { useSize, useUpdateEffect } from 'ahooks';
 import { ConfigProvider, Empty, Spin } from 'antd';
 import zhCN from 'antd/es/locale/zh_CN';
 
@@ -21,7 +21,8 @@ const VideoListPanel = () => {
             streams,
             streamUrlList,
             sgModeApplied,
-            playerLiveMode
+            playerLiveMode,
+            exchangePlayer
         },
         deviceId,
         setCtrPlayerModelData
@@ -218,6 +219,10 @@ const VideoListPanel = () => {
         },
         [containerHeight]
     );
+
+    useUpdateEffect(() => {
+        setSelectedVideo(selectedVideo.reverse());
+    }, [exchangePlayer]);
 
     return (
         <div className={classes(cn, '')}>

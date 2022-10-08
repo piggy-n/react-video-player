@@ -43,6 +43,8 @@ export type PlayerOpts = {
 
 export interface ControllablePlayerProps {
     deviceId: string;
+    deviceName?: string;
+    deviceStatus?: boolean;
     onClose?: () => void;
     bounds?: DraggableBounds | string | false,
     style?: CSSProperties

@@ -7,6 +7,8 @@ export interface CtrPlayerContextType {
     ctrPlayerModel: CtrPlayerModelState;
     setCtrPlayerModelData?: Dispatch<MergeActionType>;
     deviceId: string;
+    deviceName?: string;
+    deviceStatus?: boolean;
     onClose?: () => void;
 }
 

@@ -9,7 +9,11 @@ import { CtrPlayerContext } from '@/utils/hooks/useCtrPlayerContext';
 const cn = 'Header';
 
 const Header: HeaderInterface = () => {
-    const { setCtrPlayerModelData } = useContext(CtrPlayerContext);
+    const {
+        setCtrPlayerModelData,
+        deviceName = '',
+        deviceStatus
+    } = useContext(CtrPlayerContext);
 
     const mouseOverHandler: MouseEventHandler = (e) => {
         const { target } = e;
@@ -28,7 +32,7 @@ const Header: HeaderInterface = () => {
             className={classes(cn, '')}
             onMouseOver={mouseOverHandler}
         >
-            <Header.Equipment name={'监控设备'}/>
+            <Header.Equipment name={deviceName} online={deviceStatus}/>
             <Header.ControllerToolbar/>
         </div>
     );

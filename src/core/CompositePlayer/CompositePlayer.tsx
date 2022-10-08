@@ -106,6 +106,11 @@ const CompositePlayer = () => {
                         type: 'streamUrlList',
                         payload: [streamTwoUrl, streamOneUrl]
                     });
+
+                    setCtrPlayerModelData({
+                        type: 'exchangePlayer',
+                        payload: Date.now()
+                    });
                 }
 
                 mouseState.mouseClickCount = 0;

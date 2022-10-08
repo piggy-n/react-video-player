@@ -19,6 +19,8 @@ const Draggable = require('react-draggable');
 const ControllablePlayer: FC<ControllablePlayerProps> = (
     {
         deviceId = '',
+        deviceName = '',
+        deviceStatus = false,
         onClose,
         bounds = false,
         style
@@ -38,6 +40,8 @@ const ControllablePlayer: FC<ControllablePlayerProps> = (
                     ctrPlayerModel,
                     setCtrPlayerModelData,
                     deviceId,
+                    deviceName,
+                    deviceStatus,
                     onClose
                 }
             );
