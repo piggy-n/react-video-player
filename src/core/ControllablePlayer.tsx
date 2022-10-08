@@ -101,7 +101,8 @@ const ControllablePlayer: FC<ControllablePlayerProps> = (
 
             list.forEach(item => {
                 item.value = `${wsUrl}${item.url}${token}`; // todo
-                item.value = `wss://lzz.enbo12119.com${item.url}${token}`;
+                // item.value = `wss://lzz.enbo12119.com${item.url}${token}`;
+                item.value = `ws://192.168.9.148${item.url}${token}`;
 
                 if (item.streamTypeCode === '1') {
                     item.label = `${item.channelDesc}（主）`;
@@ -182,19 +183,23 @@ const ControllablePlayer: FC<ControllablePlayerProps> = (
     }, [ctrPlayerModel.panelVisible]);
 
     useUpdateEffect(() => {
-        const { mode, prevMode } = ctrPlayerModel;
+        const { mode, prevMode, panelVisible } = ctrPlayerModel;
 
         if (mode !== 'double' && prevMode !== 'double') return;
 
         if (size && minSize) {
             setSize({
                 ...size,
-                width: mode === 'double' ? size.width * 2 : size.width / 2,
+                width: panelVisible
+                    ? (mode === 'double' ? size.width * 2 - 180 : size.width / 2 + 90)
+                    : (mode === 'double' ? size.width * 2 : size.width / 2),
             });
 
             setMinSize({
                 ...minSize,
-                width: mode === 'double' ? minSize.width * 2 : minSize.width / 2
+                width: panelVisible
+                    ? (mode === 'double' ? minSize.width * 2 - 180 : minSize.width / 2 + 90)
+                    : (mode === 'double' ? minSize.width * 2 : minSize.width / 2)
             });
         }
     }, [ctrPlayerModel.mode]);
