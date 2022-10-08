@@ -24,6 +24,7 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
         isLive = true,
         url = '',
         controllable = true,
+        playerId,
         videoContainerStyle = {},
         ...rest
     },
@@ -217,6 +218,7 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
         >
             <video
                 ref={videoRef}
+                id={playerId}
                 muted
                 autoPlay
                 crossOrigin={'anonymous'}

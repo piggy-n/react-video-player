@@ -10,6 +10,7 @@ export interface PlayerProps extends Partial<VideoCallBack> {
     screenshot?: boolean;
     recording?: boolean;
     controllable?: boolean;
+    playerId?: string;
 }
 
 export interface PlayerControllerInterface extends FC<PlayerControllerProps> {
