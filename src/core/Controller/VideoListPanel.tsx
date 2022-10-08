@@ -19,6 +19,7 @@ const VideoListPanel = () => {
     const {
         ctrPlayerModel: {
             streams,
+            streamUrlList,
             sgModeApplied,
             playerLiveMode
         },
@@ -44,7 +45,7 @@ const VideoListPanel = () => {
     const [videoList, setVideoList] = useState<VideoList[]>([]);
     const [resizing, setResizing] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(false);
-    const [selectedVideo, setSelectedVideo] = useState<number[]>([]);
+    const [selectedVideo, setSelectedVideo] = useState<number[]>([-1, -1]);
 
     const videoResizingTimerRef = useRef<NodeJS.Timer | null>(null);
 
@@ -66,12 +67,12 @@ const VideoListPanel = () => {
         const { protocol, url } = value;
         if (sgModeApplied) {
             selectedVideo.includes(index)
-                ? setSelectedVideo(selectedVideo.filter(item => item !== index))
-                : setSelectedVideo([index]);
+                ? setSelectedVideo([-1, -1])
+                : setSelectedVideo([index, -1]);
 
             setCtrPlayerModelData({
                 type: 'streamUrlList',
-                payload: [url as string]
+                payload: selectedVideo.includes(index) ? [] : [url]
             });
 
             setCtrPlayerModelData({
@@ -80,13 +81,51 @@ const VideoListPanel = () => {
             });
         } else {
             if (selectedVideo.includes(index)) {
-                setSelectedVideo(selectedVideo.filter(item => item !== index));
+                const newSelectedVideo = [...selectedVideo];
+                const delIndex = selectedVideo.indexOf(index);
+
+                newSelectedVideo.splice(delIndex, 1, -1);
+                setSelectedVideo(newSelectedVideo);
+
+                // 删除streamUrlList中的对应index的url
+                const newStreamUrlList = [...streamUrlList];
+                newStreamUrlList.splice(delIndex, 1);
+
+                setCtrPlayerModelData({
+                    type: 'streamUrlList',
+                    payload: newStreamUrlList
+                });
             } else {
-                setSelectedVideo(
-                    selectedVideo.length >= 2
-                        ? [selectedVideo[0], index]
-                        : [...selectedVideo, index]
-                );
+                const newSelectedVideo = [...selectedVideo];
+                const addIndex = selectedVideo.indexOf(-1);
+                newSelectedVideo.splice(addIndex, 1, index);
+                if (addIndex === -1) {
+                    newSelectedVideo.splice(-1, 1, index);
+                }
+                setSelectedVideo(newSelectedVideo);
+
+                const newStreamUrlList = [...streamUrlList];
+                if (newStreamUrlList.length < 2) {
+                    newStreamUrlList.push(url);
+                } else {
+                    newStreamUrlList.splice(-1, 1, url);
+                }
+
+                setCtrPlayerModelData({
+                    type: 'streamUrlList',
+                    payload: newStreamUrlList
+                });
+
+                // 如果value.protocol为stream，将playerLiveMode中的对应index的liveMode置为false
+                const newPlayerLiveMode = [...playerLiveMode] as [boolean, boolean];
+                newPlayerLiveMode.splice(addIndex, 1, protocol !== 'stream');
+                if (addIndex === -1) {
+                    newPlayerLiveMode.splice(-1, 1, protocol !== 'stream');
+                }
+                setCtrPlayerModelData({
+                    type: 'playerLiveMode',
+                    payload: newPlayerLiveMode
+                });
             }
         }
     };
@@ -143,7 +182,11 @@ const VideoListPanel = () => {
                 }
                 item.startTime = item.startTime.slice(11, 16);
                 item.endTime = item.endTime.slice(11, 16);
-                item.url = 'https://gs-files.oss-cn-hongkong.aliyuncs.com/okr/prod/file/2021/08/31/540p.mp4';
+                // todo: 临时处理
+                const random = Math.random();
+                item.url = random > 0.5
+                    ? 'https://gs-files.oss-cn-hongkong.aliyuncs.com/okr/prod/file/2021/08/31/540p.mp4'
+                    : 'https://gs-files.oss-cn-hongkong.aliyuncs.com/okr/test/file/2021/07/01/haiwang.mp4';
             });
 
             setLoading(false);

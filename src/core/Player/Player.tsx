@@ -157,13 +157,14 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
 
             const videoEle = videoRef.current;
             const streamPlayer = streamPlayerRef.current;
-            const videoPlayer = videoPlayerRef.current;
+            // const videoPlayer = videoPlayerRef.current;
 
             if (isLive) {
                 streamPlayer.stop();
                 streamPlayer.start(videoEle, url);
             } else {
-                videoPlayer.start(videoEle, url);
+                // videoPlayer.start(videoEle, url);
+                videoEle.src = url;
             }
 
             forceUpdate();

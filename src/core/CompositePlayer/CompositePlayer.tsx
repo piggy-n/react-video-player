@@ -270,66 +270,74 @@ const CompositePlayer = () => {
         <div
             ref={playerWrapperRef}
             className={classes(cn, '')}
-            style={{ flexDirection: playerOpts.isMainPlayer === 'plyO' ? 'row' : 'row-reverse' }}
         >
-            {
-                (playerOpts.isMainPlayer === 'plyO' || playerOpts.playerOneUrl) &&
-                <Draggable
-                    bounds={'parent'}
-                    disabled={playerOpts.isPipModePlayer !== 'plyO'}
-                    position={playerOpts.isPipModePlayer === 'plyO' ? position : { x: 0, y: 0 }}
-                    onDrag={(e: DraggableEvent, data: DraggableData) => setPosition({ x: data.x, y: data.y })}
-                >
-                    <div className={classes(
-                        cn,
-                        'wrapper',
-                        playerWrapperClassNameHandler('plyO'),
-                    )}
+            <div style={{
+                display: 'flex',
+                position: 'relative',
+                width: '100%',
+                height: '100%',
+                flexDirection: playerOpts.isMainPlayer === 'plyO' ? 'row' : 'row-reverse'
+            }}
+            >
+                {
+                    (playerOpts.isMainPlayer === 'plyO' || playerOpts.playerOneUrl) &&
+                    <Draggable
+                        bounds={'parent'}
+                        disabled={playerOpts.isPipModePlayer !== 'plyO'}
+                        position={playerOpts.isPipModePlayer === 'plyO' ? position : { x: 0, y: 0 }}
+                        onDrag={(e: DraggableEvent, data: DraggableData) => setPosition({ x: data.x, y: data.y })}
                     >
-                        {
-                            playerOpts.isPipModePlayer === 'plyO' &&
-                            <div
-                                className={classes(cn, 'exchange-mask')}
-                                onClick={exchangePlayerHandler}
+                        <div className={classes(
+                            cn,
+                            'wrapper',
+                            playerWrapperClassNameHandler('plyO'),
+                        )}
+                        >
+                            {
+                                playerOpts.isPipModePlayer === 'plyO' &&
+                                <div
+                                    className={classes(cn, 'exchange-mask')}
+                                    onClick={exchangePlayerHandler}
+                                />
+                            }
+                            <Player
+                                isLive={playerLiveMode[0]}
+                                url={playerOpts.playerOneUrl ?? ''}
+                                controllable={playerOpts.isPipModePlayer !== 'plyO'}
                             />
-                        }
-                        <Player
-                            isLive={playerLiveMode[0]}
-                            url={playerOpts.playerOneUrl ?? ''}
-                            controllable={playerOpts.isPipModePlayer !== 'plyO'}
-                        />
-                    </div>
-                </Draggable>
-            }
-            {
-                (playerOpts.isMainPlayer === 'plyT' || playerOpts.playerTwoUrl) &&
-                <Draggable
-                    bounds={'parent'}
-                    disabled={playerOpts.isPipModePlayer !== 'plyT'}
-                    position={playerOpts.isPipModePlayer === 'plyT' ? position : { x: 0, y: 0 }}
-                    onDrag={(e: DraggableEvent, data: DraggableData) => setPosition({ x: data.x, y: data.y })}
-                >
-                    <div className={classes(
-                        cn,
-                        'wrapper',
-                        playerWrapperClassNameHandler('plyT'),
-                    )}
+                        </div>
+                    </Draggable>
+                }
+                {
+                    (playerOpts.isMainPlayer === 'plyT' || playerOpts.playerTwoUrl) &&
+                    <Draggable
+                        bounds={'parent'}
+                        disabled={playerOpts.isPipModePlayer !== 'plyT'}
+                        position={playerOpts.isPipModePlayer === 'plyT' ? position : { x: 0, y: 0 }}
+                        onDrag={(e: DraggableEvent, data: DraggableData) => setPosition({ x: data.x, y: data.y })}
                     >
-                        {
-                            playerOpts.isPipModePlayer === 'plyT' &&
-                            <div
-                                className={classes(cn, 'exchange-mask')}
-                                onClick={exchangePlayerHandler}
+                        <div className={classes(
+                            cn,
+                            'wrapper',
+                            playerWrapperClassNameHandler('plyT'),
+                        )}
+                        >
+                            {
+                                playerOpts.isPipModePlayer === 'plyT' &&
+                                <div
+                                    className={classes(cn, 'exchange-mask')}
+                                    onClick={exchangePlayerHandler}
+                                />
+                            }
+                            <Player
+                                isLive={playerLiveMode[1]}
+                                url={playerOpts.playerTwoUrl ?? ''}
+                                controllable={playerOpts.isPipModePlayer !== 'plyT'}
                             />
-                        }
-                        <Player
-                            isLive={playerLiveMode[1]}
-                            url={playerOpts.playerTwoUrl ?? ''}
-                            controllable={playerOpts.isPipModePlayer !== 'plyT'}
-                        />
-                    </div>
-                </Draggable>
-            }
+                        </div>
+                    </Draggable>
+                }
+            </div>
             <Controller/>
         </div>
     );

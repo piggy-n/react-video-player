@@ -12,7 +12,7 @@ const ReloadControl = () => {
         isLive,
         videoEle,
         streamPlayer,
-        videoPlayer,
+        // videoPlayer,
         videoModel: {
             waiting,
             downloading,
@@ -24,7 +24,10 @@ const ReloadControl = () => {
         if (waiting || downloading) return;
 
         if (error) {
-            isLive ? streamPlayer.reload() : videoPlayer.start();
+            isLive
+                ? streamPlayer.reload()
+                // : videoPlayer.start();
+            :videoEle?.load();
             return;
         }
 

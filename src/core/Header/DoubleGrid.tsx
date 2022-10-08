@@ -7,7 +7,8 @@ const DoubleGrid = () => {
     const {
         ctrPlayerModel: {
             dbModeApplied,
-            streams
+            streams,
+            isVideoList
         },
         setCtrPlayerModelData
     } = useContext(CtrPlayerContext);
@@ -33,7 +34,7 @@ const DoubleGrid = () => {
         }
     };
 
-    return streams.length > 1
+    return streams.length > 1 || isVideoList
         ? <Icon
             name={dbModeApplied ? 'double-grid-active' : 'double-grid'}
             title={'双宫'}

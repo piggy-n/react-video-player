@@ -7,7 +7,8 @@ const PictureInPicture = () => {
     const {
         ctrPlayerModel: {
             pipModeApplied,
-            streams
+            streams,
+            isVideoList
         },
         setCtrPlayerModelData
     } = useContext(CtrPlayerContext);
@@ -33,7 +34,7 @@ const PictureInPicture = () => {
         }
     };
 
-    return streams.length > 1
+    return streams.length > 1 || isVideoList
         ? <Icon
             name={pipModeApplied ? 'pip-active' : 'pip'}
             title={'画中画'}

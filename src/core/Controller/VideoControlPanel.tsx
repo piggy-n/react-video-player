@@ -9,7 +9,7 @@ const VideoControlPanel = () => {
         <div className={classes(cn, '')}>
             <VideoControlPanel.DirectionController/>
             <VideoControlPanel.ZoomController/>
-            <VideoControlPanel.PresettingBitController/>
+            {/*<VideoControlPanel.PresettingBitController/>*/}
         </div>
     );
 };
