@@ -21,11 +21,11 @@ ReactDOM.render(
     <div style={{ ...styles }}>
         {/*1561636627632099330*/}
         {/*1560452003676741634*/}
-        {/*<ControllablePlayer deviceId={'1560452004075200514'}/>*/}
+        <ControllablePlayer deviceId={'1560452004075200514'}/>
         {/* 雨花线上 */}
-        <ControllablePlayer deviceId={'1529803008839823362'} style={{
-            left: '200px',
-        }}/>
+        {/*<ControllablePlayer deviceId={'1529803008839823362'} style={{*/}
+        {/*    left: '200px',*/}
+        {/*}}/>*/}
         {/*本地*/}
         {/*<ControllablePlayer deviceId={'1569965018831654913'} deviceName={'前置林火'} deviceStatus={true} />*/}
         {/*<div style={{ ...styles2 }}>*/}

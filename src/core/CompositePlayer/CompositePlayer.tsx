@@ -273,11 +273,12 @@ const CompositePlayer = () => {
 
     return (
         <div
-            id={'ws-player-wrapper'}
             ref={playerWrapperRef}
             className={classes(cn, '')}
         >
-            <div style={{
+            <div
+                id={'ws-player-wrapper'}
+                style={{
                 display: 'flex',
                 position: 'relative',
                 width: '100%',
@@ -293,13 +294,11 @@ const CompositePlayer = () => {
                         position={playerOpts.isPipModePlayer === 'plyO' ? position : { x: 0, y: 0 }}
                         onDrag={(e: DraggableEvent, data: DraggableData) => setPosition({ x: data.x, y: data.y })}
                     >
-                        <div
-                            id={'ws-plyO-wrapper'}
-                            className={classes(
-                                cn,
-                                'wrapper',
-                                playerWrapperClassNameHandler('plyO'),
-                            )}
+                        <div className={classes(
+                            cn,
+                            'wrapper',
+                            playerWrapperClassNameHandler('plyO'),
+                        )}
                         >
                             {
                                 playerOpts.isPipModePlayer === 'plyO' &&
@@ -325,13 +324,11 @@ const CompositePlayer = () => {
                         position={playerOpts.isPipModePlayer === 'plyT' ? position : { x: 0, y: 0 }}
                         onDrag={(e: DraggableEvent, data: DraggableData) => setPosition({ x: data.x, y: data.y })}
                     >
-                        <div
-                            id={'ws-plyT-wrapper'}
-                            className={classes(
-                                cn,
-                                'wrapper',
-                                playerWrapperClassNameHandler('plyT'),
-                            )}
+                        <div className={classes(
+                            cn,
+                            'wrapper',
+                            playerWrapperClassNameHandler('plyT'),
+                        )}
                         >
                             {
                                 playerOpts.isPipModePlayer === 'plyT' &&

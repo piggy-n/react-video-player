@@ -19,6 +19,7 @@ const Screenshot = () => {
     } = useContext(CtrPlayerContext);
     const plyOEle = document.getElementById('ws-plyO');
     const plyTEle = document.getElementById('ws-plyT');
+    const plyWrapperEle = document.getElementById('ws-player-wrapper');
 
     const plyOScreenshotDivRef = useRef<HTMLDivElement>(null);
     const plyTScreenshotDivRef = useRef<HTMLDivElement>(null);
@@ -41,6 +42,17 @@ const Screenshot = () => {
                 plyOScreenshotCanvasRef.current = capture(plyOEle as HTMLVideoElement);
             }
         }
+
+        if (mode === 'double' || mode === 'pip') {
+            if (plyOEle) {
+                setPlyOScreenshot(true);
+                plyOScreenshotCanvasRef.current = capture(plyOEle as HTMLVideoElement);
+            }
+            if (plyTEle) {
+                setPlyTScreenshot(true);
+                plyTScreenshotCanvasRef.current = capture(plyTEle as HTMLVideoElement);
+            }
+        }
     };
 
     const plyOImageClickHandler: MouseEventHandler = (e) => {
@@ -48,6 +60,16 @@ const Screenshot = () => {
         const imageArr: string[] = [];
 
         imageArr.push(plyOScreenshotImg);
+
+        ziv3.update(imageArr);
+        ziv3.view(0);
+    };
+
+    const plyTImageClickHandler: MouseEventHandler = (e) => {
+        e.stopPropagation();
+        const imageArr: string[] = [];
+
+        imageArr.push(plyTScreenshotImg);
 
         ziv3.update(imageArr);
         ziv3.view(0);
@@ -76,6 +98,25 @@ const Screenshot = () => {
         }
     }, [plyOScreenshotDivRef.current, plyOScreenshotCanvasRef.current]);
 
+    useEffect(() => {
+        const screenshotDiv = plyTScreenshotDivRef.current;
+        const canvas = plyTScreenshotCanvasRef.current;
+
+        if (screenshotDiv && canvas) {
+            screenshotDiv.innerHTML = '';
+            screenshotDiv.appendChild(canvas);
+        }
+
+        if (canvas) {
+            setPlyTScreenshotImg(canvas.toDataURL('image/png', 1));
+        }
+    }, [plyTScreenshotDivRef.current, plyTScreenshotCanvasRef.current]);
+
+    useEffect(() => {
+        setPlyOScreenshot(false);
+        setPlyTScreenshot(false);
+    }, [mode]);
+
     return (
         <>
             <Icon
@@ -85,7 +126,7 @@ const Screenshot = () => {
             />
 
             {
-                plyOScreenshot &&
+                plyOScreenshot && plyOEle &&
                 createPortal(
                     <Draggable bounds={'parent'} disabled={disabled}>
                         <main
@@ -107,7 +148,40 @@ const Screenshot = () => {
                             />
                         </main>
                     </Draggable>,
-                    plyOEle?.parentElement as HTMLElement
+                    mode === 'pip'
+                        ? plyWrapperEle as HTMLElement
+                        : plyOEle?.parentElement as HTMLElement
+                )
+            }
+            {
+                plyTScreenshot && plyTEle &&
+                createPortal(
+                    <Draggable bounds={'parent'} disabled={disabled}>
+                        <main
+                            className={'ws-sc-container'}
+                            onMouseOver={mouseOverHandler}
+                            style={{
+                                top: mode === 'pip' ? '110px' : 0,
+                            }}
+                        >
+                            <section className={'ws-sc-close'}>
+                                <Icon
+                                    name={'screenshot-close'}
+                                    onClick={() => setPlyTScreenshot(false)}
+                                />
+                            </section>
+                            <section
+                                ref={plyTScreenshotDivRef}
+                                className={'ws-sc'}
+                                onClick={plyTImageClickHandler}
+                                onMouseEnter={() => setDisabled(true)}
+                                onMouseLeave={() => setDisabled(false)}
+                            />
+                        </main>
+                    </Draggable>,
+                    mode === 'pip'
+                        ? plyWrapperEle as HTMLElement
+                        : plyTEle?.parentElement as HTMLElement
                 )
             }
         </>
