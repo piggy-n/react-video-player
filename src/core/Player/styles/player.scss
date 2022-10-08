@@ -35,22 +35,23 @@
     @include ps(absolute, 0, 0, auto, auto);
     width: 182px;
     background: #fff;
-    padding: 2px;
+    padding: 6px 2px 2px 2px;
+    cursor: move;
     overflow: hidden;
     z-index: 1;
 
     .ws-screenshot-close {
-      @include ps(absolute, -12px, -12px, auto, auto);
+      @include ps(absolute, -14px, -18px, auto, auto);
       @include wh(0, 0);
       z-index: 1;
-      border: 13px solid transparent;
+      border: 20px solid transparent;
       border-left-color: #fff;
       -webkit-transform: rotate(-45deg);
       transform: rotate(-45deg);
       border-radius: 100%;
 
       svg {
-        @include ps(absolute, -6px, 1px, auto, auto);
+        @include ps(absolute, -8px, 1px, auto, auto);
         transform: rotate(45deg);
         cursor: pointer;
       }

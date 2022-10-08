@@ -12,6 +12,7 @@ import { download } from '@/utils/methods/dowload';
 import { useVideo } from '@/utils/hooks/useVideo';
 
 const cn = 'Setting-Control';
+const Draggable = require('react-draggable');
 
 const SettingControl = () => {
     const {
@@ -41,6 +42,7 @@ const SettingControl = () => {
     const [isScreenshot, setIsScreenshot] = useState<boolean>(false);
     const [imageBase64, setImageBase64] = useState<string>('');
     const [recorded, setRecorded] = useState<boolean>(false);
+    const [disabled, setDisabled] = useState<boolean>(false);
 
     const screenshotHandler = () => {
         if (waiting || downloading || error) return;
@@ -221,34 +223,37 @@ const SettingControl = () => {
             {
                 isScreenshot &&
                 createPortal(
-                    <div className={'ws-screenshot-container'}>
-                        <div className={'ws-screenshot-close'}>
-                            <Icon
-                                name={'screenshot-close'}
-                                size={12}
-                                onClick={() => setIsScreenshot(false)}
+                    <Draggable bounds={'parent'} disabled={disabled}>
+                        <div className={'ws-screenshot-container'}>
+                            <div className={'ws-screenshot-close'}>
+                                <Icon
+                                    name={'screenshot-close'}
+                                    onClick={() => setIsScreenshot(false)}
+                                />
+                            </div>
+                            <div
+                                ref={screenshotDivRef}
+                                className={'ws-screenshot'}
+                                onClick={imageClickHandler}
+                                onMouseEnter={() => setDisabled(true)}
+                                onMouseLeave={() => setDisabled(false)}
                             />
                         </div>
-                        <div
-                            ref={screenshotDivRef}
-                            className={'ws-screenshot'}
-                            onClick={imageClickHandler}
-                        />
-                    </div>,
+                    </Draggable>,
                     videoContainerEle as HTMLDivElement
                 )
             }
 
-            {
-                recorded &&
-                createPortal(
-                    <div className={'ws-recording-container'}>
-                        <div className={'ws-recording-point'}/>
-                        <p>录制中</p>
-                    </div>,
-                    videoContainerEle as HTMLDivElement
-                )
-            }
+            {/*{*/}
+            {/*    recorded &&*/}
+            {/*    createPortal(*/}
+            {/*        <div className={'ws-recording-container'}>*/}
+            {/*            <div className={'ws-recording-point'}/>*/}
+            {/*            <p>录制中</p>*/}
+            {/*        </div>,*/}
+            {/*        videoContainerEle as HTMLDivElement*/}
+            {/*    )*/}
+            {/*}*/}
         </div>
     );
 };

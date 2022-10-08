@@ -101,8 +101,8 @@ const ControllablePlayer: FC<ControllablePlayerProps> = (
 
             list.forEach(item => {
                 item.value = `${wsUrl}${item.url}${token}`; // todo
-                // item.value = `wss://lzz.enbo12119.com${item.url}${token}`;
-                item.value = `ws://192.168.9.148${item.url}${token}`;
+                item.value = `wss://lzz.enbo12119.com${item.url}${token}`;
+                // item.value = `ws://192.168.9.148${item.url}${token}`;
 
                 if (item.streamTypeCode === '1') {
                     item.label = `${item.channelDesc}（主）`;
