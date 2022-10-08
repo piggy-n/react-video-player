@@ -3,6 +3,7 @@ import { classes } from '@/utils/methods/classes';
 import './styles/controller.scss';
 import { useContext } from 'react';
 import { CtrPlayerContext } from '@/utils/hooks/useCtrPlayerContext';
+import { isFullscreen } from 'screenfull';
 
 const cn = 'Controller';
 
@@ -31,6 +32,7 @@ const Controller = () => {
                     <div
                         className={classes(cn, '')}
                         onMouseOver={mouseOverHandler}
+                        style={{ display: isFullscreen ? 'none' : 'block' }}
                     >
                         {isController && <Controller.VideoControlPanel/>}
                         {isVideoList && <Controller.VideoListPanel/>}

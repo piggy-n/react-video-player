@@ -53,22 +53,22 @@ const FullScreen = () => {
             setIsDoubleGrid(false);
         }
 
-        if (isFullscreen && panelVisible) {
-            setCtrPlayerModelData({
-                type: 'panelVisible',
-                payload: false
-            });
-
-            setCtrPlayerModelData({
-                type: 'isController',
-                payload: false
-            });
-
-            setCtrPlayerModelData({
-                type: 'isVideoList',
-                payload: false
-            });
-        }
+        // if (isFullscreen && panelVisible) {
+        //     setCtrPlayerModelData({
+        //         type: 'panelVisible',
+        //         payload: false
+        //     });
+        //
+        //     setCtrPlayerModelData({
+        //         type: 'isController',
+        //         payload: false
+        //     });
+        //
+        //     setCtrPlayerModelData({
+        //         type: 'isVideoList',
+        //         payload: false
+        //     });
+        // }
     }, [isFullscreen, isDoubleGrid, dbModeApplied, panelVisible]);
 
     return (

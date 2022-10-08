@@ -85,11 +85,18 @@ const VideoListPanel = () => {
                 const delIndex = selectedVideo.indexOf(index);
 
                 newSelectedVideo.splice(delIndex, 1, -1);
+                // 如果newSelectedVideo0号位是-1，1号位不是-1，就反转数组
+                if (newSelectedVideo[0] === -1 && newSelectedVideo[1] !== -1) {
+                    newSelectedVideo.reverse();
+                }
+                console.log(newSelectedVideo);
                 setSelectedVideo(newSelectedVideo);
 
                 // 删除streamUrlList中的对应index的url
                 const newStreamUrlList = [...streamUrlList];
-                newStreamUrlList.splice(delIndex, 1);
+                // 用findIndex找到对应的index
+                const delIndexInStreamUrlList = newStreamUrlList.findIndex((item) => item === url);
+                newStreamUrlList.splice(delIndexInStreamUrlList, 1);
 
                 setCtrPlayerModelData({
                     type: 'streamUrlList',
