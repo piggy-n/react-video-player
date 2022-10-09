@@ -161,7 +161,7 @@ const Screenshot = () => {
                             className={'ws-sc-container'}
                             onMouseOver={mouseOverHandler}
                             style={{
-                                top: mode === 'pip' ? '110px' : 0,
+                                top: mode === 'pip' ? '120px' : 0,
                             }}
                         >
                             <section className={'ws-sc-close'}>

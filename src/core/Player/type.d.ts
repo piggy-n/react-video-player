@@ -12,6 +12,9 @@ export interface PlayerProps extends Partial<VideoCallBack> {
     controllable?: boolean;
     playerId?: string;
     videoOpts?: VideoHTMLAttributes<HTMLVideoElement>;
+    deviceId?: string;
+    devLC?: boolean;
+    devOL?: boolean;
 }
 
 export interface PlayerControllerInterface extends FC<PlayerControllerProps> {

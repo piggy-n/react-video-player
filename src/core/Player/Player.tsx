@@ -16,6 +16,8 @@ import useMandatoryUpdate from '@/utils/hooks/useMandatoryUpdate';
 import { StreamPlayer } from '@/utils/methods/streamPlayer';
 import { VideoPlayer } from '@/utils/methods/videoPlayer';
 import { useDebounceEffect, useSize } from 'ahooks';
+import type { Stream } from '@/types/ctrPlayer';
+import { obtainDeviceStream } from '@/services/device';
 
 const cn = 'Player';
 
@@ -23,10 +25,13 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
     {
         isLive = true,
         url = '',
+        deviceId,
         controllable = true,
         playerId,
         videoContainerStyle = {},
         videoOpts = {},
+        devOL,
+        devLC,
         ...rest
     },
     ref
@@ -163,7 +168,37 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
 
             if (isLive) {
                 streamPlayer.stop();
-                streamPlayer.start(videoEle, url);
+                if (deviceId) {
+                    const streams: Stream[] = [];
+                    const token = `?token=${localStorage.getItem('accessToken')}`;
+                    const prev = location.protocol.includes('https') ? 'wss:' : 'ws:';
+                    const wsUrl = `${prev}//${window.location.host}`;
+
+                    obtainDeviceStream({ id: deviceId }).then(res => {
+                        if (!res?.success) return;
+
+                        const list = res.list as Stream[] || [];
+                        list.forEach(item => {
+                            item.value = `${wsUrl}${item.url}${token}`;
+
+                            if (devLC) {
+                                item.value = `ws://192.168.9.148${item.url}${token}`;
+                            }
+
+                            if (devOL) {
+                                item.value = `wss://lzz.enbo12119.com${item.url}${token}`;
+                            }
+
+                            streams.push(item);
+                        });
+
+                        const mainStream = streams.find(item => item?.channelCode === '1' && item?.streamTypeCode === '1') || streams[0];
+                        streamPlayer.start(videoEle, mainStream.value);
+                    });
+
+                } else {
+                    streamPlayer.start(videoEle, url);
+                }
             } else {
                 // videoPlayer.start(videoEle, url);
                 videoEle.src = url;
