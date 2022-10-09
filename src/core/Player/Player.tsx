@@ -41,7 +41,7 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
     const streamPlayerRef = useRef<Record<string, any>>(new StreamPlayer({ dispatch }));
     const videoResizingTimerRef = useRef<NodeJS.Timer | null>(null);
 
-    const [loading, setLoading] = useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(isLive);
     const [buffering, setBuffering] = useState<boolean>(false);
 
     const videoContainerSize = useSize(videoContainerRef);
@@ -132,7 +132,7 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
             if (
                 (buffering && playing)
                 ||
-                (networkState === 2 && readyState <= 1)
+                (networkState <= 2 && readyState <= 1)
                 ||
                 (videoModel.downloading)
             ) {

@@ -169,7 +169,7 @@ const PlayerController: PlayerControllerInterface = () => {
 
     useEffect(
         () => {
-            if (playing || ended || waiting || downloading) {
+            if (playing || ended || waiting || downloading || error) {
                 setPlayBtnVisible(false);
             }
         },
@@ -183,7 +183,7 @@ const PlayerController: PlayerControllerInterface = () => {
 
     useDebounceEffect(
         () => {
-            if (!playing && !ended && !waiting && !downloading) {
+            if (!playing && !ended && !waiting && !downloading && !error) {
                 setPlayBtnVisible(true);
             }
         },

@@ -15,7 +15,7 @@ export interface VideoModelState {
 export const initialState: VideoModelState = {
     controlled: false,
     isFullscreen: false,
-    waiting: false,
+    waiting: true,
     error: false,
     mime: '',
     transmissionRate: 0,
