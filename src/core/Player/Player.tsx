@@ -46,7 +46,7 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
     const streamPlayerRef = useRef<Record<string, any>>(new StreamPlayer({ dispatch }));
     const videoResizingTimerRef = useRef<NodeJS.Timer | null>(null);
 
-    const [loading, setLoading] = useState<boolean>(isLive);
+    const [loading, setLoading] = useState<boolean>(false);
     const [buffering, setBuffering] = useState<boolean>(false);
 
     const videoContainerSize = useSize(videoContainerRef);
@@ -169,6 +169,7 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
             if (isLive) {
                 streamPlayer.stop();
                 if (deviceId) {
+                    setLoading(true);
                     const streams: Stream[] = [];
                     const token = `?token=${localStorage.getItem('accessToken')}`;
                     const prev = location.protocol.includes('https') ? 'wss:' : 'ws:';
@@ -179,20 +180,23 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
 
                         const list = res.list as Stream[] || [];
                         list.forEach(item => {
-                            item.value = `${wsUrl}${item.url}${token}`;
+                            if (item.url) {
+                                item.value = `${wsUrl}${item.url}${token}`;
 
-                            if (devLC) {
-                                item.value = `ws://192.168.9.148${item.url}${token}`;
-                            }
+                                if (devLC) {
+                                    item.value = `ws://192.168.9.148${item.url}${token}`;
+                                }
 
-                            if (devOL) {
-                                item.value = `wss://lzz.enbo12119.com${item.url}${token}`;
+                                if (devOL) {
+                                    item.value = `wss://lzz.enbo12119.com${item.url}${token}`;
+                                }
                             }
 
                             streams.push(item);
                         });
 
                         const mainStream = streams.find(item => item?.channelCode === '1' && item?.streamTypeCode === '1') || streams[0];
+                        if (!mainStream?.value) return;
                         streamPlayer.start(videoEle, mainStream.value);
                     });
 
