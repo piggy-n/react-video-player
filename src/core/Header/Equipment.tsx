@@ -4,6 +4,8 @@ import type { EquipmentProps } from '@/core/Header/type';
 import { classes } from '@/utils/methods/classes';
 import './styles/equipment.scss';
 import { useSize } from 'ahooks';
+import { useContext } from 'react';
+import { CtrPlayerContext } from '@/utils/hooks/useCtrPlayerContext';
 
 const cn = 'Equipment';
 
@@ -14,12 +16,17 @@ const Equipment: FC<EquipmentProps> = (
         showStatus = true,
     }
 ) => {
+    const {
+        ctrPlayerModel: {
+            mode
+        }
+    } = useContext(CtrPlayerContext);
     const playerWidth = useSize(document.querySelector('.react-resizable'))?.width ?? 480;
 
     return (
         <div
             className={classes(cn, '')}
-            style={{ maxWidth: `${playerWidth * .4}px` }}
+            style={{ maxWidth: mode === 'pip' ? `${playerWidth * .25}px` : `${playerWidth * .4}px` }}
         >
             {
                 showStatus &&

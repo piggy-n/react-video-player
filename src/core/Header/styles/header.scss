@@ -1,8 +1,9 @@
 @import 'src/assets/styles/mixin.scss';
 
 .ws-header {
-  @include fr(flex-start, center);
+  @include fr(space-between, center);
   @include wh(100%, 36px);
+  flex-wrap: nowrap;
   background: rgba(7, 30, 39, 0.75);
   cursor: move;
 

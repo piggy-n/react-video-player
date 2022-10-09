@@ -23,7 +23,9 @@ const ControllablePlayer: FC<ControllablePlayerProps> = (
         deviceStatus = false,
         onClose,
         bounds = false,
-        style
+        style,
+        devLC,
+        devOL
     }) => {
     const playerContainerRef = useRef<HTMLDivElement>(null);
 
@@ -100,9 +102,15 @@ const ControllablePlayer: FC<ControllablePlayerProps> = (
             const list = res.list as Stream[] || [];
 
             list.forEach(item => {
-                item.value = `${wsUrl}${item.url}${token}`; // todo
-                item.value = `wss://lzz.enbo12119.com${item.url}${token}`;
-                // item.value = `ws://192.168.9.148${item.url}${token}`;
+                item.value = `${wsUrl}${item.url}${token}`;
+
+                if (devLC) {
+                    item.value = `ws://192.168.9.148${item.url}${token}`;
+                }
+
+                if (devOL) {
+                    item.value = `wss://lzz.enbo12119.com${item.url}${token}`;
+                }
 
                 if (item.streamTypeCode === '1') {
                     item.label = `${item.channelDesc}（主）`;

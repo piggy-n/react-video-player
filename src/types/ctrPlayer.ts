@@ -47,5 +47,7 @@ export interface ControllablePlayerProps {
     deviceStatus?: boolean;
     onClose?: () => void;
     bounds?: DraggableBounds | string | false,
-    style?: CSSProperties
+    style?: CSSProperties,
+    devLC?: boolean,
+    devOL?: boolean,
 }
