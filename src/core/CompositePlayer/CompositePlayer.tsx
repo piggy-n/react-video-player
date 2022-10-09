@@ -21,6 +21,7 @@ const CompositePlayer = () => {
             pipModeApplied,
             playerLiveMode
         },
+        poster,
         setCtrPlayerModelData
     } = useContext(CtrPlayerContext);
 
@@ -279,12 +280,12 @@ const CompositePlayer = () => {
             <div
                 id={'ws-player-wrapper'}
                 style={{
-                display: 'flex',
-                position: 'relative',
-                width: '100%',
-                height: '100%',
-                flexDirection: playerOpts.isMainPlayer === 'plyO' ? 'row' : 'row-reverse'
-            }}
+                    display: 'flex',
+                    position: 'relative',
+                    width: '100%',
+                    height: '100%',
+                    flexDirection: playerOpts.isMainPlayer === 'plyO' ? 'row' : 'row-reverse'
+                }}
             >
                 {
                     (playerOpts.isMainPlayer === 'plyO' || playerOpts.playerOneUrl) &&
@@ -312,6 +313,9 @@ const CompositePlayer = () => {
                                 isLive={playerLiveMode[0]}
                                 url={playerOpts.playerOneUrl ?? ''}
                                 controllable={playerOpts.isPipModePlayer !== 'plyO'}
+                                videoOpts={{
+                                    poster
+                                }}
                             />
                         </div>
                     </Draggable>
@@ -342,6 +346,9 @@ const CompositePlayer = () => {
                                 isLive={playerLiveMode[1]}
                                 url={playerOpts.playerTwoUrl ?? ''}
                                 controllable={playerOpts.isPipModePlayer !== 'plyT'}
+                                videoOpts={{
+                                    poster
+                                }}
                             />
                         </div>
                     </Draggable>

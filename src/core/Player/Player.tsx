@@ -26,6 +26,7 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
         controllable = true,
         playerId,
         videoContainerStyle = {},
+        videoOpts = {},
         ...rest
     },
     ref
@@ -222,6 +223,7 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
                 muted
                 autoPlay
                 crossOrigin={'anonymous'}
+                {...videoOpts}
             />
             {
                 loading &&

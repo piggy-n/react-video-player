@@ -50,4 +50,5 @@ export interface ControllablePlayerProps {
     style?: CSSProperties,
     devLC?: boolean,
     devOL?: boolean,
+    poster?: string,
 }

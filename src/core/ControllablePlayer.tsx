@@ -25,7 +25,8 @@ const ControllablePlayer: FC<ControllablePlayerProps> = (
         bounds = false,
         style,
         devLC,
-        devOL
+        devOL,
+        poster
     }) => {
     const playerContainerRef = useRef<HTMLDivElement>(null);
 
@@ -44,6 +45,7 @@ const ControllablePlayer: FC<ControllablePlayerProps> = (
                     deviceId,
                     deviceName,
                     deviceStatus,
+                    poster,
                     onClose
                 }
             );
