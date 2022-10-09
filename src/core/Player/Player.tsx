@@ -46,8 +46,9 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
     const streamPlayerRef = useRef<Record<string, any>>(new StreamPlayer({ dispatch }));
     const videoResizingTimerRef = useRef<NodeJS.Timer | null>(null);
 
-    const [loading, setLoading] = useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(isLive);
     const [buffering, setBuffering] = useState<boolean>(false);
+    const [mainUrl, setMainUrl] = useState<string>('');
 
     const videoContainerSize = useSize(videoContainerRef);
 
@@ -158,6 +159,40 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
         }
     );
 
+    useEffect(() => {
+        if (deviceId) {
+            const streams: Stream[] = [];
+            const token = `?token=${localStorage.getItem('accessToken')}`;
+            const prev = location.protocol.includes('https') ? 'wss:' : 'ws:';
+            const wsUrl = `${prev}//${window.location.host}`;
+
+            obtainDeviceStream({ id: deviceId }).then(res => {
+                if (!res?.success) return;
+
+                const list = res.list as Stream[] || [];
+                list.forEach(item => {
+                    if (item.url) {
+                        item.value = `${wsUrl}${item.url}${token}`;
+
+                        if (devLC) {
+                            item.value = `ws://192.168.9.148${item.url}${token}`;
+                        }
+
+                        if (devOL) {
+                            item.value = `wss://lzz.enbo12119.com${item.url}${token}`;
+                        }
+                    }
+
+                    streams.push(item);
+                });
+
+                const mainStream = streams.find(item => item?.channelCode === '1' && item?.streamTypeCode === '1') || streams[0];
+                if (!mainStream?.value) return;
+                setMainUrl(mainStream.value);
+            });
+        }
+    }, [deviceId]);
+
     useEffect(
         () => {
             if (!videoRef.current) return;
@@ -168,41 +203,7 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
 
             if (isLive) {
                 streamPlayer.stop();
-                if (deviceId) {
-                    setLoading(true);
-                    const streams: Stream[] = [];
-                    const token = `?token=${localStorage.getItem('accessToken')}`;
-                    const prev = location.protocol.includes('https') ? 'wss:' : 'ws:';
-                    const wsUrl = `${prev}//${window.location.host}`;
-
-                    obtainDeviceStream({ id: deviceId }).then(res => {
-                        if (!res?.success) return;
-
-                        const list = res.list as Stream[] || [];
-                        list.forEach(item => {
-                            if (item.url) {
-                                item.value = `${wsUrl}${item.url}${token}`;
-
-                                if (devLC) {
-                                    item.value = `ws://192.168.9.148${item.url}${token}`;
-                                }
-
-                                if (devOL) {
-                                    item.value = `wss://lzz.enbo12119.com${item.url}${token}`;
-                                }
-                            }
-
-                            streams.push(item);
-                        });
-
-                        const mainStream = streams.find(item => item?.channelCode === '1' && item?.streamTypeCode === '1') || streams[0];
-                        if (!mainStream?.value) return;
-                        streamPlayer.start(videoEle, mainStream.value);
-                    });
-
-                } else {
-                    streamPlayer.start(videoEle, url);
-                }
+                streamPlayer.start(videoEle, url || mainUrl);
             } else {
                 // videoPlayer.start(videoEle, url);
                 videoEle.src = url;
@@ -221,6 +222,7 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
         [
             videoRef.current,
             url,
+            mainUrl,
             isLive
         ]
     );
