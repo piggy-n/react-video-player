@@ -11,6 +11,8 @@ export interface CtrPlayerContextType {
     deviceStatus?: boolean;
     onClose?: () => void;
     poster?: string;
+    devLC?: boolean;
+    devOL?: boolean;
 }
 
 export const defaultValue: Partial<CtrPlayerContextType> = {

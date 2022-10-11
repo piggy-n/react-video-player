@@ -29,6 +29,7 @@ export interface CtrPlayerModelState {
     deviceTypeCode: string; //
     cameras: any[]; //
     selectedCamera: string; //
+    selectedRecord: string[]; //
 }
 
 export const initialState: CtrPlayerModelState = {
@@ -57,6 +58,7 @@ export const initialState: CtrPlayerModelState = {
     deviceTypeCode: '',
     cameras: [],
     selectedCamera: '',
+    selectedRecord: [],
 };
 
 export interface DisableDragActionType {
@@ -164,6 +166,11 @@ export interface SelectedCameraActionType {
     payload: CtrPlayerModelState['selectedCamera'];
 }
 
+export interface SelectedRecordActionType {
+    type: 'selectedRecord';
+    payload: CtrPlayerModelState['selectedRecord'];
+}
+
 export type MergeActionType =
     | DisableDragActionType
     | PositionActionType
@@ -185,7 +192,8 @@ export type MergeActionType =
     | ExchangePlayerActionType
     | DeviceTypeCodeActionType
     | CamerasActionType
-    | SelectedCameraActionType;
+    | SelectedCameraActionType
+    | SelectedRecordActionType;
 
 export const useCtrPlayerModel = () => {
     const reducer = (state: CtrPlayerModelState, action: MergeActionType) => {
@@ -234,6 +242,8 @@ export const useCtrPlayerModel = () => {
                 return { ...state, cameras: payload };
             case 'selectedCamera':
                 return { ...state, selectedCamera: payload };
+            case 'selectedRecord':
+                return { ...state, selectedRecord: payload };
             default:
                 return state;
         }

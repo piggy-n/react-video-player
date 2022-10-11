@@ -10,14 +10,15 @@ const VideoFormatViewer = () => {
     const {
         videoModel: {
             mime
-        }
+        },
+        isLive
     } = useContext(VideoContext);
 
-    return (
-        <div className={classes(cn, '')}>
+    return isLive
+        ? <div className={classes(cn, '')}>
             {mime}
         </div>
-    );
+        : null;
 };
 
 export default VideoFormatViewer;

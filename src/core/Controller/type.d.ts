@@ -4,4 +4,6 @@ export type VideoList = {
     protocol: string;
     url: string;
     duration: string;
+    start: string;
+    end: string;
 }

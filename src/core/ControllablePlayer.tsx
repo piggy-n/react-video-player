@@ -46,6 +46,8 @@ const ControllablePlayer: FC<ControllablePlayerProps> = (
                     deviceName,
                     deviceStatus,
                     poster,
+                    devLC,
+                    devOL,
                     onClose
                 }
             );
