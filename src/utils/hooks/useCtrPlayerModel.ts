@@ -26,6 +26,8 @@ export interface CtrPlayerModelState {
     playerLiveMode: [boolean, boolean];
 
     exchangePlayer: number;
+    deviceTypeCode: string; //
+    cameras: Record<string, string>[]; //
 }
 
 export const initialState: CtrPlayerModelState = {
@@ -51,6 +53,8 @@ export const initialState: CtrPlayerModelState = {
     prevMode: 'single',
     playerLiveMode: [true, true],
     exchangePlayer: 0,
+    deviceTypeCode: '',
+    cameras: [],
 };
 
 export interface DisableDragActionType {
@@ -143,6 +147,16 @@ export interface ExchangePlayerActionType {
     payload: CtrPlayerModelState['exchangePlayer'];
 }
 
+export interface DeviceTypeCodeActionType {
+    type: 'deviceTypeCode';
+    payload: CtrPlayerModelState['deviceTypeCode'];
+}
+
+export interface CamerasActionType {
+    type: 'cameras';
+    payload: CtrPlayerModelState['cameras'];
+}
+
 export type MergeActionType =
     | DisableDragActionType
     | PositionActionType
@@ -161,7 +175,9 @@ export type MergeActionType =
     | ModeActionType
     | PrevModeActionType
     | PlayerLiveModeActionType
-    | ExchangePlayerActionType;
+    | ExchangePlayerActionType
+    | DeviceTypeCodeActionType
+    | CamerasActionType;
 
 export const useCtrPlayerModel = () => {
     const reducer = (state: CtrPlayerModelState, action: MergeActionType) => {
@@ -204,6 +220,10 @@ export const useCtrPlayerModel = () => {
                 return { ...state, playerLiveMode: payload };
             case 'exchangePlayer':
                 return { ...state, exchangePlayer: payload };
+            case 'deviceTypeCode':
+                return { ...state, deviceTypeCode: payload };
+            case 'cameras':
+                return { ...state, cameras: payload };
             default:
                 return state;
         }

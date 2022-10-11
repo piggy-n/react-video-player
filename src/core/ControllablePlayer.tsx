@@ -9,7 +9,7 @@ import '@/assets/styles/resizableBox.css';
 import { CtrPlayerContext } from '@/utils/hooks/useCtrPlayerContext';
 import { useCtrPlayerModel } from '@/utils/hooks/useCtrPlayerModel';
 import type { Size, Stream, Service, ControllablePlayerProps } from '@/types/ctrPlayer';
-import { obtainDeviceService, obtainDeviceStream } from '@/services/device';
+import { obtainDeviceInfo, obtainDeviceService, obtainDeviceStream } from '@/services/device';
 import { useUpdateEffect } from 'ahooks';
 import CompositePlayer from '@/core/CompositePlayer';
 import { releaseControlAccess } from '@/services/controller';
@@ -85,6 +85,47 @@ const ControllablePlayer: FC<ControllablePlayerProps> = (
         const token = `?token=${localStorage.getItem('accessToken')}`;
         const prev = location.protocol.includes('https') ? 'wss:' : 'ws:';
         const wsUrl = `${prev}//${window.location.host}`;
+
+        obtainDeviceInfo({ id: deviceId }).then(res => {
+            if (!res?.success) {
+                setCtrPlayerModelData({
+                    type: 'deviceTypeCode',
+                    payload: '',
+                });
+
+                setCtrPlayerModelData({
+                    type: 'cameras',
+                    payload: []
+                });
+                return;
+            }
+
+            const data = res.data as any || {};
+            const {
+                deviceTypeCode, // 2 y 4 x
+                ptzCameraList = [],
+            } = data;
+
+            setCtrPlayerModelData({
+                type: 'deviceTypeCode',
+                payload: deviceTypeCode,
+            });
+
+            if (deviceTypeCode === '2') {
+                const cameraList: any[] = [];
+                ptzCameraList.forEach((item: any) => {
+                    cameraList.push({
+                        value: item.id,
+                        label: item.name,
+                    });
+                });
+
+                setCtrPlayerModelData({
+                    type: 'cameras',
+                    payload: cameraList,
+                });
+            }
+        });
 
         obtainDeviceStream({ id: deviceId }).then(res => {
             if (!res?.success) {

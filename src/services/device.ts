@@ -24,3 +24,15 @@ export const obtainDeviceService: (params: {
         method: 'GET',
     });
 };
+
+export const obtainDeviceInfo: (params: {
+    id: string;
+}) => Promise<Response | undefined> = (
+    {
+        id
+    }
+) => {
+    return request(`/resource/device/${id}/info`, {
+        method: 'GET',
+    });
+};
