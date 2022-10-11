@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Selector from '@/components/Selector';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { CtrPlayerContext } from '@/utils/hooks/useCtrPlayerContext';
 
 const StreamSelector = () => {
@@ -14,7 +14,7 @@ const StreamSelector = () => {
         setCtrPlayerModelData
     } = useContext(CtrPlayerContext);
 
-    const [open, setOpen] = React.useState<boolean>(false);
+    const [open, setOpen] = useState<boolean>(false);
 
     const selectorChangeHandler = (arg: string[]) => {
         if (arg.length === 0 || !setCtrPlayerModelData) return;
@@ -35,6 +35,7 @@ const StreamSelector = () => {
 
     return streams.length > 0 && !isVideoList
         ? <Selector
+            mode={'multiple'}
             value={streamUrlList.filter(item => item !== '')}
             onChange={selectorChangeHandler}
             options={streams}

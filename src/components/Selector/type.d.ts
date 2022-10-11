@@ -5,9 +5,10 @@ type Option = {
 }
 
 export interface SelectorProps {
-    value?: string[];
-    onChange?: (value: string[]) => void;
+    value?: string[] | string;
+    onChange?: (value: string[] | string) => void;
     options?: Option[];
     open?: boolean;
     onDropdownVisibleChange?: (open: boolean) => void;
+    mode?: 'multiple' | 'tags';
 }

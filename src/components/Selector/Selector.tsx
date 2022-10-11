@@ -14,6 +14,7 @@ const Selector: FC<SelectorProps> = (
         onChange,
         value,
         open,
+        mode ,
         onDropdownVisibleChange
     }
 ) => {
@@ -27,7 +28,7 @@ const Selector: FC<SelectorProps> = (
                 size={'small'}
                 open={open}
                 placeholder={'请选择'}
-                mode={'multiple'}
+                mode={mode}
                 showArrow
                 onChange={onChange}
                 suffixIcon={<Icon name={'point'} size={12}/>}

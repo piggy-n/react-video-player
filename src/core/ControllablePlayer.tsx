@@ -124,6 +124,13 @@ const ControllablePlayer: FC<ControllablePlayerProps> = (
                     type: 'cameras',
                     payload: cameraList,
                 });
+
+                if (cameraList.length > 0) {
+                    setCtrPlayerModelData({
+                        type: 'selectedCamera',
+                        payload: cameraList[0].value,
+                    });
+                }
             }
         });
 

@@ -12,6 +12,7 @@ import Controller from '@/core/Header/Controller';
 import VideoList from '@/core/Header/VideoList';
 import Screenshot from '@/core/Header/Screenshot';
 import Close from '@/core/Header/Close';
+import CameraSelector from '@/core/Header/CameraSelector';
 
 const cn = 'Controller-Toolbar';
 
@@ -19,6 +20,7 @@ const ControllerToolbar: FC<ControllerToolbarProps> = () => {
     return (
         <div className={classes(cn, '')}>
             <StreamSelector/>
+            <CameraSelector/>
             <SingleGrid/>
             <DoubleGrid/>
             <PictureInPicture/>
