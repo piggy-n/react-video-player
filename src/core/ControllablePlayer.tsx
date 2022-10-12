@@ -27,7 +27,8 @@ const ControllablePlayer: FC<ControllablePlayerProps> = (
         devLC,
         devOL,
         poster,
-        onlyRecord
+        onlyRecord,
+        defaultPosition,
     }) => {
     const playerContainerRef = useRef<HTMLDivElement>(null);
 
@@ -50,7 +51,8 @@ const ControllablePlayer: FC<ControllablePlayerProps> = (
                     devLC,
                     devOL,
                     onClose,
-                    onlyRecord
+                    onlyRecord,
+                    defaultPosition
                 }
             );
         },

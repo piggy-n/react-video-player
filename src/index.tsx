@@ -29,7 +29,8 @@ ReactDOM.render(
         {/*    devOL*/}
         {/*/>*/}
         {/*本地*/}
-        <ControllablePlayer deviceId={'1569965018831654913'} deviceName={'前置林火前置林火前置'} deviceStatus={true} devLC/>
+        {/*<ControllablePlayer deviceId={'1569965018831654913'} deviceName={'前置林火前置林火前置'} deviceStatus={true} devLC/>*/}
+        <ControllablePlayer deviceId={'1580036671288643585'} deviceName={'5.16'} deviceStatus={true} devLC/>
         {/*<div style={{ ...styles2 }}>*/}
         {/*    <Player*/}
         {/*        isLive={false}*/}

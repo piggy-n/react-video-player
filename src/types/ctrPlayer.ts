@@ -52,4 +52,5 @@ export interface ControllablePlayerProps {
     devOL?: boolean,
     poster?: string,
     onlyRecord?: boolean,
+    defaultPosition?: Position,
 }

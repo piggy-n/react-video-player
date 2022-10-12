@@ -24,6 +24,7 @@ const CompositePlayer = () => {
             isVideoList
         },
         poster,
+        defaultPosition = { x: 0, y: 0 },
         setCtrPlayerModelData
     } = useContext(CtrPlayerContext);
 
@@ -31,7 +32,7 @@ const CompositePlayer = () => {
     const clickTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
     const [mode, setMode] = useState<Mode>('single');
-    const [position, setPosition] = useState<Position>({ x: 0, y: 0 });
+    const [position, setPosition] = useState<Position>(defaultPosition);
     const [playerOpts, setPlayerOpts] = useState<PlayerOpts>({
         isMainPlayer: 'plyO',
         isPipModePlayer: 'neither'
@@ -205,7 +206,7 @@ const CompositePlayer = () => {
             });
         }
 
-        setPosition({ x: 0, y: 0 });
+        setPosition(defaultPosition);
     }, [mode, prevMode]);
 
     useEffect(() => {
@@ -337,7 +338,7 @@ const CompositePlayer = () => {
                     <Draggable
                         bounds={'parent'}
                         disabled={playerOpts.isPipModePlayer !== 'plyO'}
-                        position={playerOpts.isPipModePlayer === 'plyO' ? position : { x: 0, y: 0 }}
+                        position={playerOpts.isPipModePlayer === 'plyO' ? position : defaultPosition}
                         onDrag={(e: DraggableEvent, data: DraggableData) => setPosition({ x: data.x, y: data.y })}
                     >
                         <div className={classes(
@@ -370,7 +371,7 @@ const CompositePlayer = () => {
                     <Draggable
                         bounds={'parent'}
                         disabled={playerOpts.isPipModePlayer !== 'plyT'}
-                        position={playerOpts.isPipModePlayer === 'plyT' ? position : { x: 0, y: 0 }}
+                        position={playerOpts.isPipModePlayer === 'plyT' ? position : defaultPosition}
                         onDrag={(e: DraggableEvent, data: DraggableData) => setPosition({ x: data.x, y: data.y })}
                     >
                         <div className={classes(

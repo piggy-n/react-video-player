@@ -104,7 +104,7 @@ const PlayerController: PlayerControllerInterface = () => {
     };
 
     const pauseOrReplayBtnClickHandler = () => {
-        if (waiting || downloading) return;
+        if (waiting || downloading || error) return;
         if (isLive && ended) return;
 
         if (isLive) {
@@ -115,6 +115,7 @@ const PlayerController: PlayerControllerInterface = () => {
     };
 
     const clickHandler = () => {
+        if (error) return;
         mouseState.mouseClickCount += 1;
 
         clickTimeoutRef.current && clearTimeout(clickTimeoutRef.current);

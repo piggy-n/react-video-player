@@ -27,7 +27,7 @@ const ReloadControl = () => {
             isLive
                 ? streamPlayer.reload()
                 // : videoPlayer.start();
-            :videoEle?.load();
+                : videoEle?.load();
             return;
         }
 

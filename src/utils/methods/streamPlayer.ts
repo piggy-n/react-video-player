@@ -46,7 +46,11 @@ export class StreamPlayer {
             const arrayBuffer = this.arrayBuffer.shift();
 
             if (arrayBuffer && this.sourceBuffer) {
-                this.sourceBuffer.appendBuffer(arrayBuffer);
+                try {
+                    this.sourceBuffer.appendBuffer(arrayBuffer);
+                } catch (e) {
+                    console.log(e);
+                }
             }
         } else {
             this.streaming = false;
@@ -65,8 +69,18 @@ export class StreamPlayer {
             const arrayBuffer = this.arrayBuffer.shift();
 
             if (arrayBuffer && this.sourceBuffer) {
-                this.sourceBuffer.appendBuffer(arrayBuffer);
-                this.streaming = true;
+                try {
+                    this.sourceBuffer.appendBuffer(arrayBuffer);
+                    this.streaming = true;
+                } catch (e) {
+                    console.log(e);
+                    this.stop();
+                    this.ele!.src = '';
+                    this.dispatch({
+                        type: 'error',
+                        payload: true
+                    });
+                }
             }
         }
 
@@ -81,7 +95,11 @@ export class StreamPlayer {
         if (!this.url) return;
 
         if (this.mediaSource) {
-            this.mediaSource.duration = 1;
+            try {
+                this.mediaSource.duration = 1;
+            } catch (e) {
+                console.log(e);
+            }
         }
 
         this.ws = new WebSocket(this.url);
@@ -112,6 +130,8 @@ export class StreamPlayer {
             if (this.connectionTimes <= 3 && this.url) {
                 this.ws = new WebSocket(this.url);
             }
+
+            this.stop();
         };
 
         this.ws.onerror = () => {
@@ -185,7 +205,7 @@ export class StreamPlayer {
         }
 
         if (this.sourceBuffer) {
-            this.loadHandler && this.sourceBuffer.removeEventListener('updateend', this.loadHandler);
+            this.loadHandler && this.sourceBuffer?.removeEventListener('updateend', this.loadHandler);
             this.mediaSource?.removeSourceBuffer(this.sourceBuffer);
             this.sourceBuffer = undefined;
         }

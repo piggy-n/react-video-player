@@ -15,7 +15,8 @@ const PlayControl = () => {
         streamPlayer,
         videoModel: {
             waiting,
-            downloading
+            downloading,
+            error
         }
     } = useContext(VideoContext);
 
@@ -28,7 +29,7 @@ const PlayControl = () => {
     );
 
     const clickHandler = () => {
-        if (waiting || downloading) return;
+        if (waiting || downloading || error) return;
 
         if (isLive) {
             playing ? streamPlayer.stop() : streamPlayer.start();
