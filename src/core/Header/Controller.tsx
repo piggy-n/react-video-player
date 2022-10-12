@@ -21,6 +21,7 @@ const Controller = () => {
             }
         },
         deviceId,
+        onlyRecord,
         setCtrPlayerModelData
     } = useContext(CtrPlayerContext);
 
@@ -64,7 +65,7 @@ const Controller = () => {
     };
 
     return (
-        control ?
+        control && !onlyRecord ?
             <>
                 <Icon
                     name={isController ? 'control-active' : 'control'}

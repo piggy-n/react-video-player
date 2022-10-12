@@ -12,6 +12,7 @@ const VideoList = () => {
                 record
             }
         },
+        onlyRecord,
         setCtrPlayerModelData
     } = useContext(CtrPlayerContext);
 
@@ -37,7 +38,7 @@ const VideoList = () => {
     };
 
     return (
-        record
+        record && !onlyRecord
             ? <Icon
                 name={isVideoList ? 'recording-active' : 'recording'}
                 title={'查看录像'}

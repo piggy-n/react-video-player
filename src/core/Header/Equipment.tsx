@@ -26,7 +26,7 @@ const Equipment: FC<EquipmentProps> = (
     return (
         <div
             className={classes(cn, '')}
-            style={{ maxWidth: mode === 'pip' ? `${playerWidth * .25}px` : `${playerWidth * .4}px` }}
+            style={{ maxWidth: mode === 'pip' ? `${playerWidth * .18}px` : `${playerWidth * .4}px` }}
         >
             {
                 showStatus &&

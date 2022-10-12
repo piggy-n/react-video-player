@@ -13,6 +13,7 @@ export interface CtrPlayerContextType {
     poster?: string;
     devLC?: boolean;
     devOL?: boolean;
+    onlyRecord?: boolean;
 }
 
 export const defaultValue: Partial<CtrPlayerContextType> = {

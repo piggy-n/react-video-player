@@ -51,4 +51,5 @@ export interface ControllablePlayerProps {
     devLC?: boolean,
     devOL?: boolean,
     poster?: string,
+    onlyRecord?: boolean,
 }

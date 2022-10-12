@@ -26,7 +26,8 @@ const ControllablePlayer: FC<ControllablePlayerProps> = (
         style,
         devLC,
         devOL,
-        poster
+        poster,
+        onlyRecord
     }) => {
     const playerContainerRef = useRef<HTMLDivElement>(null);
 
@@ -48,7 +49,8 @@ const ControllablePlayer: FC<ControllablePlayerProps> = (
                     poster,
                     devLC,
                     devOL,
-                    onClose
+                    onClose,
+                    onlyRecord
                 }
             );
         },
@@ -133,6 +135,25 @@ const ControllablePlayer: FC<ControllablePlayerProps> = (
                         payload: cameraList[0].value,
                     });
                 }
+            }
+
+            if (onlyRecord) {
+                setCtrPlayerModelData({
+                    type: 'isVideoList',
+                    payload: true
+                });
+
+                setCtrPlayerModelData({
+                    type: 'panelVisible',
+                    payload: true
+                });
+
+                setCtrPlayerModelData({
+                    type: 'playerLiveMode',
+                    payload: [false, false]
+                });
+
+                return;
             }
         });
 
