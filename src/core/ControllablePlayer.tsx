@@ -13,6 +13,7 @@ import { obtainDeviceInfo, obtainDeviceService, obtainDeviceStream } from '@/ser
 import { useUpdateEffect } from 'ahooks';
 import CompositePlayer from '@/core/CompositePlayer';
 import { releaseControlAccess } from '@/services/controller';
+import type { DraggableData, DraggableEvent } from 'react-draggable';
 
 const Draggable = require('react-draggable');
 
@@ -68,6 +69,15 @@ const ControllablePlayer: FC<ControllablePlayerProps> = (
             payload: true
         });
     };
+
+    useEffect(() => {
+        if (defaultPosition) {
+            setCtrPlayerModelData({
+                type: 'position',
+                payload: defaultPosition
+            });
+        }
+    }, []);
 
     useEffect(() => {
         const {
@@ -326,6 +336,10 @@ const ControllablePlayer: FC<ControllablePlayerProps> = (
                     bounds={bounds}
                     position={ctrPlayerModel.position}
                     disabled={ctrPlayerModel.disableDrag}
+                    onDrag={(e: DraggableEvent, data: DraggableData) => setCtrPlayerModelData({
+                        type: 'position',
+                        payload: { x: data.x, y: data.y }
+                    })}
                 >
                     <ResizableBox
                         width={size?.width ?? 0}
