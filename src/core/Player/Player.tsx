@@ -253,6 +253,7 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
 
     return (
         <div
+            id={'ws-player-container'}
             ref={videoContainerRef}
             className={classes(cn, '')}
             style={{ ...videoContainerStyle }}

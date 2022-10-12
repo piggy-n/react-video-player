@@ -1,0 +1,11 @@
+@import 'src/assets/styles/mixin.scss';
+
+.ws-toast {
+  @include style(12px, #fff);
+  @include ps(absolute, 15px, auto, auto, 15px);
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 10000;
+  padding: 8px 10px;
+  border-radius: 2px;
+  animation: show 0.3s ease;
+}

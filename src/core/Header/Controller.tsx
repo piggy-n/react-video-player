@@ -7,6 +7,7 @@ import { Button } from 'antd';
 import { classes } from '@/utils/methods/classes';
 import './styles/controller.scss';
 import { obtainControlAccess } from '@/services/controller';
+import { toast } from '@/components/Toast/Toast';
 
 const cn = 'Controller-Dialog';
 
@@ -48,9 +49,19 @@ const Controller = () => {
         obtainControlAccess({
             id: deviceId
         }).then(res => {
-            if (!res?.success) return;
+            if (!res?.success) {
+                toast({
+                    message: '获取控制权限失败',
+                    eleId: 'ws-player-wrapper'
+                });
+            }
 
             if (res?.code?.toString().startsWith('20')) {
+                toast({
+                    message: '获取控制权限成功',
+                    eleId: 'ws-player-wrapper',
+                });
+
                 setCtrPlayerModelData!({
                     type: 'isController',
                     payload: true

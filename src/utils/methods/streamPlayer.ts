@@ -1,6 +1,7 @@
 import MP4Box from 'mp4box';
 import type { Dispatch } from 'react';
 import type { MergeActionType } from '@/utils/hooks/useVideoModel';
+import { toast } from '@/components/Toast/Toast';
 
 interface Options {
     dispatch: Dispatch<MergeActionType>;
@@ -50,6 +51,12 @@ export class StreamPlayer {
                     this.sourceBuffer.appendBuffer(arrayBuffer);
                 } catch (e) {
                     console.log(e);
+                    this.stop();
+                    this.ele!.src = '';
+                    this.dispatch({
+                        type: 'error',
+                        payload: true
+                    });
                 }
             }
         } else {
@@ -79,6 +86,9 @@ export class StreamPlayer {
                     this.dispatch({
                         type: 'error',
                         payload: true
+                    });
+                    toast({
+                        message: '视频流异常,请刷新重试',
                     });
                 }
             }

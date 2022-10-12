@@ -2,7 +2,7 @@ import { createContext } from 'react';
 import type { Dispatch } from 'react';
 import type { CtrPlayerModelState, MergeActionType } from '@/utils/hooks/useCtrPlayerModel';
 import { initialState } from '@/utils/hooks/useCtrPlayerModel';
-import { Position } from '@/types/ctrPlayer';
+import type { Position } from '@/types/ctrPlayer';
 
 export interface CtrPlayerContextType {
     ctrPlayerModel: CtrPlayerModelState;
