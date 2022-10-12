@@ -6,7 +6,7 @@ import VideoTimePicker from '@/components/VideoTimePicker';
 import { useContext, useEffect, useRef, useState } from 'react';
 import type { Moment } from 'moment';
 import moment from 'moment';
-import { obtainDeviceRecordingsList } from '@/services/recording';
+import { obtainDeviceRecordingsList, obtainDeviceStreamRecording } from '@/services/recording';
 import { CtrPlayerContext } from '@/utils/hooks/useCtrPlayerContext';
 import type { VideoList } from '@/core/Controller/type';
 import { useSize, useUpdateEffect } from 'ahooks';
@@ -18,14 +18,17 @@ const cn = 'Video-List-Panel';
 const VideoListPanel = () => {
     const {
         ctrPlayerModel: {
-            streams,
             streamUrlList,
             sgModeApplied,
             playerLiveMode,
-            exchangePlayer
+            exchangePlayer,
+            deviceTypeCode,
+            selectedCamera
         },
         deviceId,
-        setCtrPlayerModelData
+        setCtrPlayerModelData,
+        devLC,
+        devOL
     } = useContext(CtrPlayerContext);
 
     const containerHeight = useSize(document.getElementById('ws-crt-player'))?.height ?? 0;
@@ -62,24 +65,74 @@ const VideoListPanel = () => {
         setEndDateTime(`${dateValue.format('YYYY-MM-DD')} ${value[1].format('HH:mm:ss')}`);
     };
 
-    const clickHandler = (value: VideoList, index: number) => {
+    const obtainUrl = async (id: string, startTime: string, endTime: string) => {
+        return await obtainDeviceStreamRecording({
+            id: deviceTypeCode === '4' ? deviceId : selectedCamera,
+            startTime,
+            endTime,
+        }).then(res => {
+            if (!res?.success) return '';
+
+            const data = res.data as { streamUrl: string } || {};
+            if (!data.streamUrl) return '';
+
+            const token = `?token=${localStorage.getItem('accessToken')}`;
+            const prev = location.protocol.includes('https') ? 'wss:' : 'ws:';
+            const wsUrl = `${prev}//${window.location.host}`;
+            const { streamUrl } = data;
+
+            if (devLC) {
+                return `ws://192.168.9.148${streamUrl}${token}`;
+            }
+
+            if (devOL) {
+                return `wss://lzz.enbo12119.com${streamUrl}${token}`;
+            }
+
+            return `${wsUrl}${streamUrl}${token}`;
+        });
+    };
+
+    const clickHandler = async (value: VideoList, index: number) => {
         if (!setCtrPlayerModelData) return;
 
-        const { protocol, url } = value;
+        const { protocol, url, endTime, startTime } = value;
         if (sgModeApplied) {
             selectedVideo.includes(index)
                 ? setSelectedVideo([-1, -1])
                 : setSelectedVideo([index, -1]);
 
-            setCtrPlayerModelData({
-                type: 'streamUrlList',
-                payload: selectedVideo.includes(index) ? [] : [url]
-            });
+            if (protocol === 'frp') {
+                setCtrPlayerModelData({
+                    type: 'streamUrlList',
+                    payload: selectedVideo.includes(index) ? [] : [url]
+                });
 
-            setCtrPlayerModelData({
-                type: 'playerLiveMode',
-                payload: [protocol !== 'stream', playerLiveMode[1]]
-            });
+                setCtrPlayerModelData({
+                    type: 'playerLiveMode',
+                    payload: [false, playerLiveMode[1]]
+                });
+            }
+
+            if (protocol === 'stream') {
+                setCtrPlayerModelData({
+                    type: 'playerLiveMode',
+                    payload: [true, playerLiveMode[1]]
+                });
+
+                if (selectedVideo.includes(index)) {
+                    setCtrPlayerModelData({
+                        type: 'streamUrlList',
+                        payload: []
+                    });
+                } else {
+                    const url = await obtainUrl(deviceId, startTime, endTime);
+                    setCtrPlayerModelData({
+                        type: 'streamUrlList',
+                        payload: [url]
+                    });
+                }
+            }
         } else {
             if (selectedVideo.includes(index)) {
                 const newSelectedVideo = [...selectedVideo];
@@ -145,21 +198,6 @@ const VideoListPanel = () => {
                 payload: []
             });
         }
-        return () => {
-            const mainStream = streams.find(item => item?.channelCode === '1' && item?.streamTypeCode === '1') || streams[0];
-
-            if (setCtrPlayerModelData) {
-                setCtrPlayerModelData({
-                    type: 'streamUrlList',
-                    payload: mainStream ? [mainStream.value] : []
-                });
-
-                setCtrPlayerModelData({
-                    type: 'playerLiveMode',
-                    payload: [true, true]
-                });
-            }
-        };
     }, []);
 
     useEffect(() => {
@@ -167,7 +205,7 @@ const VideoListPanel = () => {
 
         setLoading(true);
         obtainDeviceRecordingsList({
-            id: deviceId,
+            id: deviceTypeCode === '4' ? deviceId : selectedCamera,
             startTime: startDateTime,
             endTime: endDateTime
         }).then(res => {
@@ -188,13 +226,13 @@ const VideoListPanel = () => {
                 if (hours !== 0) {
                     item.duration = `${hours}h${minutes}min`;
                 }
-                item.startTime = item.startTime.slice(11, 16);
-                item.endTime = item.endTime.slice(11, 16);
-                // todo: 临时处理
-                const random = Math.random();
-                item.url = random > 0.5
-                    ? 'https://gs-files.oss-cn-hongkong.aliyuncs.com/okr/prod/file/2021/08/31/540p.mp4'
-                    : 'https://gs-files.oss-cn-hongkong.aliyuncs.com/okr/test/file/2021/07/01/haiwang.mp4';
+                item.start = item.startTime.slice(11, 16);
+                item.end = item.endTime.slice(11, 16);
+                // // todo: 临时处理
+                // const random = Math.random();
+                // item.url = random > 0.5
+                //     ? 'https://gs-files.oss-cn-hongkong.aliyuncs.com/okr/prod/file/2021/08/31/540p.mp4'
+                //     : 'https://gs-files.oss-cn-hongkong.aliyuncs.com/okr/test/file/2021/07/01/haiwang.mp4';
             });
 
             setLoading(false);
@@ -219,6 +257,21 @@ const VideoListPanel = () => {
         },
         [containerHeight]
     );
+
+    useEffect(() => {
+        if (sgModeApplied && !selectedVideo.includes(-1)) {
+            const plyOEle = document.getElementById('ws-plyO') as HTMLVideoElement;
+            const plyTEle = document.getElementById('ws-plyT') as HTMLVideoElement;
+
+            if (plyOEle) {
+                setSelectedVideo([-1, selectedVideo[1]]);
+            }
+            if (plyTEle) {
+                setSelectedVideo([selectedVideo[0], -1]);
+
+            }
+        }
+    }, [sgModeApplied]);
 
     useUpdateEffect(() => {
         setSelectedVideo(selectedVideo.reverse());
@@ -259,7 +312,7 @@ const VideoListPanel = () => {
                             onClick={() => clickHandler(item, index)}
                             key={index}
                         >
-                            <span>{`${item.startTime}-${item.endTime}`}</span>
+                            <span>{`${item.start}-${item.end}`}</span>
                             <span>{item.duration}</span>
                         </div>
                     )

@@ -26,7 +26,7 @@ const CameraSelector = () => {
         setOpen(false);
     };
 
-    return cameras.length > 0 && isVideoList
+    return cameras.length > 1 && isVideoList
         ? <Selector
             value={selectedCamera}
             onChange={selectorChangeHandler}

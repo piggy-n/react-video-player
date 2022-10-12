@@ -19,7 +19,9 @@ const CompositePlayer = () => {
             sgModeApplied,
             dbModeApplied,
             pipModeApplied,
-            playerLiveMode
+            playerLiveMode,
+            streams,
+            isVideoList
         },
         poster,
         setCtrPlayerModelData
@@ -128,6 +130,49 @@ const CompositePlayer = () => {
             });
         }
     }, [playerWrapperRef.current]);
+
+    useEffect(() => {
+        if (!setCtrPlayerModelData) return;
+
+        if (!sgModeApplied) {
+            setCtrPlayerModelData({
+                type: 'sgModeApplied',
+                payload: true
+            });
+
+            setCtrPlayerModelData({
+                type: 'dbModeApplied',
+                payload: false
+            });
+
+            setCtrPlayerModelData({
+                type: 'pipModeApplied',
+                payload: false
+            });
+        }
+
+        if (!isVideoList) {
+            setPlayerOpts({
+                ...playerOpts,
+                playerOneUrl: undefined,
+                playerTwoUrl: undefined,
+                isPipModePlayer: 'neither'
+            });
+            const mainStream = streams.find(item => item?.channelCode === '1' && item?.streamTypeCode === '1') || streams[0];
+
+            if (setCtrPlayerModelData) {
+                setCtrPlayerModelData({
+                    type: 'streamUrlList',
+                    payload: mainStream ? [mainStream.value] : []
+                });
+
+                setCtrPlayerModelData({
+                    type: 'playerLiveMode',
+                    payload: [true, true]
+                });
+            }
+        }
+    }, [isVideoList]);
 
     useEffect(() => {
         const [, streamTwoUrl] = streamUrlList;
