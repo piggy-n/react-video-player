@@ -16,7 +16,7 @@ const cn = 'Progress-Bar';
 const ProgressBar = () => {
     const {
         videoModel: {
-            controlled
+            controlled,
         },
         videoEle,
         videoAttributes,
@@ -46,19 +46,25 @@ const ProgressBar = () => {
     const {
         currentTime,
         totalTime,
-        bufferedTime
+        bufferedTime,
+        networkState,
+        readyState,
     } = useVideo(
         videoEle as HTMLVideoElement,
         [videoEle]
     );
 
     const bufferedPercentage = useMemo(
-        () => ((bufferedTime / totalTime) * 100).toString(),
-        [bufferedTime, totalTime]);
+        () => networkState === 3 && readyState === 0
+            ? 0
+            : ((bufferedTime / totalTime) * 100).toString(),
+        [bufferedTime, totalTime, networkState, readyState]);
 
     const processPercentage = useMemo(
-        () => ((currentTime / totalTime) * 100).toString(),
-        [totalTime, currentTime]
+        () => networkState === 3 && readyState === 0
+            ? 0
+            : ((currentTime / totalTime) * 100).toString(),
+        [totalTime, currentTime, networkState, readyState]
     );
 
     const { clientX } = useWindowClient();
