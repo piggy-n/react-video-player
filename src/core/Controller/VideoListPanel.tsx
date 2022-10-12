@@ -97,6 +97,11 @@ const VideoListPanel = () => {
         if (!setCtrPlayerModelData) return;
 
         const { protocol, url, endTime, startTime } = value;
+        const token = `?token=${localStorage.getItem('accessToken')}`;
+        const prev = location.protocol.includes('https') ? 'wss:' : 'ws:';
+        const wsUrl = `${prev}//${window.location.host}`;
+        let streamUrl = '';
+
         if (sgModeApplied) {
             selectedVideo.includes(index)
                 ? setSelectedVideo([-1, -1])
@@ -110,14 +115,14 @@ const VideoListPanel = () => {
 
                 setCtrPlayerModelData({
                     type: 'playerLiveMode',
-                    payload: [false, playerLiveMode[1]]
+                    payload: [false, false]
                 });
             }
 
             if (protocol === 'stream') {
                 setCtrPlayerModelData({
                     type: 'playerLiveMode',
-                    payload: [true, playerLiveMode[1]]
+                    payload: [true, true]
                 });
 
                 if (selectedVideo.includes(index)) {
@@ -126,10 +131,10 @@ const VideoListPanel = () => {
                         payload: []
                     });
                 } else {
-                    const url = await obtainUrl(deviceId, startTime, endTime);
+                    const streamUrl = await obtainUrl(deviceId, startTime, endTime);
                     setCtrPlayerModelData({
                         type: 'streamUrlList',
-                        payload: [url]
+                        payload: [streamUrl]
                     });
                 }
             }
@@ -143,14 +148,30 @@ const VideoListPanel = () => {
                 if (newSelectedVideo[0] === -1 && newSelectedVideo[1] !== -1) {
                     newSelectedVideo.reverse();
                 }
-                console.log(newSelectedVideo);
+
                 setSelectedVideo(newSelectedVideo);
 
-                // 删除streamUrlList中的对应index的url
                 const newStreamUrlList = [...streamUrlList];
-                // 用findIndex找到对应的index
-                const delIndexInStreamUrlList = newStreamUrlList.findIndex((item) => item === url);
-                newStreamUrlList.splice(delIndexInStreamUrlList, 1);
+                if (protocol === 'frp') {
+                    const delIndexInStreamUrlList = newStreamUrlList.findIndex((item) => item === url);
+                    newStreamUrlList.splice(delIndexInStreamUrlList, 1);
+                }
+
+                if (protocol === 'stream') {
+                    if (devLC) {
+                        streamUrl = `ws://192.168.9.148${streamUrl}${token}`;
+                        const delIndexInStreamUrlList = newStreamUrlList.findIndex((item) => item === streamUrl);
+                        newStreamUrlList.splice(delIndexInStreamUrlList, 1);
+                    } else if (devOL) {
+                        streamUrl = `wss://lzz.enbo12119.com${streamUrl}${token}`;
+                        const delIndexInStreamUrlList = newStreamUrlList.findIndex((item) => item === streamUrl);
+                        newStreamUrlList.splice(delIndexInStreamUrlList, 1);
+                    } else {
+                        streamUrl = `${wsUrl}${streamUrl}${token}`;
+                        const delIndexInStreamUrlList = newStreamUrlList.findIndex((item) => item === streamUrl);
+                        newStreamUrlList.splice(delIndexInStreamUrlList, 1);
+                    }
+                }
 
                 setCtrPlayerModelData({
                     type: 'streamUrlList',
@@ -166,26 +187,49 @@ const VideoListPanel = () => {
                 setSelectedVideo(newSelectedVideo);
 
                 const newStreamUrlList = [...streamUrlList];
-                if (newStreamUrlList.length < 2) {
-                    newStreamUrlList.push(url);
-                } else {
-                    newStreamUrlList.splice(-1, 1, url);
+                if (protocol === 'frp') {
+                    if (newStreamUrlList.length < 2) {
+                        newStreamUrlList.push(url);
+                    } else {
+                        newStreamUrlList.splice(-1, 1, url);
+                    }
+
+                    const newPlayerLiveMode = [...playerLiveMode] as [boolean, boolean];
+                    if (addIndex === -1) {
+                        newPlayerLiveMode.splice(-1, 1, false);
+                    } else {
+                        newPlayerLiveMode.splice(addIndex, 1, false);
+                    }
+
+                    setCtrPlayerModelData({
+                        type: 'playerLiveMode',
+                        payload: newPlayerLiveMode
+                    });
+                }
+
+                if (protocol === 'stream') {
+                    const streamUrl = await obtainUrl(deviceId, startTime, endTime);
+                    if (newStreamUrlList.length < 2) {
+                        newStreamUrlList.push(streamUrl);
+                    } else {
+                        newStreamUrlList.splice(-1, 1, streamUrl);
+                    }
+
+                    const newPlayerLiveMode = [...playerLiveMode] as [boolean, boolean];
+                    if (addIndex === -1) {
+                        newPlayerLiveMode.splice(-1, 1, true);
+                    } else {
+                        newPlayerLiveMode.splice(addIndex, 1, true);
+                    }
+                    setCtrPlayerModelData({
+                        type: 'playerLiveMode',
+                        payload: newPlayerLiveMode
+                    });
                 }
 
                 setCtrPlayerModelData({
                     type: 'streamUrlList',
                     payload: newStreamUrlList
-                });
-
-                // 如果value.protocol为stream，将playerLiveMode中的对应index的liveMode置为false
-                const newPlayerLiveMode = [...playerLiveMode] as [boolean, boolean];
-                newPlayerLiveMode.splice(addIndex, 1, protocol !== 'stream');
-                if (addIndex === -1) {
-                    newPlayerLiveMode.splice(-1, 1, protocol !== 'stream');
-                }
-                setCtrPlayerModelData({
-                    type: 'playerLiveMode',
-                    payload: newPlayerLiveMode
                 });
             }
         }
