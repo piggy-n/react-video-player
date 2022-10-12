@@ -51,12 +51,6 @@ export class StreamPlayer {
                     this.sourceBuffer.appendBuffer(arrayBuffer);
                 } catch (e) {
                     console.log(e);
-                    this.stop();
-                    this.ele!.src = '';
-                    this.dispatch({
-                        type: 'error',
-                        payload: true
-                    });
                 }
             }
         } else {
@@ -140,8 +134,6 @@ export class StreamPlayer {
             if (this.connectionTimes <= 3 && this.url) {
                 this.ws = new WebSocket(this.url);
             }
-
-            this.stop();
         };
 
         this.ws.onerror = () => {
@@ -221,7 +213,7 @@ export class StreamPlayer {
         }
 
         if (this.mediaSource) {
-            this.sourceOpenHandler && this.mediaSource.removeEventListener('sourceopen', this.sourceOpenHandler);
+            this.sourceOpenHandler && this.mediaSource?.removeEventListener('sourceopen', this.sourceOpenHandler);
             this.mediaSource = undefined;
         }
 
