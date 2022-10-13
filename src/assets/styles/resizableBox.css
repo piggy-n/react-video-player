@@ -4,8 +4,8 @@
 
 .react-resizable-handle {
     position: absolute;
-    width: 14px;
-    height: 14px;
+    width: 20px;
+    height: 20px;
     background-repeat: no-repeat;
     background-origin: content-box;
     box-sizing: border-box;
