@@ -12,7 +12,8 @@ const Header: HeaderInterface = () => {
     const {
         setCtrPlayerModelData,
         deviceName = '',
-        deviceStatus
+        deviceStatus,
+        onlyRecord
     } = useContext(CtrPlayerContext);
 
     const mouseOverHandler: MouseEventHandler = (e) => {
@@ -32,7 +33,7 @@ const Header: HeaderInterface = () => {
             className={classes(cn, '')}
             onMouseOver={mouseOverHandler}
         >
-            <Header.Equipment name={deviceName} online={deviceStatus}/>
+            <Header.Equipment name={deviceName} online={deviceStatus} showStatus={!onlyRecord}/>
             <Header.ControllerToolbar/>
         </div>
     );

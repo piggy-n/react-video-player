@@ -32,6 +32,7 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
         videoOpts = {},
         devOL,
         devLC,
+        onlyShowRate,
         ...rest
     },
     ref
@@ -49,6 +50,7 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
     const [loading, setLoading] = useState<boolean>(isLive);
     const [buffering, setBuffering] = useState<boolean>(false);
     const [mainUrl, setMainUrl] = useState<string>('');
+    const [rateVisible, setRateVisible] = useState<boolean>(false);
 
     const videoContainerSize = useSize(videoContainerRef);
 
@@ -258,6 +260,8 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
             className={classes(cn, '')}
             style={{ ...videoContainerStyle }}
             onMouseOver={mouseOverHandler}
+            onMouseEnter={onlyShowRate ? () => setRateVisible(true) : undefined}
+            onMouseLeave={onlyShowRate ? () => setRateVisible(false) : undefined}
         >
             <video
                 ref={videoRef}
@@ -285,6 +289,19 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
                 <VideoContext.Provider value={videoContextValue}>
                     <PlayerController/>
                 </VideoContext.Provider>
+            }
+            {
+                onlyShowRate && !controllable &&
+                <div
+                    className={classes(cn, 'rate')}
+                    style={{ opacity: rateVisible ? 1 : 0 }}
+                >
+                    {
+                        videoModel.transmissionRate >= 1024
+                            ? `${(videoModel.transmissionRate / 1024).toFixed(2)}MBps`
+                            : `${videoModel.transmissionRate.toFixed(2)}KBps`
+                    }
+                </div>
             }
         </div>
     );
