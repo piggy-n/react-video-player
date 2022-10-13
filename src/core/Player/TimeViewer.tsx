@@ -5,11 +5,17 @@ import { useContext } from 'react';
 import { VideoContext } from '@/utils/hooks/useVideoContext';
 import { useVideo } from '@/utils/hooks/useVideo';
 import { toMinutesAndSeconds } from '@/utils/methods/time';
+import { CtrPlayerContext } from '@/utils/hooks/useCtrPlayerContext';
 
 const cn = 'Time-Viewer';
 
 const TimeViewer = () => {
     const { isLive, videoEle } = useContext(VideoContext);
+    const {
+        ctrPlayerModel: {
+            isVideoList
+        }
+    } = useContext(CtrPlayerContext);
 
     const {
         currentTime,
@@ -23,7 +29,7 @@ const TimeViewer = () => {
         <div className={classes(cn, '')}>
             {
                 isLive
-                    ? <div>实时</div>
+                    ? !isVideoList && <div>实时</div>
                     : <div className={classes(cn, 'time')}>
                         {toMinutesAndSeconds(currentTime)}&nbsp;/&nbsp;{toMinutesAndSeconds(totalTime)}
                     </div>
