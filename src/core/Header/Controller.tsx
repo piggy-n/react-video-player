@@ -88,7 +88,7 @@ const Controller = () => {
                 {
                     dialogVisible && playerWrapperEle &&
                     createPortal(
-                        <div className={classes(cn, '')}>
+                        <div className={classes(cn, '')} id={'ws-control-dialog'}>
                             <div className={classes(cn, 'wrapper')}>
                                 <div className={classes(cn, 'content')}>
                                     <Icon name={'tip'}/>

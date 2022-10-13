@@ -18,6 +18,7 @@ const VideoList = () => {
 
     const clickHandler = () => {
         if (!setCtrPlayerModelData) return;
+        if (document.getElementById('ws-control-dialog')) return;
 
         if (isController) {
             setCtrPlayerModelData({
