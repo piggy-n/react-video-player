@@ -14,6 +14,7 @@ const FullScreenControl = () => {
             isFullscreen
         },
         dispatch,
+        fullScreen = true,
         videoContainerEle
     } = useContext(VideoContext);
 
@@ -30,7 +31,7 @@ const FullScreenControl = () => {
     };
 
     return (
-        <div className={classes(cn, '')}>
+        fullScreen ? <div className={classes(cn, '')}>
             {
                 isFullscreen
                     ? <Icon
@@ -46,7 +47,7 @@ const FullScreenControl = () => {
                         onClick={clickHandler}
                     />
             }
-        </div>
+        </div> : null
     );
 };
 

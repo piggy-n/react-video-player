@@ -16,6 +16,7 @@ export interface PlayerProps extends Partial<VideoCallBack> {
     devLC?: boolean;
     devOL?: boolean;
     onlyShowRate?: boolean;
+    fullScreen?: boolean;
 }
 
 export interface PlayerControllerInterface extends FC<PlayerControllerProps> {

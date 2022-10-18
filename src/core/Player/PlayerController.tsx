@@ -17,6 +17,7 @@ const PlayerController: PlayerControllerInterface = () => {
         videoEle,
         videoContainerEle,
         isLive,
+        fullScreen = true,
         streamPlayer,
         videoModel: {
             waiting,
@@ -125,7 +126,7 @@ const PlayerController: PlayerControllerInterface = () => {
                     pauseOrReplayBtnClickHandler();
                 }
 
-                if (mouseState.mouseClickCount === 2) {
+                if (mouseState.mouseClickCount === 2 && fullScreen) {
                     if (screenfull.isEnabled) {
                         screenfull.toggle(videoContainerEle as HTMLDivElement);
                         screenfull.on('change', () => {
