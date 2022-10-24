@@ -15,7 +15,7 @@ import useVideoCallback from '@/utils/hooks/useVideoCallBack';
 import useMandatoryUpdate from '@/utils/hooks/useMandatoryUpdate';
 import { StreamPlayer } from '@/utils/methods/streamPlayer';
 import { VideoPlayer } from '@/utils/methods/videoPlayer';
-import { useDebounceEffect, useSize } from 'ahooks';
+import { useSize } from 'ahooks';
 import type { Stream } from '@/types/ctrPlayer';
 import { obtainDeviceStream } from '@/services/device';
 
@@ -47,10 +47,11 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
     const streamPlayerRef = useRef<Record<string, any>>(new StreamPlayer({ dispatch }));
     const videoResizingTimerRef = useRef<NodeJS.Timer | null>(null);
 
-    const [loading, setLoading] = useState<boolean>(isLive);
+    const [loading, setLoading] = useState<boolean>(false);
     const [buffering, setBuffering] = useState<boolean>(false);
     const [mainUrl, setMainUrl] = useState<string>('');
     const [rateVisible, setRateVisible] = useState<boolean>(false);
+    const timer = useRef<NodeJS.Timeout | null>(null);
 
     const videoContainerSize = useSize(videoContainerRef);
 
@@ -135,16 +136,13 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
         }),
     );
 
-    useDebounceEffect(
+    useEffect(
         () => {
-            if (
-                (buffering && playing)
-                ||
-                (networkState <= 2 && readyState <= 1)
-                ||
-                (videoModel.downloading)
-            ) {
-                setLoading(true);
+            if (timer.current) {
+                clearTimeout(timer.current);
+            }
+            if ((buffering && playing) || (networkState <= 2 && readyState <= 1)) {
+                timer.current = setTimeout(() => setLoading(true), 1000);
             } else {
                 setLoading(false);
             }
@@ -156,9 +154,6 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
             readyState,
             videoModel.downloading
         ],
-        {
-            wait: 100
-        }
     );
 
     useEffect(() => {
@@ -198,7 +193,7 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
     useEffect(
         () => {
             if (!videoRef.current) return;
-
+            setLoading(true);
             const videoEle = videoRef.current;
             const streamPlayer = streamPlayerRef.current;
             // const videoPlayer = videoPlayerRef.current;
@@ -274,7 +269,7 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
             {
                 loading &&
                 <div className={classes(cn, 'loading')}>
-                    <Icon name={'loading'} size={!controllable ? 16 : 24}/>
+                    <Icon name={'loading'} size={!controllable ? 16 : 24} />
                     {
                         controllable &&
                         <p>
@@ -287,7 +282,7 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
             {
                 controllable &&
                 <VideoContext.Provider value={videoContextValue}>
-                    <PlayerController/>
+                    <PlayerController />
                 </VideoContext.Provider>
             }
             {

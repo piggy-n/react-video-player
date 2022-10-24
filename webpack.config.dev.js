@@ -1,7 +1,7 @@
 const base = require('./webpack.config');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-// const LOCALHOST = 'https://lzz.enbo12119.com';
-const LOCALHOST = 'http://192.168.9.148';
+const LOCALHOST = 'https://lzz.enbo12119.com';
+// const LOCALHOST = 'http://192.168.9.148';
 
 module.exports = Object.assign({}, base, {
     mode: 'development',

@@ -1,9 +1,9 @@
 {
   "name": "ws-player",
-  "version": "0.1.8",
+  "version": "0.1.10",
   "description": "",
   "main": "dist/src/index.js",
-  "types": "dist/src/index",
+  "types": "dist/src/index.d.ts",
   "scripts": {
     "start": "cross-env NODE_ENV=development webpack-dev-server --config webpack.config.dev.js",
     "build": "cross-env NODE_ENV=production webpack --config webpack.config.prod.js"
