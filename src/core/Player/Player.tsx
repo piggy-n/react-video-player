@@ -15,7 +15,7 @@ import useVideoCallback from '@/utils/hooks/useVideoCallBack';
 import useMandatoryUpdate from '@/utils/hooks/useMandatoryUpdate';
 import { StreamPlayer } from '@/utils/methods/streamPlayer';
 import { VideoPlayer } from '@/utils/methods/videoPlayer';
-import { useSize } from 'ahooks';
+import { useSize, useUnmount } from 'ahooks';
 import type { Stream } from '@/types/ctrPlayer';
 import { obtainDeviceStream } from '@/services/device';
 
@@ -247,6 +247,10 @@ const InternalPlayer: ForwardRefRenderFunction<PlayerRef, PlayerProps> = (
         },
         [videoContainerSize]
     );
+
+    useUnmount(() => {
+        streamPlayerRef.current?.stop();
+    });
 
     return (
         <div
